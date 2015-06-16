@@ -1,0 +1,100 @@
+/**  The kprime question rendering table */
+.que.kprime table.kprime {
+    display:inline-table;
+    border-spacing: 0px 5px;
+    border-collapse: separate;
+		
+}
+
+.que.kprime table.kprime th {
+    position: relative;
+}
+.que.kprime table.kprime td {
+    position: relative;
+	height:50px;
+	min-height:100px;
+}
+
+.que.kprime table.kprime div.r0 label,
+.que.kprime table.kprime div.r1 label,
+.que.kprime table.kprime div.r0 div.specificfeedback,
+.que.kprime table.kprime div.r1 div.specificfeedback {
+    /* In Chrome and IE, the text-indent above is applied to any embedded table
+       cells or <li>s, which screws up the intended layout. This fixes it again. */
+    text-indent: 0;
+}
+.que.kprime .answer div.r0 input,
+.que.kprime .answer div.r1 input {
+    margin: 0 5px;
+    padding: 0;
+    width: 15px;
+}
+.dir-rtl .que.kprime .answer div.r0,
+.dir-rtl .que.kprime .answer div.r1 {
+    padding: 0.3em 25px 0.3em 0;
+}
+
+.que.kprime table.kprime tbody tr {
+    margin-bottom: 2em;
+    margin-top: 0;
+    padding-bottom: 5px;
+    padding-top: 5px;
+/*     border: 1px solid #BBB; */
+    border-top: 0;
+}
+
+.que.kprime table.kprime th {
+    border-width: 3px;
+}
+
+.que.kprime table.kprime td,
+.que.kprime table.kprime th {
+    text-align:center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left:5px;
+    padding-right:5px;
+    min-width: 50px;
+}
+
+.que.kprime table.kprime tbody td.optiontext {
+	min-width: 10em;
+	text-align: left;
+	padding-right: 4em;
+    background: #EEE;
+}
+.que.kprime table.kprime tbody td.responsebutton {
+    background: #EEE;
+}
+.que.kprime table.kprime tbody td.correctness {
+	vertical-align: middle;
+	display: table-cell;
+    background: #EEE;
+}
+.que.kprime table.kprime tbody td.feedback {
+    padding-left: 1em;
+}
+.que.kprime table.kprime tbody td.feedback div.specificfeedback {
+        background: #FFF3BF;
+        text-align: left;
+}
+
+.que.kprime table.kprime .lastcol p{
+    display: inline;
+    margin:0px;
+    margin-left: 5px;
+}
+
+
+/* Try to fix the default width of the editors (especially in the case of no JavaScript) */
+body#page-question-type-kprime div.feditor {
+    width: 480px;
+}
+
+body#page-question-type-kprime div.feditor textarea {
+    width: 460px !important;
+}
+
+body#page-question-type-kprime noscript object {
+    width: 470px !important;
+}
