@@ -163,7 +163,7 @@ body#page-question-type-kprime div.responses {
     text-align: center;
     border: 0;    
     position: relative;
-    z-index: 1000;    
+    /*z-index: 1000;*/    
 }
 
 @media (max-width: 986px) {
@@ -183,7 +183,7 @@ body#page-question-type-kprime div.responses fieldset.fgroup span {
     vertical-align: middle;
     display: inline-block;
     width: 80px;
-    z-index: 1000;    
+    /*z-index: 1000; */   
 }	
 
 body#page-question-type-kprime div.responses fieldset.fgroup span input {
