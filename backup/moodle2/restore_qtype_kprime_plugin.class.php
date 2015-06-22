@@ -126,7 +126,6 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
         $data = (object) $data;
         $oldid = $data->id;
-        print_r($data);exit;
 
         $data->questionid = $this->get_new_parentid('question');
         $newitemid = $DB->insert_record('qtype_kprime_rows', $data);
