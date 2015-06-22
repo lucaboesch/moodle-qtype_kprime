@@ -89,9 +89,7 @@ class qtype_kprime_edit_form extends question_edit_form {
             $responsetexts[] = get_string('responsetext1', 'qtype_kprime');
             $responsetexts[] = get_string('responsetext2', 'qtype_kprime');
         }
-		
-		
-
+/*        
         // Add an option text editor, response radio buttons and a feedback editor for each option.
         for ($i = 1; $i <= $this->numberofrows; $i++) {
 			$mform->addElement('html', '<h5>'.get_string('optionno', 'qtype_kprime', $i).'</h5>');
@@ -133,6 +131,55 @@ class qtype_kprime_edit_form extends question_edit_form {
 			
 
         }
+*/
+        // Add an option text editor, response radio buttons and a feedback editor for each option.
+        for ($i = 1; $i <= $this->numberofrows; $i++) {
+        	// Add the option editor.
+        	$mform->addElement('html', '<div class="optionbox">'); // Open div.optionbox.
+        	$mform->addElement('html', '<div class="optionandresponses">'); // Open div.optionbox.
+        
+        	$mform->addElement('html', '<div class="optiontext">'); // Open div.optiontext.
+        	$mform->addElement('html', '<label class="optiontitle">' . get_string('optionno', 'qtype_kprime', $i) .
+        			'</label>');
+        	$mform->addElement('editor', 'option_' . $i, '' , array('rows' => 3), $this->editoroptions);
+        	$mform->setDefault('option_' . $i, array('text' => get_string('enteroptionhere', 'qtype_kprime')));
+        	$mform->setType('option_' . $i, PARAM_RAW);
+        	$mform->addRule('option_' . $i, null, 'required', null, 'client');
+        
+        	$mform->addElement('html', '</div>'); // Close div.optiontext.
+        
+        	// Add the radio buttons for responses.
+        	$mform->addElement('html', '<div class="responses">'); // Open div.responses.
+        	$attributes = array();
+        	$radiobuttons = array();
+        	for ($j = 1; $j <= $this->numberofcolumns; $j++) {
+        		if (array_key_exists($j - 1, $responsetexts)) {
+        			$radiobuttons[] =& $mform->createElement('radio', 'weightbutton_' . $i, '', $responsetexts[$j - 1], $j,
+        					$attributes);
+        		} else {
+        			$radiobuttons[] =& $mform->createElement('radio', 'weightbutton_' . $i, '', '', $j, $attributes);
+        		}
+        	}
+        	$mform->addGroup($radiobuttons, 'weightsarray_' . $i, '', array('<br/>'), false);
+        	$mform->setDefault('weightbutton_' . $i, 1);
+        
+        	$mform->addElement('html', '</div>'); // Close div.responses.
+        	$mform->addElement('html', '</div>'); // Close div.optionsandresponses
+        
+        	$mform->addElement('html', '<br/></br>'); // Close div.optionsandresponses
+        
+        	// Add the feedback text editor in a new line.
+        	$mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
+        	$mform->addElement('html', '<label class="feedbacktitle">' . get_string('feedbackforoption', 'qtype_kprime', $i) .
+        			'</label>');
+        	$mform->addElement('editor', 'feedback_' . $i, '', array('rows' => 3), $this->editoroptions);
+        	$mform->setType('feedback_' . $i, PARAM_RAW);
+        	//            $mform->setDefault('feedback_' . $i, array('text' => get_string('enterfeedbackhere', 'qtype_kprime')));
+        
+        	$mform->addElement('html', '</div>'); // Close div.feedbacktext.
+        	$mform->addElement('html', '</div>'); // Close div.optionbox.
+        
+        }        
 		$mform->addElement('header', 'scoringmethodheader',  get_string('scoringmethod', 'qtype_kprime'));
         // Add the scoring method radio buttons.
         $attributes = array();
