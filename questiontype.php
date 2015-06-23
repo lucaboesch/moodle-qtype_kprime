@@ -416,83 +416,84 @@ class qtype_kprime extends question_type {
     	}
     }
     /**
-     * Export to XML. 
-     * 
-     * @param unknown $question
-     * @param unknown qformat_xml format
-     * @param unknown extra	 
+     * Provide export functionality for xml format
+     *
+     * @param question object the question object
+     * @param format object the format object so that helper methods can be used
+     * @param extra mixed any additional format specific data that may be passed by the format (see format code for info)
+     * @return string the data to append to the output buffer or false if error
      */
-    public function export_to_xml($question, qformat_xml $format, $extra = null) {
+    public function export_to_xml($question, qformat_xml $format, $extra=null) {
+        
+        $expout = '';
         $fs = get_file_storage();
         $contextid = $question->contextid;
-        $output = '';
-	
-        if ($question->options->scoringmethod) {
-            $output .= '    <scoringmethod>'.$question->options->scoringmethod.'</scoringmethod>';
-			$output .= "\n";
-        }		
-        if ($question->options->shuffleoptions) {
-            $output .= '    <shuffleoptions>'.$question->options->shuffleoptions.'</shuffleoptions>';
-			$output .= "\n";
-        }
-        if ($question->options->numberofrows) {
-            $output .= '    <numberofrows>'.$question->options->numberofrows.'</numberofrows>';
-			$output .= "\n";
-        }	
-        if ($question->options->numberofcolumns) {
-            $output .= '    <numberofcolumns>'.$question->options->numberofcolumns.'</numberofcolumns>';
-			$output .= "\n";
-        }
-		if($question->options->optiontextformat == 1){
-			$question->generalfeedbackformat = 1;
-		}
-		/* does not exsist in krpime?
-        $output .= $format->write_combined_feedback($question->options,
-                                                    $question->id,
-                                                    $question->contextid);
-		*/
-		$output .= "    <rows>\n";
+
+        // First set the additional fields.
+        $expout .= "    <scoringmethod>" . $format->writetext($question->options->scoringmethod) . "</scoringmethod>\n";
+        $expout .= "    <shuffleoptions>" . $format->get_single($question->options->shuffleoptions) . "</shuffleoptions>\n";
+        $expout .= "    <numberofrows>" . $question->options->numberofrows . "</numberofrows>\n";
+        $expout .= "    <numberofcolumns>" . $question->options->numberofcolumns . "</numberofcolumns>\n";
+        
+        // Now we export the question rows (options)
         foreach ($question->options->rows as $row) {
-            $output .= "        <row>\n";
-            $output .= "          <number>{$row->number}</number>\n";
-			$output .= "          <optiontext>{$format->xml_escape($row->optiontext)}</optiontext>\n";
-			$output .= "          <optiontextformat>{$row->optiontextformat}</optiontextformat>\n";
-			$output .= "          <optionfeedback>{$format->xml_escape($row->optionfeedback)}</optionfeedback>\n";
-			$output .= "          <optionfeedbackformat>{$row->optionfeedbackformat}</optionfeedbackformat>\n";			
-            $output .= "        </row>\n";
-        }
-		$output .= "    </rows>\n";
-		$output .= "    <columns>\n";
+            $number = $row->number;
+            $expout .= "    <row number=\"$number\">\n";
+            $textformat = $format->get_format($row->optiontextformat);
+            $files = $fs->get_area_files($contextid, 'qtype_kprime', 'optiontext', $row->id);
+            $expout .= "      <optiontext format=\"$textformat\">\n"
+                    . '        ' . $format->writetext($row->optiontext);
+            $expout .= $format->write_files($files);
+            $expout .= "      </optiontext>\n";
+
+            $textformat = $format->get_format($row->optionfeedbackformat);
+            $files = $fs->get_area_files($contextid, 'qtype_kprime', 'feedbacktext', $row->id);
+            $expout .= "      <feedbacktext format=\"$textformat\">\n"
+                    . '        ' . $format->writetext($row->optionfeedback);
+            $expout .= $format->write_files($files);
+            $expout .= "      </feedbacktext>\n";
+            $expout .= "    </row>\n";
+        } 
+
+        // Now we export the columns (responses).
         foreach ($question->options->columns as $column) {
-            $output .= "        <column>\n";
-            $output .= "          <number>{$column->number}</number>\n";
-			$output .= "          <responsetext>{$format->xml_escape($column->responsetext)}</responsetext>\n";
-			$output .= "          <responsetextformat>{$column->responsetextformat}</responsetextformat>\n";		
-            $output .= "        </column>\n";
-        }
-		$output .= "    </columns>\n";
-		$output .= "    <weights>\n";
-        foreach ($question->options->weights as $weight) {   
-			foreach ($weight as $weightval){
-				$output .= "        <weight>\n";
-				$output .= "              <rownumber>{$weightval->rownumber}</rownumber>\n";
-				$output .= "              <columnnumber>{$weightval->columnnumber}</columnnumber>\n";
-				$output .= "              <weight>{$weightval->weight}</weight>\n";		
-				$output .= "        </weight>\n";
-			}
-        }
-		$output .= "    </weights>\n";
-        return $output;
+            $number = $column->number;
+            $expout .= "    <column number=\"$number\">\n";
+            $textformat = $format->get_format($column->responsetextformat);
+            $expout .= "      <responsetext format=\"$textformat\">\n"
+                    . '        ' . $format->writetext($column->responsetext);
+            $expout .= "      </responsetext>\n";
+            $expout .= "    </column>\n";
+        } 
+
+        // Finally, we export the weights. 
+        $weights = call_user_func_array('array_merge', $question->options->weights);
+        foreach ($weights as $weight) {
+            $rownumber = $weight->rownumber;
+            $columnnumber = $weight->columnnumber;
+            $value = $weight->weight;
+            
+            $expout .= "    <weight rownumber=\"$rownumber\" columnnumber=\"$columnnumber\">\n";
+            $expout .= "      <value>\n";
+            $expout .= "         " . $value . "\n";
+            $expout .= "      </value>\n";
+            $expout .= "    </weight>\n";
+        } 
+        
+        return $expout;
     }
+
     /**
-     * Import from XML. 
-     * 
-     * @param unknown $data	 
-     * @param unknown $question
-     * @param unknown qformat_xml format
-     * @param unknown extra	 
+     * Provide import functionality for xml format
+     *
+     * @param data mixed the segment of data containing the question
+     * @param question object question object processed (so far) by standard import code
+     * @param format object the format object so that helper methods can be used (in particular error())
+     * @param extra mixed any additional format specific data that may be passed by the format (see format code for info)
+     * @return object question object suitable for save_options() call or false if cannot handle
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
+        // Check whether the question is for us.
         if (!isset($data['@']['type']) || $data['@']['type'] != 'kprime') {
             return false;
         }
@@ -500,64 +501,74 @@ class qtype_kprime extends question_type {
         $question = $format->import_headers($data);
         $question->qtype = 'kprime';
 
-        $question->scoringmethod = $format->getpath($data, array('#', 'scoringmethod', 0, '#'), 'kprime');
-		$question->shuffleoptions = $format->getpath($data, array('#', 'shuffleoptions', 0, '#'), '1');
-		$question->numberofrows = $format->getpath($data, array('#', 'numberofrows', 0, '#'), 0);
-		$question->numberofcolumns = $format->getpath($data, array('#', 'numberofcolumns', 0, '#'), 0);
+        $question->scoringmethod = $format->getpath($data, array('#', 'scoringmethod', 0, '#', 'text', 0, '#'), 'kprime');
+        $question->shuffleoptions = $format->trans_single(
+                $format->getpath($data, array('#', 'shuffleoptions', 0, '#'), 1));
+        $question->numberofrows = $format->getpath($data, array('#', 'numberofrows', 0, '#'), QTYPE_KPRIME_NUMBER_OF_OPTIONS);
+        $question->numberofcolumns = $format->getpath($data, array('#', 'numberofcolumns', 0, '#'), QTYPE_KPRIME_NUMBER_OF_RESPONSES);
 
-		// now dirty loops to dig to deepest nodes
-		
-        // get rows
-		$rows = $format->getpath($data, array('#', 'rows', 0, '#'), ''); 
-		//$format->import_text_with_files($subqxml, array(), '', $format->get_format($question->questiontextformat));
-		$question->rows = array();
-		foreach ( $rows as $row ) {
-			foreach($row as $row_sub){
-				foreach($row_sub as $row_sub_sub){
-					$qr = array();
-					$qr['number'] = $row_sub_sub['number'][0]['#'];
-					$qr['optiontext'] = $row_sub_sub['optiontext'][0]['#'];	
-					$qr['optiontextformat'] = $row_sub_sub['optiontextformat'][0]['#'];
-					$qr['optionfeedback'] = $row_sub_sub['optionfeedback'][0]['#'];
-					$qr['optionfeedbackformat'] = $row_sub_sub['optionfeedbackformat'][0]['#'];
-					$question->rows[] = $qr;					
-				}
-			}
-			
-		}//print_r($question->options->rows);exit;
-        // get cols
-		$columns = $format->getpath($data, array('#', 'columns', 0, '#'), '');
-		$question->columns = array();
-		foreach ( $columns as $column ) {
-			foreach($column as $column_sub){
-				foreach($column_sub as $column_sub_sub){
-					$qc = array();
-					$qc['number'] = $column_sub_sub['number'][0]['#'];
-					$qc['responsetext'] = $column_sub_sub['responsetext'][0]['#'];	
-					$qc['responsetextformat'] = $column_sub_sub['responsetextformat'][0]['#'];
-					$question->columns[] = $qc;					
-				}
-			}
-			
-		}
-        // get weights
-		$weights = $format->getpath($data, array('#', 'weights', 0, '#'), '');
-		$question->weights = array();
-		foreach ( $weights as $weight ) {
-			foreach($weight as $weight_sub){
-				foreach($weight_sub as $weight_sub_sub){
-					$qw = array();
-					$qw['rownumber'] = $weight_sub_sub['rownumber'][0]['#'];
-					$qw['columnnumber'] = $weight_sub_sub['columnnumber'][0]['#'];	
-					$qw['weight'] = $weight_sub_sub['weight'][0]['#'];
-					$question->weights[] = $qw;					
-				}
-			}
-			
-		}
-        $format->import_combined_feedback($question, $data, true);
-        $format->import_hints($question, $data, true);
+        $rows = $data['#']['row'];
+        $i = 1;
+        foreach ($rows as $row) {
+            $number = $format->getpath($row, array('@', 'number'), $i++);
+           
+            $question->{'option_' . $number} = array();
+            $question->{'option_' . $number}['text'] =
+                 $format->getpath($row, array('#', 'optiontext', 0, '#', 'text', 0, '#'), '', true );
+            $question->{'option_' . $number}['format'] = $format->trans_format(
+                $format->getpath($row, array('#', 'optiontext', 0, '@', 'format'), FORMAT_HTML));
+            
+            $question->{'option_' . $number}['files'] = array();
+            
+            // Restore files in options (rows).
+            $files = $format->getpath($row, array('#', 'optiontext', 0, '#', 'file'), array(), false);
+            foreach ($files as $file) {
+                $filesdata = new stdclass;
+                $filesdata->content = $file['#'];
+                $filesdata->encoding = $file['@']['encoding'];
+                $filesdata->name = $file['@']['name'];
+                $question->{'option_' . $number}['files'][] = $filesdata;
+            }
+
+            $question->{'feedback_' . $number} = array();
+            $question->{'feedback_' . $number}['text'] =
+                 $format->getpath($row, array('#', 'feedbacktext', 0, '#', 'text', 0, '#'), '', true );
+            $question->{'feedback_' . $number}['format'] = $format->trans_format(
+                $format->getpath($row, array('#', 'feedbacktext', 0, '@', 'format'), FORMAT_HTML));
+
+            // Restore files in option feedback.
+            $question->{'feedback_' . $number}['files'] = array();
+            $files = $format->getpath($row, array('#', 'feedbacktext', 0, '#', 'file'), array(), false);
+
+            foreach ($files as $file) {
+                $filesdata = new stdclass;
+                $filesdata->content = $file['#'];
+                $filesdata->encoding = $file['@']['encoding'];
+                $filesdata->name = $file['@']['name'];
+                $question->{'feedback_' . $number}['files'][] = $filesdata;
+            }
+        }
+        
+        $columns = $data['#']['column'];
+        $j = 1;
+        foreach ($columns as $column) {
+            $number = $format->getpath($column, array('@', 'number'), $j++);
+            $question->{'responsetext_' . $number} =
+                 $format->getpath($column, array('#', 'responsetext', 0, '#', 'text', 0, '#'), '', true );
+        }
+
+        // Finally, import the weights
+        $weights = $data['#']['weight'];
+        foreach ($weights as $weight) {
+            $rownumber = $format->getpath($weight, array('@', 'rownumber'), 1);
+            $columnnumber = $format->getpath($weight, array('@', 'columnnumber'), 1);
+            $value = $format->getpath($weight, array('#', 'value', 0, '#'), 0.0);
+
+            if ($value > 0.0) {
+                $question->{'weightbutton_' . $rownumber} = $columnnumber;
+            }
+        }
 
         return $question;
-    }	
+    }
 }
