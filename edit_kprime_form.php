@@ -61,7 +61,7 @@ class qtype_kprime_edit_form extends question_edit_form {
         $mform->addElement('hidden', 'numberofcolumns', $this->numberofcolumns);
         $mform->setType('numberofcolumns', PARAM_INT);
 		
-		$mform->addElement('header', 'optionsandfeedbackheader', get_string("optionsandfeedback", 'kprime'));
+		$mform->addElement('header', 'optionsandfeedbackheader', get_string("optionsandfeedback", 'qtype_kprime'));
 
 			 
         // Add the response text fields.
