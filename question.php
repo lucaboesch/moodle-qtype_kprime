@@ -194,7 +194,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         if ($isgradable) {
             return '';
         }
-        return qtype_kprime::get_string('oneanswerperrow');
+        //return qtype_kprime::get_string('oneanswerperrow');
+        return get_string('oneanswerperrow', 'qtype_kprime');
     }
 
     /**
@@ -202,7 +203,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
-        return $this->is_complete_response($response);
+        return true; //$this->is_complete_response($response);
     }
 
     /**
@@ -230,18 +231,51 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         return implode("; ", $result);
     }
 
-    /*
+    /**
+     * (non-PHPdoc)
+     * @see question_with_responses::classify_response()
+     */
     public function classify_response(array $response) {
-        if (!array_key_exists('answer', $response) ||
-                !array_key_exists($response['answer'], $this->order)) {
-            return array($this->id => question_classified_response::no_response());
+        // See which column numbers have been selected.
+        $selectedcolumns = array();
+        foreach ($this->order as $key => $rowid) {
+            $field = $this->field($key);
+            $row = $this->rows[$rowid];
+
+            if (array_key_exists($field, $response) && $response[$field]) {
+                $selectedcolumns[$rowid] = $response[$field];
+            } else {
+                $selectedcolumns[$rowid] = 0;
+            }
         }
-        $choiceid = $this->order[$response['answer']];
-        $ans = $this->answers[$choiceid];
-        return array($this->id => new question_classified_response($choiceid,
-                $this->html_to_text($ans->answer, $ans->answerformat), $ans->fraction));
+
+        // Now calculate the classification
+        $parts = array();
+        foreach ($this->rows as $rowid => $row) {
+            $field = $this->field($key);
+            if (empty($selectedcolumns[$rowid])) {
+                $parts[$rowid] = question_classified_response::no_response();
+                continue;
+            }
+            // Find the chosen column by columnnumber
+            $column = null;
+            foreach ($this->columns as $colid => $col) {
+                if ($col->number == $selectedcolumns[$rowid]) {
+                    $column = $col;
+                    break;
+                }
+            }
+            // Calculate the partial credit.     
+            $partialcredit = 0.0;
+            if ($this->scoringmethod == 'subpoints' && $this->weights[$row->number][$column->number]->weight > 0) {
+                $partialcredit = 1 / count($this->rows);
+            }
+            $parts[$rowid] = new question_classified_response(
+                    $column->id, $column->responsetext,
+                    $partialcredit);
+        }
+        return $parts;
     }
-    */
 
     /**
      * Use by many of the behaviours to determine whether the student's
