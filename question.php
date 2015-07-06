@@ -450,4 +450,24 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
         return $totalstemscore / count($this->stemorder);
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see question_definition::check_file_access()
+     */
+    public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
+    	if ($component == 'qtype_kprime' && $filearea == 'optiontext') {
+    		return true;
+    	} else if ($component == 'qtype_kprime' && $filearea == 'feedbacktext') {
+    		return true;
+    	} else if ($component == 'question' && in_array($filearea,
+    			array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
+    				return $this->check_combined_feedback_file_access($qa, $options, $filearea);
+    			} else if ($component == 'question' && $filearea == 'hint') {
+    				return $this->check_hint_file_access($qa, $options, $args);
+    			} else {
+    				return parent::check_file_access($qa, $options, $component, $filearea,
+    						$args, $forcedownload);
+    			}
+    }
 }
