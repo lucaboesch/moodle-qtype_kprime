@@ -96,7 +96,7 @@ class qtype_kprime_renderer extends qtype_renderer {
                     array('class' => 'qtext'));
 
         $table = new html_table();
-        $table->attributes['class'] = 'kprime';
+        $table->attributes['class'] = 'generaltable'; //kprime
 
         $table->head = array();
         // Add empty header for option texts.
@@ -162,22 +162,22 @@ class qtype_kprime_renderer extends qtype_renderer {
             if ($displayoptions->correctness) { // && $isselected) {
                 $rowgrade = $question->grading()->grade_row($question, $key, $row, $response);
                 $cell = new html_table_cell($this->feedback_image($rowgrade));
-                $cell->attributes['class'] = 'correctness';
+                $cell->attributes['class'] = 'kprimecorrectness'; //correctness
                 $rowdata[] = $cell;
             }
 
             // Add the feedback to the table, if it is visible.
             if ($displayoptions->feedback && empty($displayoptions->suppresschoicefeedback) &&
-                $isselected && trim($row->optionfeedback)) {
-                $cell = new html_table_cell(html_writer::tag('div',
-                      $question->make_html_inline($question->format_text(
-                                  $row->optionfeedback, $row->optionfeedbackformat,
-                                  $qa, 'qtype_kprime', 'feedbacktext', $rowid)),
-                            array('class' => 'specificfeedback')));
-                $cell->attributes['class'] = 'highlight r1';
-                $rowdata[] = $cell;
+            		$isselected && trim($row->optionfeedback)) {
+            			$cell = new html_table_cell(html_writer::tag('div',
+            					$question->make_html_inline($question->format_text(
+            							$row->optionfeedback, $row->optionfeedbackformat,
+            							$qa, 'qtype_kprime', 'feedbacktext', $rowid)),
+            					array('class' => 'specificfeedback')));
+            			//$cell->attributes['class'] = 'highlight r1';
+            			$rowdata[] = $cell;
             } else if ($displayoptions->feedback) {
-                $rowdata[] = '';
+            			//$rowdata[] = '';
             }
             $table->data[] = $rowdata;
 

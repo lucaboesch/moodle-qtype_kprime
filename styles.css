@@ -65,6 +65,13 @@
 	vertical-align: middle;
 	display: table-cell;
     background: #EEE;
+    border-radius: 0px;
+    border-left: #777 solid 3px;
+}
+td.kprimecorrectness {
+	border-left: #AAA solid 3px;
+	text-align: center;
+	align: center;
 }
 .que.kprime table.kprime tbody td.feedback {
     padding-left: 1em;
@@ -123,7 +130,7 @@ body#page-question-type-kprime div.optionbox {
     margin-bottom: 5px;
     padding-bottom: 5px;
     padding-top: 5px;
-    max-width: 680px;
+    max-width: 720px; /*680px*/
 }
 
 body#page-question-type-kprime div.optionbox label.optiontitle {
@@ -218,7 +225,7 @@ body#page-question-type-kprime div.optiontext div.fitemtitle {
 
 /* Put the feedback text editor to the right */
 body#page-question-type-kprime div.feedbacktext {
-	margin-left: 8px;
+	margin-left: 0px; /* 8px; */
 	display: block;
     clear: both;
 
@@ -228,8 +235,9 @@ body#page-question-type-kprime div.feedbacktext {
 }
 
 body#page-question-type-kprime div.optionbox label.feedbacktitle {
-     font-weight: bold;
-/*      margin-bottom: 0px; */
+/* 	 font-weight: bold; */
+     color:#777;
+/*   margin-bottom: 0px; */
 }
 
 body#page-question-type-kprime div.feedbacktext div.fitemtitle {

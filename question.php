@@ -265,11 +265,16 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                     break;
                 }
             }
-            // Calculate the partial credit.     
-            $partialcredit = 0.0;
+            // Calculate the partial credit.    
+            if ($this->scoringmethod == 'subpoints') {
+            	$partialcredit = 0.0;
+            } else {
+            	$partialcredit = -999; // due to non-linear math - Tobias
+            }              
             if ($this->scoringmethod == 'subpoints' && $this->weights[$row->number][$column->number]->weight > 0) {
                 $partialcredit = 1 / count($this->rows);
-            }
+            } 
+            
             $parts[$rowid] = new question_classified_response(
                     $column->id, $column->responsetext,
                     $partialcredit);

@@ -141,7 +141,7 @@ class qtype_kprime_edit_form extends question_edit_form {
         	$mform->addElement('html', '<div class="optiontext">'); // Open div.optiontext.
         	$mform->addElement('html', '<label class="optiontitle">' . get_string('optionno', 'qtype_kprime', $i) .
         			'</label>');
-        	$mform->addElement('editor', 'option_' . $i, '' , array('rows' => 3), $this->editoroptions);
+        	$mform->addElement('editor', 'option_' . $i, '' , array('rows' => 8), $this->editoroptions);
         	$mform->setDefault('option_' . $i, array('text' => get_string('enteroptionhere', 'qtype_kprime')));
         	$mform->setType('option_' . $i, PARAM_RAW);
         	$mform->addRule('option_' . $i, null, 'required', null, 'client');
@@ -166,18 +166,19 @@ class qtype_kprime_edit_form extends question_edit_form {
         	$mform->addElement('html', '</div>'); // Close div.responses.
         	$mform->addElement('html', '</div>'); // Close div.optionsandresponses
         
-        	$mform->addElement('html', '<br/></br>'); // Close div.optionsandresponses
+        	$mform->addElement('html', '<br /><br />'); // Close div.optionsandresponses
         
         	// Add the feedback text editor in a new line.
         	$mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
         	$mform->addElement('html', '<label class="feedbacktitle">' . get_string('feedbackforoption', 'qtype_kprime', $i) .
         			'</label>');
-        	$mform->addElement('editor', 'feedback_' . $i, '', array('rows' => 3), $this->editoroptions);
+        	$mform->addElement('editor', 'feedback_' . $i, '', array('rows' => 2,'placeholder'=>'hellowww'), $this->editoroptions);
         	$mform->setType('feedback_' . $i, PARAM_RAW);
+        	
         	//            $mform->setDefault('feedback_' . $i, array('text' => get_string('enterfeedbackhere', 'qtype_kprime')));
         
         	$mform->addElement('html', '</div>'); // Close div.feedbacktext.
-        	$mform->addElement('html', '</div>'); // Close div.optionbox.
+        	$mform->addElement('html', '</div><br />'); // Close div.optionbox.
         
         }        
 		$mform->addElement('header', 'scoringmethodheader',  get_string('scoringmethod', 'qtype_kprime'));

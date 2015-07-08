@@ -337,13 +337,22 @@ class qtype_kprime extends question_type {
         foreach ($question->rows as $rowid => $row) {
             $choices = array();
             foreach ($question->columns as $columnid => $column) {
-                $partialcredit = 0.0;
+                // Calculate the partial credit.    
+	            if ($question->scoringmethod == 'subpoints') {
+	            	$partialcredit = 0.0;
+	            } else {
+	            	$partialcredit = -0.999; // due to non-linear math - Tobias
+	            } 
                 if ($question->scoringmethod == 'subpoints' && $weights[$row->number][$column->number]->weight > 0) {
                      $partialcredit = 1 / count($question->rows);
                 }
+                $correctreponse = "";
+                if($weights[$row->number][$column->number]->weight > 0) { // is it correct response?
+                	$correctreponse = " (Correct Response)";
+                }
                 $choices[$columnid] = 
                 new question_possible_response(html_to_text($row->optiontext, $row->optiontextformat, false) .
-                		 ": " . html_to_text($column->responsetext, $column->responsetextformat),
+                		 ": " . html_to_text($column->responsetext, $column->responsetextformat).$correctreponse,
                         $partialcredit);
             }
             $choices[null] = question_possible_response::no_response();
