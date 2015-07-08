@@ -60,13 +60,26 @@
 }
 .que.kprime table.kprime tbody td.responsebutton {
     background: #EEE;
+    opacity: 0.1;
+    filter: alpha(opacity=10); /* msie */
+     background-color: #000;
+}
+.responsebutton {
+	/*
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    */
+}
+.greyingout{
+    opacity: 0.4;
+    filter: alpha(opacity=40);	
 }
 .que.kprime table.kprime tbody td.correctness {
 	vertical-align: middle;
 	display: table-cell;
     background: #EEE;
     border-radius: 0px;
-    border-left: #777 solid 3px;
+    border-left: #777 solid 3px !important;
 }
 td.kprimecorrectness {
 	border-left: #AAA solid 3px;

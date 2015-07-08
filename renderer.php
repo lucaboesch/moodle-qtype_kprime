@@ -149,7 +149,7 @@ class qtype_kprime_renderer extends qtype_renderer {
                 // Show correctness icon with radio button if needed.
                 if ($displayoptions->correctness) {
                     $weight = $question->weight($row->number, $column->number);
-                    $radio .= $this->feedback_image($weight > 0.0);
+                    $radio .= '<span class="greyingout">'.$this->feedback_image($weight > 0.0).'</span>';
                 }
                 $cell = new html_table_cell($radio);
                 $cell->attributes['class'] = 'responsebutton';
