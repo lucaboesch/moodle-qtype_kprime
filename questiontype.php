@@ -351,8 +351,8 @@ class qtype_kprime extends question_type {
                 	$correctreponse = " (Correct Response)";
                 }
                 $choices[$columnid] = 
-                new question_possible_response(html_to_text($row->optiontext, $row->optiontextformat, false) .
-                		 ": " . html_to_text($column->responsetext, $column->responsetextformat).$correctreponse,
+                new question_possible_response(question_utils::to_plain_text($row->optiontext, $row->optiontextformat) .
+                		 ": " . question_utils::to_plain_text($column->responsetext.$correctreponse, $column->responsetextformat),
                         $partialcredit);
             }
             $choices[null] = question_possible_response::no_response();
