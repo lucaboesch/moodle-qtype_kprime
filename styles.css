@@ -71,8 +71,13 @@
     */
 }
 .greyingout{
-    opacity: 0.4;
-    filter: alpha(opacity=40);	
+    -webkit-filter: grayscale(100%);
+       -moz-filter: grayscale(100%);
+         -o-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+            filter: grayscale(100%); 
+              opacity: 0.3;
+    filter: alpha(opacity=30);  
 }
 .que.kprime table.kprime tbody td.correctness {
 	vertical-align: middle;
