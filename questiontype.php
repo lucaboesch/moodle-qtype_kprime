@@ -218,7 +218,7 @@ class qtype_kprime extends question_type {
 
             // Perform an update.
             $column->responsetext = $question->{'responsetext_' . $i};
-            $column->responsetextformat = FORMAT_PLAIN;
+            $column->responsetextformat = FORMAT_MOODLE; //FORMAT_PLAIN;
 
             $DB->update_record('qtype_kprime_columns', $column);
         }
