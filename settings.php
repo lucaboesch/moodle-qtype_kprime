@@ -29,13 +29,13 @@ if ($ADMIN->fulltree) {
 
     // Introductory explanation that all the settings are defaults for the edit_kprime_form.
     $settings->add(new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_kprime')));
-
-    // Default response texts.
+/*
+    // Default response texts.   
     $settings->add(new admin_setting_configtext('qtype_kprime/responsetext1', get_string('responsetext', 'qtype_kprime', 1),
             get_string('responsedesc', 'qtype_kprime', 1), get_string('true', 'qtype_kprime'), PARAM_TEXT));
     $settings->add(new admin_setting_configtext('qtype_kprime/responsetext2', get_string('responsetext', 'qtype_kprime', 2),
             get_string('responsedesc', 'qtype_kprime', 2), get_string('false', 'qtype_kprime'), PARAM_TEXT));
-
+*/
     // Scoring methods.
     $options = array('kprime' => get_string('scoringkprime', 'qtype_kprime'),
             'kprimeonezero' => get_string('scoringkprimeonezero', 'qtype_kprime'),

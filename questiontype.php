@@ -348,7 +348,7 @@ class qtype_kprime extends question_type {
                 }
                 $correctreponse = "";
                 if($weights[$row->number][$column->number]->weight > 0) { // is it correct response?
-                	$correctreponse = " (Correct Response)";
+                	$correctreponse = " (".get_string('correctresponse','qtype_kprime').")";
                 }
                 $choices[$columnid] = 
                 new question_possible_response(question_utils::to_plain_text($row->optiontext, $row->optiontextformat) .

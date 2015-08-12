@@ -16,7 +16,7 @@
 .que.kprime table.kprime div.r1 div.specificfeedback {
     /* In Chrome and IE, the text-indent above is applied to any embedded table
        cells or <li>s, which screws up the intended layout. This fixes it again. */
-    text-indent: 0;
+    text-indent: 0 !important;
 }
 .que.kprime .answer div.r0 input,
 .que.kprime .answer div.r1 input {
@@ -95,10 +95,13 @@ td.kprimecorrectness {
     padding-left: 1em;
 }
 .que.kprime table.kprime tbody td.feedback div.specificfeedback {
-        background: #FFF3BF;
-        text-align: left;
+        background: #FFF3BF !important;
+        text-align: left !important;
 }
-
+.specificfeedback {
+        background: #FFF3BF !important;
+        text-align: left !important;
+}
 .que.kprime table.kprime .lastcol p{
     display: inline;
     margin:0px;

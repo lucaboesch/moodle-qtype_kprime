@@ -64,3 +64,4 @@ $string['stem'] = 'Stem';
 $string['tasktitle'] = 'Task title';
 $string['true'] = 'True';
 $string['optionsandfeedback'] = 'Options and Feedback';
+$string['correctresponse'] = 'Correct Response';

@@ -65,3 +65,4 @@ $string['stem'] = 'Stamm';
 $string['tasktitle'] = 'Aufgabentitel';
 $string['true'] = 'Richtig';
 $string['optionsandfeedback'] = 'Text und Feedback';
+$string['correctresponse'] = 'Richtige Antwort';

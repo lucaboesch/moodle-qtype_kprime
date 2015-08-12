@@ -203,7 +203,7 @@ class qtype_kprime_edit_form extends question_edit_form {
 		
 
         $this->add_hidden_fields();
-		$this->add_interactive_settings();		
+		//$this->add_interactive_settings();		
 	
     }
 

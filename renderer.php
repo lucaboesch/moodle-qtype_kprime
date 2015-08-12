@@ -174,7 +174,7 @@ class qtype_kprime_renderer extends qtype_renderer {
             							$row->optionfeedback, $row->optionfeedbackformat,
             							$qa, 'qtype_kprime', 'feedbacktext', $rowid)),
             					array('class' => 'specificfeedback')));
-            			//$cell->attributes['class'] = 'highlight r1';
+            			//$cell->attributes['class'] = 'feedback';
             			$rowdata[] = $cell;
             } else if ($displayoptions->feedback) {
             			//$rowdata[] = '';
