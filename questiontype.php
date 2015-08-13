@@ -77,7 +77,12 @@ class qtype_kprime extends question_type {
             for ($i = 1; $i <= $question->options->numberofcolumns; $i++) {
                 $column = new stdClass();
                 $column->number = $i;
-                $column->responsetext = $kprimeconfig->{'responsetext' . $i};
+                if(isset($kprimeconfig->{'responsetext' . $i})) {
+                	$responsetextcol = $kprimeconfig->{'responsetext' . $i};
+                } else {
+                	$responsetextcol = '';
+                }
+                $column->responsetext = $responsetextcol;
                 $column->responsetextformat = FORMAT_MOODLE;
                 $columns[] = $column;
             }
