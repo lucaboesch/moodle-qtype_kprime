@@ -57,7 +57,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
         return $result;
     }
-
+    
     /**
      * Process the qtype/multichoice element
      */
@@ -188,6 +188,5 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
         return $contents;
     }
-
     
 }

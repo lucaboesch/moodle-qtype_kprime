@@ -34,7 +34,6 @@ class qtype_kprime_grading_kprime extends qtype_kprime_grading {
     public function get_title() {
         return get_string('scoring' . self::TYPE, 'qtype_kprime');
     }
-
     /**
      * Returns the question's grade.
      *

@@ -89,49 +89,7 @@ class qtype_kprime_edit_form extends question_edit_form {
             $responsetexts[] = get_string('responsetext1', 'qtype_kprime');
             $responsetexts[] = get_string('responsetext2', 'qtype_kprime');
         }
-/*        
-        // Add an option text editor, response radio buttons and a feedback editor for each option.
-        for ($i = 1; $i <= $this->numberofrows; $i++) {
-			$mform->addElement('html', '<h5>'.get_string('optionno', 'qtype_kprime', $i).'</h5>');
-			$mform->addElement('html', '<div class="well">');
-			
 
-            $mform->addElement('editor', 'option_' . $i,  get_string('optionno', 'qtype_kprime', $i) , array('rows' => 3), $this->editoroptions);
-            $mform->setDefault('option_' . $i, array('text' => get_string('enteroptionhere', 'qtype_kprime')));
-            $mform->setType('option_' . $i, PARAM_RAW);
-            $mform->addRule('option_' . $i, null, 'required', null, 'client');
-
-
-
-			//$mform->addElement('html', '<h5>'.get_string('feedbackforoption', 'qtype_kprime', $i).'</h5>'); //'.get_string('feedbackforoption', 'qtype_kprime', $i).'
-     
-
-            // Add the feedback text editor in a new line.
-
-            $mform->addElement('editor', 'feedback_' . $i, get_string('feedbackforoption', 'qtype_kprime', $i), array('rows' => 3), $this->editoroptions);
-            $mform->setType('feedback_' . $i, PARAM_RAW);
-			//$mform->addElement('html', '</div></div>');
-			
-			 // Add the radio buttons for responses.
-            $attributes = array();
-            $radiobuttons = array();
-            for ($j = 1; $j <= $this->numberofcolumns; $j++) {
-                if (array_key_exists($j - 1, $responsetexts)) {
-                    $radiobuttons[] =& $mform->createElement('radio', 'weightbutton_' . $i, '', $responsetexts[$j - 1], $j,
-                            $attributes);
-                } else {
-                    $radiobuttons[] =& $mform->createElement('radio', 'weightbutton_' . $i, '', '', $j, $attributes);
-                }
-            }
-			
-            $mform->addGroup($radiobuttons, 'weightsarray_' . $i, '', array('<br />'), false);
-            $mform->setDefault('weightbutton_' . $i, 1);
-			$mform->addElement('html', '</div>');
-			
-			
-
-        }
-*/
         // Add an option text editor, response radio buttons and a feedback editor for each option.
         for ($i = 1; $i <= $this->numberofrows; $i++) {
         	// Add the option editor.
@@ -201,7 +159,6 @@ class qtype_kprime_edit_form extends question_edit_form {
                 get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1));
         $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
 		
-
         $this->add_hidden_fields();
 		//$this->add_interactive_settings();		
 	

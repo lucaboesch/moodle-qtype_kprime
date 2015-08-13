@@ -48,6 +48,4 @@ if ($ADMIN->fulltree) {
     // Shuffle options.
     $settings->add(new admin_setting_configcheckbox('qtype_kprime/shuffleoptions',
             get_string('shuffleoptions', 'qtype_kprime'), get_string('shuffleoptions_help', 'qtype_kprime'), 1));
-
-
 }

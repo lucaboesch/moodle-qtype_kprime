@@ -27,8 +27,6 @@ defined('MOODLE_INTERNAL') || die();
  * This overwrites the default question edit form to change the order of standard question fields
  * and the definition of language strings.
  *
- * @author jzimmer
- *
  */
 class myquestion_edit_form extends question_edit_form {
 

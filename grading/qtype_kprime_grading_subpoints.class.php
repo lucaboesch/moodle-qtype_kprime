@@ -50,7 +50,6 @@ class qtype_kprime_grading_subpoints extends qtype_kprime_grading {
                 $correctrows++;
             }
         }
-
         // Subpoints: For each correct response, the student gets subpoints. That is: max. points divided
         // by number of options times number of correct options.
         return 1.0 * $correctrows / count($question->rows);

@@ -577,7 +577,6 @@ class qtype_kprime extends question_type {
                 $question->{'weightbutton_' . $rownumber} = $columnnumber;
             }
         }
-
         return $question;
     }
 }

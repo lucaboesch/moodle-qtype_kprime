@@ -28,7 +28,7 @@ define('QTYPE_KPRIME_NUMBER_OF_OPTIONS', 4);
 define('QTYPE_KPRIME_NUMBER_OF_RESPONSES', 2);
 
 /**
- * Checks file access for kprime questions.
+ * Checks file/image access for kprime questions.
  *
  * @package  qtype_kprime
  * @category files

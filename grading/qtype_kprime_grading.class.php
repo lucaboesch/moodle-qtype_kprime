@@ -24,9 +24,7 @@
 abstract class qtype_kprime_grading {
 
     abstract public function get_name();
-
     abstract public function get_title();
-
     abstract public function grade_question($question, $answers);
 
     /**

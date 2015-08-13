@@ -72,8 +72,7 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
 
         // We don't need to annotate ids nor files.
         return $plugin;
-    }
-    
+    }  
     /**
      * Returns one array with filearea => mappingname elements for the qtype.
      *
