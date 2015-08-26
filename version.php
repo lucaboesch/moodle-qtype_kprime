@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_kprime';
-$plugin->version   = 2015081700;
+$plugin->version   = 2015082600;
 $plugin->requires  = 2013111904; // Moodle >=2.6.4.
 
 $plugin->maturity  = MATURITY_STABLE;
