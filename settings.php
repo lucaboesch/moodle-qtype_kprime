@@ -8,44 +8,52 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
  * Administration settings definitions for the kprime question type.
  *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    require_once($CFG->dirroot.'/question/type/kprime/lib.php');
-
+    require_once ($CFG->dirroot . '/question/type/kprime/lib.php');
+    
     // Introductory explanation that all the settings are defaults for the edit_kprime_form.
-    $settings->add(new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_kprime')));
-/*
-    // Default response texts.   
-    $settings->add(new admin_setting_configtext('qtype_kprime/responsetext1', get_string('responsetext', 'qtype_kprime', 1),
-            get_string('responsedesc', 'qtype_kprime', 1), get_string('true', 'qtype_kprime'), PARAM_TEXT));
-    $settings->add(new admin_setting_configtext('qtype_kprime/responsetext2', get_string('responsetext', 'qtype_kprime', 2),
-            get_string('responsedesc', 'qtype_kprime', 2), get_string('false', 'qtype_kprime'), PARAM_TEXT));
-*/
+    $settings->add(
+            new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_kprime')));
+    /*
+     * // Default response texts.
+     * $settings->add(new admin_setting_configtext('qtype_kprime/responsetext1',
+     * get_string('responsetext', 'qtype_kprime', 1),
+     * get_string('responsedesc', 'qtype_kprime', 1), get_string('true', 'qtype_kprime'),
+     * PARAM_TEXT));
+     * $settings->add(new admin_setting_configtext('qtype_kprime/responsetext2',
+     * get_string('responsetext', 'qtype_kprime', 2),
+     * get_string('responsedesc', 'qtype_kprime', 2), get_string('false', 'qtype_kprime'),
+     * PARAM_TEXT));
+     */
     // Scoring methods.
-    $options = array('kprime' => get_string('scoringkprime', 'qtype_kprime'),
-            'kprimeonezero' => get_string('scoringkprimeonezero', 'qtype_kprime'),
-            'subpoints' => get_string('scoringsubpoints', 'qtype_kprime'));
-
-    $settings->add(new admin_setting_configselect('qtype_kprime/scoringmethod',
-            get_string('scoringmethod', 'qtype_kprime'), get_string('configscoringmethod', 'qtype_kprime'),
-            'kprime', $options));
-
+    $options = array('kprime' => get_string('scoringkprime', 'qtype_kprime'), 
+        'kprimeonezero' => get_string('scoringkprimeonezero', 'qtype_kprime'), 
+        'subpoints' => get_string('scoringsubpoints', 'qtype_kprime')
+    );
+    
+    $settings->add(
+            new admin_setting_configselect('qtype_kprime/scoringmethod', 
+                    get_string('scoringmethod', 'qtype_kprime'), 
+                    get_string('configscoringmethod', 'qtype_kprime'), 'kprime', $options));
+    
     // Shuffle options.
-    $settings->add(new admin_setting_configcheckbox('qtype_kprime/shuffleoptions',
-            get_string('shuffleoptions', 'qtype_kprime'), get_string('shuffleoptions_help', 'qtype_kprime'), 1));
+    $settings->add(
+            new admin_setting_configcheckbox('qtype_kprime/shuffleoptions', 
+                    get_string('shuffleoptions', 'qtype_kprime'), 
+                    get_string('shuffleoptions_help', 'qtype_kprime'), 1));
 }

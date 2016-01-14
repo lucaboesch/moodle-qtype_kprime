@@ -8,20 +8,17 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
-
 defined('MOODLE_INTERNAL') || die();
 
 define('QTYPE_KPRIME_NUMBER_OF_OPTIONS', 4);
@@ -30,7 +27,7 @@ define('QTYPE_KPRIME_NUMBER_OF_RESPONSES', 2);
 /**
  * Checks file/image access for kprime questions.
  *
- * @package  qtype_kprime
+ * @package qtype_kprime
  * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module object
@@ -41,8 +38,10 @@ define('QTYPE_KPRIME_NUMBER_OF_RESPONSES', 2);
  * @param array $options additional options affecting the file serving
  * @return bool
  */
-function qtype_kprime_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function qtype_kprime_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, 
+        array $options = array()) {
     global $CFG;
-    require_once($CFG->libdir . '/questionlib.php');
-    question_pluginfile($course, $context, 'qtype_kprime', $filearea, $args, $forcedownload, $options);
+    require_once ($CFG->libdir . '/questionlib.php');
+    question_pluginfile($course, $context, 'qtype_kprime', $filearea, $args, $forcedownload, 
+            $options);
 }

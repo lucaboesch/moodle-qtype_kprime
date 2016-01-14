@@ -8,33 +8,34 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 abstract class qtype_kprime_grading {
 
     abstract public function get_name();
+
     abstract public function get_title();
+
     abstract public function grade_question($question, $answers);
 
     /**
-     * Grade a specific row. This is the same for all grading methods.
+     * Grade a specific row.
+     * This is the same for all grading methods.
      * Either the student chose the correct response or not (single choice).
      *
      * @param qtype_kprime_question $question The question object.
      * @param unknown $key The field key of the row.
      * @param object $row The row object.
-     * @param array  $answers The answers array.
+     * @param array $answers The answers array.
      * @return float
      */
     public function grade_row(qtype_kprime_question $question, $key, $row, $answers) {

@@ -8,29 +8,28 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Upgrade code for the kprime question type.
+ * 
  * @param int $oldversion the version we are upgrading from.
  */
 function xmldb_qtype_kprime_upgrade($oldversion) {
     global $CFG, $DB;
-
+    
     $dbman = $DB->get_manager();
-
+    
     return true;
 }

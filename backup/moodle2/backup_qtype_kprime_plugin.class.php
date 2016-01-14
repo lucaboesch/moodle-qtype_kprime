@@ -8,20 +8,19 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 defined('MOODLE_INTERNAL') || die();
+
 
 /**
  * Provides the backup for kprime questions
@@ -39,40 +38,57 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
         $pluginwrapper = new backup_nested_element($name);
         // Connect the visible container ASAP.
         $plugin->add_child($pluginwrapper);
-
+        
         // Now create the qtype own structures.
-        $kprime = new backup_nested_element('kprime', array('id'), array('scoringmethod', 'shuffleoptions',
-                'numberofrows', 'numberofcolumns'));
-
+        $kprime = new backup_nested_element('kprime', array('id'
+        ), 
+                array('scoringmethod', 'shuffleoptions', 'numberofrows', 'numberofcolumns'
+                ));
+        
         $rows = new backup_nested_element('rows');
-        $row = new backup_nested_element('row', array('id'), array('number', 'optiontext', 'optiontextformat',
-                'optionfeedback', 'optionfeedbackformat'));
-
+        $row = new backup_nested_element('row', array('id'
+        ), 
+                array('number', 'optiontext', 'optiontextformat', 'optionfeedback', 
+                    'optionfeedbackformat'
+                ));
+        
         $columns = new backup_nested_element('columns');
-        $column = new backup_nested_element('column', array('id'), array('number', 'responsetext', 'responsetextformat'));
-
+        $column = new backup_nested_element('column', array('id'
+        ), array('number', 'responsetext', 'responsetextformat'
+        ));
+        
         $weights = new backup_nested_element('weights');
-        $weight = new backup_nested_element('weight', array('id'), array('rownumber', 'columnnumber', 'weight'));
-
+        $weight = new backup_nested_element('weight', array('id'
+        ), array('rownumber', 'columnnumber', 'weight'
+        ));
+        
         // Now the qtype tree.
         $pluginwrapper->add_child($kprime);
         $pluginwrapper->add_child($rows);
         $pluginwrapper->add_child($columns);
         $pluginwrapper->add_child($weights);
-
+        
         $rows->add_child($row);
         $columns->add_child($column);
         $weights->add_child($weight);
-
+        
         // Set sources to populate the data.
-        $kprime->set_source_table('qtype_kprime_options', array('questionid' => backup::VAR_PARENTID));
-        $row->set_source_table('qtype_kprime_rows', array('questionid' => backup::VAR_PARENTID), 'number ASC');
-        $column->set_source_table('qtype_kprime_columns', array('questionid' => backup::VAR_PARENTID), 'number ASC');
-        $weight->set_source_table('qtype_kprime_weights', array('questionid' => backup::VAR_PARENTID));
-
+        $kprime->set_source_table('qtype_kprime_options', 
+                array('questionid' => backup::VAR_PARENTID
+                ));
+        $row->set_source_table('qtype_kprime_rows', array('questionid' => backup::VAR_PARENTID
+        ), 'number ASC');
+        $column->set_source_table('qtype_kprime_columns', 
+                array('questionid' => backup::VAR_PARENTID
+                ), 'number ASC');
+        $weight->set_source_table('qtype_kprime_weights', 
+                array('questionid' => backup::VAR_PARENTID
+                ));
+        
         // We don't need to annotate ids nor files.
         return $plugin;
-    }  
+    }
+
     /**
      * Returns one array with filearea => mappingname elements for the qtype.
      *
@@ -80,9 +96,7 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array(
-            'optiontext' => 'qtype_kprime_rows',
-            'feedbacktext' => 'qtype_kprime_rows'
-            );
-    }    
+        return array('optiontext' => 'qtype_kprime_rows', 'feedbacktext' => 'qtype_kprime_rows'
+        );
+    }
 }

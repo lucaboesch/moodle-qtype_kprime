@@ -8,20 +8,19 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 defined('MOODLE_INTERNAL') || die();
+
 
 /**
  * Restore plugin class that provides the necessary information
@@ -34,45 +33,45 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
      */
     protected function define_question_plugin_structure() {
         $result = array();
-
+        
         // We used get_recommended_name() so this works.
         $elename = 'kprime';
         $elepath = $this->get_pathfor('/kprime');
         $result[] = new restore_path_element($elename, $elepath);
-
+        
         // We used get_recommended_name() so this works.
         $elename = 'column';
         $elepath = $this->get_pathfor('/columns/column');
         $result[] = new restore_path_element($elename, $elepath);
-
+        
         // We used get_recommended_name() so this works.
         $elename = 'row';
         $elepath = $this->get_pathfor('/rows/row');
         $result[] = new restore_path_element($elename, $elepath);
-
+        
         // We used get_recommended_name() so this works.
         $elename = 'weight';
         $elepath = $this->get_pathfor('/weights/weight');
         $result[] = new restore_path_element($elename, $elepath);
-
+        
         return $result;
     }
-    
+
     /**
      * Process the qtype/multichoice element
      */
     public function process_kprime($data) {
         global $DB;
-
-        $data = (object)$data;
+        
+        $data = (object) $data;
         $oldid = $data->id;
-
+        
         // Detect if the question is created or mapped.
-        $oldquestionid   = $this->get_old_parentid('question');
-        $newquestionid   = $this->get_new_parentid('question');
-
+        $oldquestionid = $this->get_old_parentid('question');
+        $newquestionid = $this->get_new_parentid('question');
+        
         $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
-
+        
         // If the question has been created by restore, we need to create its
         // qtype_kprime_options too.
         if ($questioncreated) {
@@ -101,14 +100,14 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
      */
     public function process_column($data) {
         global $DB;
-
+        
         if (!$this->is_question_created()) {
             return;
         }
         
         $data = (object) $data;
         $oldid = $data->id;
-
+        
         $data->questionid = $this->get_new_parentid('question');
         $newitemid = $DB->insert_record('qtype_kprime_columns', $data);
         $this->set_mapping('qtype_kprime_columns', $oldid, $newitemid);
@@ -119,17 +118,17 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
      */
     public function process_row($data) {
         global $DB;
-
+        
         if (!$this->is_question_created()) {
             return;
         }
-
+        
         $data = (object) $data;
         $oldid = $data->id;
-
+        
         $data->questionid = $this->get_new_parentid('question');
         $newitemid = $DB->insert_record('qtype_kprime_rows', $data);
-
+        
         $this->set_mapping('qtype_kprime_rows', $oldid, $newitemid);
     }
 
@@ -138,19 +137,18 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
      */
     public function process_weight($data) {
         global $DB;
-
+        
         if (!$this->is_question_created()) {
             return;
         }
-
+        
         $data = (object) $data;
         $oldid = $data->id;
-
+        
         $data->questionid = $this->get_new_parentid('question');
         $newitemid = $DB->insert_record('qtype_kprime_weights', $data);
         $this->set_mapping('qtype_kprime_weights', $oldid, $newitemid);
     }
-
 
     public function recode_response($questionid, $sequencenumber, array $response) {
         if (array_key_exists('_order', $response)) {
@@ -161,6 +159,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
     /**
      * Recode the option order as stored in the response.
+     * 
      * @param string $order the original order.
      * @return string the recoded order.
      */
@@ -173,7 +172,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 $neworder[] = $id;
             }
         }
-
+        
         return implode(',', $neworder);
     }
 
@@ -182,11 +181,11 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
      */
     static public function define_decode_contents() {
         $contents = array();
-
-        $fields = array('optiontext', 'optionfeedback');
+        
+        $fields = array('optiontext', 'optionfeedback'
+        );
         $contents[] = new restore_decode_content('qtype_kprime_rows', $fields, 'qtype_kprime_rows');
-
+        
         return $contents;
     }
-    
 }

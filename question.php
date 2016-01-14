@@ -8,43 +8,48 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 
 /**
  * Represents a kprime question, a all-or-nothing variant of matrix questions.
  *
- * @copyright  2009 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2009 The Open University
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_kprime_question extends question_graded_automatically_with_countback {
 
     public $rows;
+
     public $columns;
+
     public $weights;
+
     public $scoringmethod;
+
     public $shuffleoptions;
+
     public $numberofrows;
+
     public $numberofcols;
 
     public $order = null;
-
+    
     // All the methods needed for option shuffling.
     /**
      * (non-PHPdoc)
+     *
      * @see question_definition::start_attempt()
      */
     public function start_attempt(question_attempt_step $step, $variant) {
@@ -57,6 +62,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     /**
      * (non-PHPdoc)
+     *
      * @see question_definition::apply_attempt_state()
      */
     public function apply_attempt_state(question_attempt_step $step) {
@@ -64,17 +70,17 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     }
 
     /*
-    public function get_question_summary() {
-        $question = $this->html_to_text($this->questiontext, $this->questiontextformat);
-        $choices = array();
-        foreach ($this->order as $rowid) {
-            $choices[] = $this->html_to_text($this->rows[$rowid]->optiontext,
-                    $this->rows[$rowid]->optiontextformat);
-        }
-        return $question . ': ' . implode('; ', $choices);
-    }
-    */
-
+     * public function get_question_summary() {
+     * $question = $this->html_to_text($this->questiontext, $this->questiontextformat);
+     * $choices = array();
+     * foreach ($this->order as $rowid) {
+     * $choices[] = $this->html_to_text($this->rows[$rowid]->optiontext,
+     * $this->rows[$rowid]->optiontextformat);
+     * }
+     * return $question . ': ' . implode('; ', $choices);
+     * }
+     */
+    
     /**
      *
      * @param question_attempt $qa
@@ -133,7 +139,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function is_correct($row, $col) {
         $weight = $this->weight($row, $col);
-
+        
         if ($weight > 0.0) {
             return 1;
         } else {
@@ -155,7 +161,6 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         return $weight;
     }
 
-
     public function is_row_selected($response, $rownumber) {
         return isset($response[$this->field($rownumber)]);
     }
@@ -166,11 +171,12 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     /**
      * Used by many of the behaviours, to work out whether the student's
-     * response to the question is complete. That is, whether the question attempt
+     * response to the question is complete.
+     * That is, whether the question attempt
      * should move to the COMPLETE or INCOMPLETE state.
      *
      * @param array $response responses, as returned by
-     *      {@link question_attempt_step::get_qt_data()}.
+     *        {@link question_attempt_step::get_qt_data()}.
      * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
@@ -183,10 +189,10 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         return true;
     }
 
-
     /**
      * In situations where is_gradable_response() returns false, this method
      * should generate a description of what the problem is.
+     *
      * @return string the message.
      */
     public function get_validation_error(array $response) {
@@ -194,16 +200,17 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         if ($isgradable) {
             return '';
         }
-        //return qtype_kprime::get_string('oneanswerperrow');
+        // return qtype_kprime::get_string('oneanswerperrow');
         return get_string('oneanswerperrow', 'qtype_kprime');
     }
 
     /**
      * (non-PHPdoc)
+     *
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
-        return true; //$this->is_complete_response($response);
+        return true; // $this->is_complete_response($response);
     }
 
     /**
@@ -214,16 +221,17 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function summarise_response(array $response) {
         $result = array();
-
+        
         foreach ($this->order as $key => $rowid) {
             $field = $this->field($key);
             $row = $this->rows[$rowid];
-
+            
             if (isset($response[$field])) {
                 foreach ($this->columns as $column) {
                     if ($column->number == $response[$field]) {
                         $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat) .
-                        ': ' . $this->html_to_text($column->responsetext, $column->responsetextformat);
+                                 ': ' . $this->html_to_text($column->responsetext, 
+                                        $column->responsetextformat);
                     }
                 }
             }
@@ -233,6 +241,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     /**
      * (non-PHPdoc)
+     *
      * @see question_with_responses::classify_response()
      */
     public function classify_response(array $response) {
@@ -241,14 +250,14 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         foreach ($this->order as $key => $rowid) {
             $field = $this->field($key);
             $row = $this->rows[$rowid];
-
+            
             if (array_key_exists($field, $response) && $response[$field]) {
                 $selectedcolumns[$rowid] = $response[$field];
             } else {
                 $selectedcolumns[$rowid] = 0;
             }
         }
-
+        
         // Now calculate the classification
         $parts = array();
         foreach ($this->rows as $rowid => $row) {
@@ -265,18 +274,18 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                     break;
                 }
             }
-            // Calculate the partial credit.    
+            // Calculate the partial credit.
             if ($this->scoringmethod == 'subpoints') {
-            	$partialcredit = 0.0;
+                $partialcredit = 0.0;
             } else {
-            	$partialcredit = -999; // due to non-linear math - Tobias
-            }              
-            if ($this->scoringmethod == 'subpoints' && $this->weights[$row->number][$column->number]->weight > 0) {
+                $partialcredit = -999; // due to non-linear math - Tobias
+            }
+            if ($this->scoringmethod == 'subpoints' &&
+                     $this->weights[$row->number][$column->number]->weight > 0) {
                 $partialcredit = 1 / count($this->rows);
-            } 
+            }
             
-            $parts[$rowid] = new question_classified_response(
-                    $column->id, $column->responsetext,
+            $parts[$rowid] = new question_classified_response($column->id, $column->responsetext, 
                     $partialcredit);
         }
         return $parts;
@@ -284,14 +293,15 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     /**
      * Use by many of the behaviours to determine whether the student's
-     * response has changed. This is normally used to determine that a new set
+     * response has changed.
+     * This is normally used to determine that a new set
      * of responses can safely be discarded.
      *
      * @param array $prevresponse the responses previously recorded for this question,
-     *      as returned by {@link question_attempt_step::get_qt_data()}
+     *        as returned by {@link question_attempt_step::get_qt_data()}
      * @param array $newresponse the new responses, in the same format.
      * @return bool whether the two sets of responses are the same - that is
-     *      whether the new set of responses can safely be discarded.
+     *         whether the new set of responses can safely be discarded.
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
         if (count($prevresponse) != count($newresponse)) {
@@ -306,7 +316,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -322,7 +332,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         foreach ($this->order as $key => $rowid) {
             $row = $this->rows[$rowid];
             $field = $this->field($key);
-
+            
             foreach ($this->columns as $column) {
                 $weight = $this->weight($row, $column);
                 if ($weight > 0) {
@@ -344,14 +354,13 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function grading() {
         global $CFG;
-
+        
         $type = $this->scoringmethod;
         $gradingclass = 'qtype_kprime_grading_' . $type;
-
-        require_once($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
+        
+        require_once ($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
         return new $gradingclass();
     }
-
 
     /**
      * Grade a response to the question, returning a fraction between
@@ -359,13 +368,14 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * right, partial or wrong.
      *
      * @param array $response responses, as returned by
-     *      {@link question_attempt_step::get_qt_data()}.
+     *        {@link question_attempt_step::get_qt_data()}.
      * @return array (number, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
         $grade = $this->grading()->grade_question($this, $response);
         $state = question_state::graded_state_for_fraction($grade);
-        return array($grade, $state);
+        return array($grade, $state
+        );
     }
 
     /**
@@ -376,8 +386,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * has {@link question_attempt::get_field_prefix()} automatically prepended.
      *
      * @return array|string variable name => PARAM_... constant, or, as a special case
-     *      that should only be used in unavoidable, the constant question_attempt::USE_RAW_DATA
-     *      meaning take all the raw submitted data belonging to this question.
+     *         that should only be used in unavoidable, the constant question_attempt::USE_RAW_DATA
+     *         meaning take all the raw submitted data belonging to this question.
      */
     public function get_expected_data() {
         $result = array();
@@ -407,7 +417,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * Makes HTML text (e.g. option or feedback texts) suitable for inline presentation in renderer.php
+     * Makes HTML text (e.g.
+     * option or feedback texts) suitable for inline presentation in renderer.php
      *
      * @param string html The HTML code.
      * @return string the purified HTML code without paragraph elements and line breaks.
@@ -420,8 +431,10 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * Convert some part of the question text to plain text. This might be used,
+     * Convert some part of the question text to plain text.
+     * This might be used,
      * for example, by get_response_summary().
+     *
      * @param string $text The HTML to reduce to plain text.
      * @param int $format the FORMAT_... constant.
      * @return string the equivalent plain text.
@@ -430,49 +443,50 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         return question_utils::to_plain_text($text, $format);
     }
 
-
     public function compute_final_grade($responses, $totaltries) {
         $totalstemscore = 0;
         foreach ($this->order as $key => $rowid) {
             $fieldname = $this->field($key);
-
+            
             $lastwrongindex = -1;
             $finallyright = false;
             foreach ($responses as $i => $response) {
                 if (!array_key_exists($fieldname, $response) || !$response[$fieldname] ||
-                        $this->choiceorder[$response[$fieldname]] != $this->right[$stemid]) {
+                         $this->choiceorder[$response[$fieldname]] != $this->right[$stemid]) {
                     $lastwrongindex = $i;
                     $finallyright = false;
                 } else {
                     $finallyright = true;
                 }
             }
-
+            
             if ($finallyright) {
                 $totalstemscore += max(0, 1 - ($lastwrongindex + 1) * $this->penalty);
             }
         }
-
+        
         return $totalstemscore / count($this->stemorder);
     }
-    
+
     /**
      * (non-PHPdoc)
+     *
      * @see question_definition::check_file_access()
      */
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
-    	if ($component == 'qtype_kprime' && $filearea == 'optiontext') {
-    		return true;
-    	} else if ($component == 'qtype_kprime' && $filearea == 'feedbacktext') {
-    		return true;
-    	} else if ($component == 'question' && in_array($filearea,
-    			array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
-    				return $this->check_combined_feedback_file_access($qa, $options, $filearea);
-    			} else if ($component == 'question' && $filearea == 'hint') {
-    				return $this->check_hint_file_access($qa, $options, $args);
-    			} else {
-    				return parent::check_file_access($qa, $options, $component, $filearea,
-    						$args, $forcedownload);
-    			}
+        if ($component == 'qtype_kprime' && $filearea == 'optiontext') {
+            return true;
+        } else if ($component == 'qtype_kprime' && $filearea == 'feedbacktext') {
+            return true;
+        } else if ($component == 'question' && in_array($filearea, 
+                array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'
+                ))) {
+            return $this->check_combined_feedback_file_access($qa, $options, $filearea);
+        } else if ($component == 'question' && $filearea == 'hint') {
+            return $this->check_hint_file_access($qa, $options, $args);
+        } else {
+            return parent::check_file_access($qa, $options, $component, $filearea, $args, 
+                    $forcedownload);
+        }
     }
 }

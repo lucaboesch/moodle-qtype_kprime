@@ -8,20 +8,19 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
+require_once ($CFG->dirroot . '/question/type/kprime/grading/qtype_kprime_grading.class.php');
 
-require_once($CFG->dirroot . '/question/type/kprime/grading/qtype_kprime_grading.class.php');
 
 class qtype_kprime_grading_kprime extends qtype_kprime_grading {
 
@@ -34,10 +33,12 @@ class qtype_kprime_grading_kprime extends qtype_kprime_grading {
     public function get_title() {
         return get_string('scoring' . self::TYPE, 'qtype_kprime');
     }
+
     /**
      * Returns the question's grade.
      *
      * (non-PHPdoc)
+     * 
      * @see qtype_kprime_grading::grade_question()
      */
     public function grade_question($question, $answers) {

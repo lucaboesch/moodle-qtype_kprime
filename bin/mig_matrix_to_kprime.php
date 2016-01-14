@@ -19,100 +19,98 @@
  * @author Juergen Zimmer jzimmer1000@gmail.com
  * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
-require_once (dirname ( __FILE__ ) . '/../../../../config.php');
+require_once (dirname(__FILE__) . '/../../../../config.php');
 require_once ($CFG->dirroot . "/lib/moodlelib.php");
 require_once ($CFG->dirroot . "/question/type/kprime/lib.php");
 
-$courseid = optional_param ( 'courseid', 0, PARAM_INT );
-$categoryid = optional_param ( 'categoryid', 0, PARAM_INT );
-$all = optional_param ( 'all', 0, PARAM_INT );
-$dryrun = optional_param ( 'dryrun', 0, PARAM_INT );
+$courseid = optional_param('courseid', 0, PARAM_INT);
+$categoryid = optional_param('categoryid', 0, PARAM_INT);
+$all = optional_param('all', 0, PARAM_INT);
+$dryrun = optional_param('dryrun', 0, PARAM_INT);
 
-require_login ();
+require_login();
 
-$admins = get_admins ();
+$admins = get_admins();
 $isadmin = false;
-foreach ( $admins as $admin ) {
+foreach ($admins as $admin) {
     if ($USER->id == $admin->id) {
         $isadmin = true;
         break;
     }
 }
 
-if (! $isadmin) {
+if (!$isadmin) {
     echo "You are not a Website Administrator!";
-    die ();
+    die();
 }
 
 // Helper function to turn weight records from the database into an array
 // indexed by rowid and columnid.
 function weight_records_to_array($weightrecords) {
-    $weights = array ();
-    foreach ( $weightrecords as $weight ) {
-        if (! array_key_exists ( $weight->rowid, $weights )) {
-            $weights [$weight->rowid] = array ();
+    $weights = array();
+    foreach ($weightrecords as $weight) {
+        if (!array_key_exists($weight->rowid, $weights)) {
+            $weights[$weight->rowid] = array();
         }
-        $weights [$weight->rowid] [$weight->colid] = $weight;
+        $weights[$weight->rowid][$weight->colid] = $weight;
     }
     return $weights;
 }
 
-$starttime = time ();
+$starttime = time();
 
 $sql = "SELECT q.* 
         FROM {question} q
         WHERE q.qtype = 'matrix'
         ";
-$params = array ();
+$params = array();
 
-if (! $all && (! ($courseid > 0 || $categoryid > 0))) {
+if (!$all && (!($courseid > 0 || $categoryid > 0))) {
     echo "<br/><font color='red'>You should specify either the 'courseid' or the 'categoryid' parameter! Or set the parameter 'all' to 1.</font><br/>\n";
     echo "I'm not doing anything without restrictions!\n";
-    die ();
+    die();
 }
 
 if ($courseid > 0) {
-    if (! $course = $DB->get_record ( 'course', array (
-            'id' => $courseid 
-    ) )) {
+    if (!$course = $DB->get_record('course', array('id' => $courseid
+    ))) {
         echo "<br/><font color='red'>Course with ID $courseid  not found...!</font><br/>\n";
-        die ();
+        die();
     }
-    $coursecontext = context_course::instance ( $courseid );
-    $categories = $DB->get_records ( 'question_categories', array (
-            'contextid' => $coursecontext->id 
-    ) );
+    $coursecontext = context_course::instance($courseid);
+    $categories = $DB->get_records('question_categories', 
+            array('contextid' => $coursecontext->id
+            ));
     
-    $catids = array_keys ( $categories );
+    $catids = array_keys($categories);
     
-    if (! empty ( $catids )) {
-        list ( $csql, $params ) = $DB->get_in_or_equal ( $catids );
+    if (!empty($catids)) {
+        list($csql, $params) = $DB->get_in_or_equal($catids);
         $sql .= " AND category $csql ";
     } else {
         echo "<br/><font color='red'>No question categories for course found... weird!</font><br/>\n";
         echo "I'm not doing anything without restrictions!\n";
-        die ();
+        die();
     }
 }
 
 if ($categoryid > 0) {
-    if ($category = $DB->get_record ( 'question_categories', array (
-            'id' => $categoryid 
-    ) )) {
+    if ($category = $DB->get_record('question_categories', 
+            array('id' => $categoryid
+            ))) {
         echo "Migration restricted to category \"" . $category->name . "\".<br/>\n";
         $sql .= ' AND category = :category ';
-        $params = array (
-                'category' => $categoryid 
+        $params = array('category' => $categoryid
         );
     } else {
         echo "<br/><font color='red'>Question category with ID $categoryid  not found...!</font><br/>\n";
-        die ();
+        die();
     }
 }
 
-$questions = $DB->get_records_sql ( $sql, $params );
+$questions = $DB->get_records_sql($sql, $params);
 echo '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>';
-echo 'Migrating ' . count ( $questions ) . " Matrix/Kprime questions... <br/>\n";
+echo 'Migrating ' . count($questions) . " Matrix/Kprime questions... <br/>\n";
 
 if ($dryrun) {
     echo "***********************************************************<br/>\n";
@@ -122,44 +120,49 @@ if ($dryrun) {
 
 $counter = 0;
 $notmigrated = array();
-foreach ( $questions as $question ) {
+foreach ($questions as $question) {
     
-    set_time_limit ( 60 );
-        
-    $transaction = $DB->start_delegated_transaction ();
+    set_time_limit(60);
+    
+    $transaction = $DB->start_delegated_transaction();
     
     $oldquestionid = $question->id;
     
     // Retrieve rows and columns and count them.
-    $matrix = $DB->get_record ( 'question_matrix', array (
-            'questionid' => $oldquestionid 
-    ) );
-    $rows = $DB->get_records ( 'question_matrix_rows', array (
-            'matrixid' => $matrix->id 
-    ), ' id ASC ' );
-    $rowids = array_keys ( $rows );
-    $columns = $DB->get_records ( 'question_matrix_cols', array (
-            'matrixid' => $matrix->id 
-    ), ' id ASC ' );
-
+    $matrix = $DB->get_record('question_matrix', 
+            array('questionid' => $oldquestionid
+            ));
+    $rows = $DB->get_records('question_matrix_rows', 
+            array('matrixid' => $matrix->id
+            ), ' id ASC ');
+    $rowids = array_keys($rows);
+    $columns = $DB->get_records('question_matrix_cols', 
+            array('matrixid' => $matrix->id
+            ), ' id ASC ');
+    
     if ($dryrun) {
-        echo '--------------------------------------------------------------------------------' . "<br/>\n";
+        echo '--------------------------------------------------------------------------------' .
+                 "<br/>\n";
         if (count($rows) != QTYPE_KPRIME_NUMBER_OF_OPTIONS) {
-            echo 'Question: "' . $question->name . "\" with ID " . $question->id . " would NOT migrated! It has the wrong number of options!<br/>\n";
+            echo 'Question: "' . $question->name . "\" with ID " . $question->id .
+                     " would NOT migrated! It has the wrong number of options!<br/>\n";
             $notmigrated[] = $question;
         } else if (count($columns) != QTYPE_KPRIME_NUMBER_OF_RESPONSES) {
-            echo 'Question: "' . $question->name . "\" with ID " . $question->id . " would NOT migrated! It has the wrong number of responses!<br/>\n";
+            echo 'Question: "' . $question->name . "\" with ID " . $question->id .
+                     " would NOT migrated! It has the wrong number of responses!<br/>\n";
             $notmigrated[] = $question;
         } else {
-            echo 'Question: "' . $question->name . "\" with ID " . $question->id . " would be migrated!<br/>\n";
+            echo 'Question: "' . $question->name . "\" with ID " . $question->id .
+                     " would be migrated!<br/>\n";
         }
-        echo shorten_text ( $question->questiontext, 100, false, '...' );
+        echo shorten_text($question->questiontext, 100, false, '...');
         continue;
     } else {
-        echo '--------------------------------------------------------------------------------' . "<br/>\n";
+        echo '--------------------------------------------------------------------------------' .
+                 "<br/>\n";
         echo 'Matrix Question: "' . $question->name . "\"<br/>\n";
     }
-
+    
     // If the matrix question has got too manu options or responses, we ignore it.
     if (count($rows) != QTYPE_KPRIME_NUMBER_OF_OPTIONS) {
         echo "&nbsp;&nbsp; Question has the wrong number of options! Question is not migrated.<br/>\n";
@@ -171,113 +174,112 @@ foreach ( $questions as $question ) {
         $notmigrated[] = $question;
         continue;
     }
-
+    
     // Create a new kprime question in the same category.
-    unset ( $question->id );
+    unset($question->id);
     $question->qtype = 'kprime';
     $question->name = $question->name . ' (kprime)';
-    $question->timecreated = time ();
-    $question->timemodified = time ();
+    $question->timecreated = time();
+    $question->timemodified = time();
     $question->modifiedby = $USER->id;
     $question->createdby = $USER->id;
     // Get the new question ID.
-    $question->id = $DB->insert_record ( 'question', $question );
+    $question->id = $DB->insert_record('question', $question);
     
     echo 'New Kprime Question: "' . $question->name . '" with ID ' . $question->id . "<br/>\n";
     
-    list ( $rowsql, $rowparams ) = $DB->get_in_or_equal ( $rowids, SQL_PARAMS_NAMED, 'row' );
+    list($rowsql, $rowparams) = $DB->get_in_or_equal($rowids, SQL_PARAMS_NAMED, 'row');
     
     $weightsql = "SELECT * 
                     FROM {question_matrix_weights}
                    WHERE rowid " . $rowsql;
-    $weightrecords = $DB->get_records_sql ( $weightsql, $rowparams );
-    $weights = weight_records_to_array ( $weightrecords );
+    $weightrecords = $DB->get_records_sql($weightsql, $rowparams);
+    $weights = weight_records_to_array($weightrecords);
     
     $rowcount = 1;
-    foreach ( $rows as $row ) {
+    foreach ($rows as $row) {
         // Create a new kprime row.
-        $kprimerow = new stdClass ();
+        $kprimerow = new stdClass();
         $kprimerow->questionid = $question->id;
-        $kprimerow->number = $rowcount ++;
+        $kprimerow->number = $rowcount++;
         $kprimerow->optiontext = $row->shorttext;
         $kprimerow->optiontextformat = FORMAT_HTML;
         $kprimerow->optionfeedback = $row->feedback;
         $kprimerow->optionfeedbackformat = FORMAT_HTML;
-        $kprimerow->id = $DB->insert_record ( 'qtype_kprime_rows', $kprimerow );
+        $kprimerow->id = $DB->insert_record('qtype_kprime_rows', $kprimerow);
     }
     
     $colcount = 1;
-    foreach ( $columns as $column ) {
+    foreach ($columns as $column) {
         // Create a new kprime column.
-        $kprimecolumn = new stdClass ();
+        $kprimecolumn = new stdClass();
         $kprimecolumn->questionid = $question->id;
-        $kprimecolumn->number = $colcount ++;
+        $kprimecolumn->number = $colcount++;
         $kprimecolumn->responsetext = $column->shorttext;
         $kprimecolumn->responsetextformat = FORMAT_MOODLE;
-        $kprimecolumn->id = $DB->insert_record ( 'qtype_kprime_columns', $kprimecolumn );
+        $kprimecolumn->id = $DB->insert_record('qtype_kprime_columns', $kprimecolumn);
     }
     
     // Create kprime weight entries.
     $rowcount = 1;
-    foreach ( $rows as $row ) {
+    foreach ($rows as $row) {
         $colcount = 1;
-        foreach ( $columns as $column ) {
+        foreach ($columns as $column) {
             // Create a new weight entry.
-            $kprimeweight = new stdClass ();
+            $kprimeweight = new stdClass();
             $kprimeweight->questionid = $question->id;
             $kprimeweight->rownumber = $rowcount;
             $kprimeweight->columnnumber = $colcount;
-            if (isset ( $weights [$row->id] [$column->id] )) {
-                $kprimeweight->weight = $weights [$row->id] [$column->id]->weight;
+            if (isset($weights[$row->id][$column->id])) {
+                $kprimeweight->weight = $weights[$row->id][$column->id]->weight;
             } else {
                 $kprimeweight->weight = 0.0;
             }
-            $kprimeweight->id = $DB->insert_record ( 'qtype_kprime_weights', $kprimeweight );
-            $colcount ++;
+            $kprimeweight->id = $DB->insert_record('qtype_kprime_weights', $kprimeweight);
+            $colcount++;
         }
-        $rowcount ++;
+        $rowcount++;
     }
     
     // Create the kprime options.
-    $kprime = new stdClass ();
+    $kprime = new stdClass();
     $kprime->questionid = $question->id;
     $kprime->shuffleoptions = $matrix->shuffleanswers;
-    $kprime->numberofrows = count ( $rows );
-    $kprime->numberofcolumns = count ( $columns );
+    $kprime->numberofrows = count($rows);
+    $kprime->numberofcolumns = count($columns);
     
     // Translate the grading method.
-    switch (strtolower ( trim ( $matrix->grademethod ) )) {
-        case 'all' :
+    switch (strtolower(trim($matrix->grademethod))) {
+        case 'all':
             $kprime->scoringmethod = 'subpoints';
             break;
-        case 'kany' :
+        case 'kany':
             $kprime->scoringmethod = 'kprime';
             break;
-        case 'kprime' :
+        case 'kprime':
             $kprime->scoringmethod = 'kprimeonezero';
             break;
-        default :
+        default:
             $kprime->scoringmethod = 'kprime';
     }
-    $kprime->id = $DB->insert_record ( 'qtype_kprime_options', $kprime );
+    $kprime->id = $DB->insert_record('qtype_kprime_options', $kprime);
     
-    $transaction->allow_commit ();
+    $transaction->allow_commit();
 }
 echo '--------------------------------------------------------------------------------' . "<br/>\n";
 
-$endtime = time ();
+$endtime = time();
 $used = $endtime - $starttime;
-$mins = round ( $used / 60 );
+$mins = round($used / 60);
 $used = ($used - ($mins * 60));
 
 echo "<br/>\n Done\n<br/>";
 echo "Time needed: " . $mins . " mins and " . $used . " secs.<br/>\n<br/>\n";
 
-
 echo "Questions that were not migrated:<br/>\n";
 echo " ID &nbsp;&nbsp; ,  Question Name<br/>\n";
 echo "----------------------------------------<br/>\n";
 foreach ($notmigrated as $question) {
-    echo $question->id . ' , ' . $question->name . "<br/>\n";    
+    echo $question->id . ' , ' . $question->name . "<br/>\n";
 }
-die ();
+die();

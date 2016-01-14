@@ -8,20 +8,19 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 /**
  *
- *
- * @package     qtype_kprime
- * @author      Juergen Zimmer jzimmer1000@gmail.com
- * @copyright   eDaktik 2014 andreas.hruska@edaktik.at
+ * @package qtype_kprime
+ * @author Juergen Zimmer jzimmer1000@gmail.com
+ * @copyright eDaktik 2014 andreas.hruska@edaktik.at
  */
+require_once ($CFG->dirroot . '/question/type/kprime/grading/qtype_kprime_grading.class.php');
 
-require_once($CFG->dirroot . '/question/type/kprime/grading/qtype_kprime_grading.class.php');
 
 class qtype_kprime_grading_subpoints extends qtype_kprime_grading {
 
@@ -39,6 +38,7 @@ class qtype_kprime_grading_subpoints extends qtype_kprime_grading {
      * Returns the question's grade.
      *
      * (non-PHPdoc)
+     * 
      * @see qtype_kprime_grading::grade_question()
      */
     public function grade_question($question, $answers) {
@@ -50,7 +50,8 @@ class qtype_kprime_grading_subpoints extends qtype_kprime_grading {
                 $correctrows++;
             }
         }
-        // Subpoints: For each correct response, the student gets subpoints. That is: max. points divided
+        // Subpoints: For each correct response, the student gets subpoints. That is: max. points
+        // divided
         // by number of options times number of correct options.
         return 1.0 * $correctrows / count($question->rows);
     }
