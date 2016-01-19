@@ -18,8 +18,8 @@
  * Administration settings definitions for the kprime question type.
  *
  * @package qtype_kprime
- * @author Juergen Zimmer jzimmer1000@gmail.com
- * @copyright eDaktik 2014 andreas.hruska@edaktik.at
+ * @author Amr Hourani amr.hourani@id.ethz.ch
+ * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 defined('MOODLE_INTERNAL') || die();
 

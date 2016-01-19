@@ -18,13 +18,13 @@
  * Version information for the kprime question type.
  *
  * @package qtype_kprime
- * @author Juergen Zimmer jzimmer1000@gmail.com
- * @copyright eDaktik 2014 andreas.hruska@edaktik.at
+ * @author Amr Hourani amr.hourani@id.ethz.ch
+ * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_kprime';
-$plugin->version = 2016011400;
+$plugin->version = 2016011900;
 $plugin->requires = 2013111904; // Moodle >=2.6.4.
 
 $plugin->maturity = MATURITY_STABLE;
