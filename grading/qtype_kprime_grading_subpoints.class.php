@@ -16,8 +16,8 @@
 /**
  *
  * @package qtype_kprime
- * @author Juergen Zimmer jzimmer1000@gmail.com
- * @copyright eDaktik 2014 andreas.hruska@edaktik.at
+ * @author Amr Hourani amr.hourani@id.ethz.ch
+ * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 require_once ($CFG->dirroot . '/question/type/kprime/grading/qtype_kprime_grading.class.php');
 
