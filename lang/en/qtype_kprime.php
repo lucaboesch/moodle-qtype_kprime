@@ -18,8 +18,8 @@
  * Strings for component 'qtype_kprime', language 'en'
  *
  * @package qtype_kprime
- * @author Juergen Zimmer jzimmer1000@gmail.com
- * @copyright eDaktik 2014 andreas.hruska@edaktik.at
+ * @author Amr Hourani amr.hourani@id.ethz.ch
+ * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 $string['configintro'] = 'Default values for kprime questions.';
 $string['configscoringmethod'] = 'Default scoring method for kprime questions.';
