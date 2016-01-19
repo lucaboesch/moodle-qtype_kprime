@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
-
 /**
  *
  * @package qtype_kprime
@@ -39,40 +38,33 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
         $pluginwrapper = new backup_nested_element($name);
         // Connect the visible container ASAP.
         $plugin->add_child($pluginwrapper);
-        
         // Now create the qtype own structures.
         $kprime = new backup_nested_element('kprime', array('id'
         ), 
                 array('scoringmethod', 'shuffleoptions', 'numberofrows', 'numberofcolumns'
                 ));
-        
         $rows = new backup_nested_element('rows');
         $row = new backup_nested_element('row', array('id'
         ), 
                 array('number', 'optiontext', 'optiontextformat', 'optionfeedback', 
                     'optionfeedbackformat'
                 ));
-        
         $columns = new backup_nested_element('columns');
         $column = new backup_nested_element('column', array('id'
         ), array('number', 'responsetext', 'responsetextformat'
         ));
-        
         $weights = new backup_nested_element('weights');
         $weight = new backup_nested_element('weight', array('id'
         ), array('rownumber', 'columnnumber', 'weight'
         ));
-        
         // Now the qtype tree.
         $pluginwrapper->add_child($kprime);
         $pluginwrapper->add_child($rows);
         $pluginwrapper->add_child($columns);
         $pluginwrapper->add_child($weights);
-        
         $rows->add_child($row);
         $columns->add_child($column);
         $weights->add_child($weight);
-        
         // Set sources to populate the data.
         $kprime->set_source_table('qtype_kprime_options', 
                 array('questionid' => backup::VAR_PARENTID
@@ -86,7 +78,6 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
         $weight->set_source_table('qtype_kprime_weights', 
                 array('questionid' => backup::VAR_PARENTID
                 ));
-        
         // We don't need to annotate ids nor files.
         return $plugin;
     }

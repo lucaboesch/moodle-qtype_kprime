@@ -40,4 +40,3 @@ Die Bewertungsmethoden werden wiefolgt migriert:
        'kprime'      =>   'kprimeonezero'
 
  default :  'kprime'
-
