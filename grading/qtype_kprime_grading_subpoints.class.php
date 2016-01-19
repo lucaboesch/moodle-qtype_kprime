@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -38,7 +39,7 @@ class qtype_kprime_grading_subpoints extends qtype_kprime_grading {
      * Returns the question's grade.
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see qtype_kprime_grading::grade_question()
      */
     public function grade_question($question, $answers) {

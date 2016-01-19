@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -59,7 +60,7 @@ function weight_records_to_array($weightrecords) {
 
 $starttime = time();
 
-$sql = "SELECT q.* 
+$sql = "SELECT q.*
         FROM {question} q
         WHERE q.qtype = 'matrix'
         ";
@@ -95,9 +96,8 @@ if ($courseid > 0) {
 }
 
 if ($categoryid > 0) {
-    if ($category = $DB->get_record('question_categories', 
-            array('id' => $categoryid
-            ))) {
+    if ($category = $DB->get_record('question_categories', array('id' => $categoryid
+    ))) {
         echo "Migration restricted to category \"" . $category->name . "\".<br/>\n";
         $sql .= ' AND category = :category ';
         $params = array('category' => $categoryid
@@ -132,9 +132,8 @@ foreach ($questions as $question) {
     $matrix = $DB->get_record('question_matrix', 
             array('questionid' => $oldquestionid
             ));
-    $rows = $DB->get_records('question_matrix_rows', 
-            array('matrixid' => $matrix->id
-            ), ' id ASC ');
+    $rows = $DB->get_records('question_matrix_rows', array('matrixid' => $matrix->id
+    ), ' id ASC ');
     $rowids = array_keys($rows);
     $columns = $DB->get_records('question_matrix_cols', 
             array('matrixid' => $matrix->id
@@ -190,7 +189,7 @@ foreach ($questions as $question) {
     
     list($rowsql, $rowparams) = $DB->get_in_or_equal($rowids, SQL_PARAMS_NAMED, 'row');
     
-    $weightsql = "SELECT * 
+    $weightsql = "SELECT *
                     FROM {question_matrix_weights}
                    WHERE rowid " . $rowsql;
     $weightrecords = $DB->get_records_sql($weightsql, $rowparams);

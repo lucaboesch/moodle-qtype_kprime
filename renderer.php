@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -220,7 +221,7 @@ class qtype_kprime_renderer extends qtype_renderer {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see qtype_renderer::correct_response()
      */
     public function correct_response(question_attempt $qa) {
@@ -236,11 +237,10 @@ class qtype_kprime_renderer extends qtype_renderer {
             
             $result[] = ' ' . $question->make_html_inline(
                     $question->format_text($row->optiontext, $row->optiontextformat, $qa, 
-                            'qtype_kprime', 'optiontext', $rowid)) . ': ' .
-                     $question->make_html_inline(
-                            $question->format_text($correctcolumn->responsetext, 
-                                    $correctcolumn->responsetextformat, $qa, 'question', 'response', 
-                                    $correctcolumn->id));
+                            'qtype_kprime', 'optiontext', $rowid)) . ': ' . $question->make_html_inline(
+                    $question->format_text($correctcolumn->responsetext, 
+                            $correctcolumn->responsetextformat, $qa, 'question', 'response', 
+                            $correctcolumn->id));
         }
         if (!empty($result)) {
             $response = '<ul style="list-style-type: none;"><li>';

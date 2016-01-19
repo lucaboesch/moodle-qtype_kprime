@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -23,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Upgrade code for the kprime question type.
- * 
+ *
  * @param int $oldversion the version we are upgrading from.
  */
 function xmldb_qtype_kprime_upgrade($oldversion) {

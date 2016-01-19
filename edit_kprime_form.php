@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -39,7 +40,7 @@ class qtype_kprime_edit_form extends question_edit_form {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see myquestion_edit_form::qtype()
      */
     public function qtype() {
@@ -168,8 +169,9 @@ class qtype_kprime_edit_form extends question_edit_form {
             if (!empty($this->question->createdby)) {
                 $a->time = userdate($this->question->timecreated);
                 $a->user = fullname(
-                        $DB->get_record('user', array('id' => $this->question->createdby
-                        )));
+                        $DB->get_record('user', 
+                                array('id' => $this->question->createdby
+                                )));
             } else {
                 $a->time = get_string('unknown', 'question');
                 $a->user = get_string('unknown', 'question');
@@ -180,8 +182,9 @@ class qtype_kprime_edit_form extends question_edit_form {
                 $a = new stdClass();
                 $a->time = userdate($this->question->timemodified);
                 $a->user = fullname(
-                        $DB->get_record('user', array('id' => $this->question->modifiedby
-                        )));
+                        $DB->get_record('user', 
+                                array('id' => $this->question->modifiedby
+                                )));
                 $mform->addElement('static', 'modified', get_string('modified', 'question'), 
                         get_string('byandon', 'question', $a));
             }
@@ -223,8 +226,9 @@ class qtype_kprime_edit_form extends question_edit_form {
             if ($i == 1) {
                 $label = get_string('responsetexts', 'qtype_kprime');
             }
-            $mform->addElement('text', 'responsetext_' . $i, $label, array('size' => 6
-            ));
+            $mform->addElement('text', 'responsetext_' . $i, $label, 
+                    array('size' => 6
+                    ));
             $mform->setType('responsetext_' . $i, PARAM_TEXT);
             $mform->addRule('responsetext_' . $i, null, 'required', null, 'client');
             
@@ -321,7 +325,8 @@ class qtype_kprime_edit_form extends question_edit_form {
         
         // Add the shuffleoptions checkbox.
         $mform->addElement('advcheckbox', 'shuffleoptions', 
-                get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1
+                get_string('shuffleoptions', 'qtype_kprime'), null, null, 
+                array(0, 1
                 ));
         $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
         
@@ -336,7 +341,7 @@ class qtype_kprime_edit_form extends question_edit_form {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see question_edit_form::data_preprocessing()
      */
     protected function data_preprocessing($question) {
@@ -381,7 +386,7 @@ class qtype_kprime_edit_form extends question_edit_form {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see question_edit_form::validation()
      */
     public function validation($data, $files) {

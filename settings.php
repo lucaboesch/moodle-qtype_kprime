@@ -1,5 +1,5 @@
 <?php
-// This file is for Moodle - http://moodle.org/
+// This file is part of qtype_kprime for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * Administration settings definitions for the kprime question type.

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -76,8 +77,9 @@ class backup_qtype_kprime_plugin extends backup_qtype_plugin {
         $kprime->set_source_table('qtype_kprime_options', 
                 array('questionid' => backup::VAR_PARENTID
                 ));
-        $row->set_source_table('qtype_kprime_rows', array('questionid' => backup::VAR_PARENTID
-        ), 'number ASC');
+        $row->set_source_table('qtype_kprime_rows', 
+                array('questionid' => backup::VAR_PARENTID
+                ), 'number ASC');
         $column->set_source_table('qtype_kprime_columns', 
                 array('questionid' => backup::VAR_PARENTID
                 ), 'number ASC');

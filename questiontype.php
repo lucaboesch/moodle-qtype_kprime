@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -35,7 +36,7 @@ class qtype_kprime extends question_type {
      * Sets the default options for the question.
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::set_default_options()
      */
     public function set_default_options($question) {
@@ -92,7 +93,7 @@ class qtype_kprime extends question_type {
      * Loads the question options, rows, columns and weights from the database.
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::get_question_options()
      */
     public function get_question_options($question) {
@@ -142,7 +143,7 @@ class qtype_kprime extends question_type {
      * Stores the question options in the database.
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::save_question_options()
      */
     public function save_question_options($question) {
@@ -152,8 +153,9 @@ class qtype_kprime extends question_type {
         $result = new stdClass();
         
         // Insert all the new options.
-        $options = $DB->get_record('qtype_kprime_options', array('questionid' => $question->id
-        ));
+        $options = $DB->get_record('qtype_kprime_options', 
+                array('questionid' => $question->id
+                ));
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $question->id;
@@ -173,8 +175,9 @@ class qtype_kprime extends question_type {
         $this->save_hints($question, true);
         
         // Insert all the new rows.
-        $oldrows = $DB->get_records('qtype_kprime_rows', array('questionid' => $question->id
-        ), 'number ASC');
+        $oldrows = $DB->get_records('qtype_kprime_rows', 
+                array('questionid' => $question->id
+                ), 'number ASC');
         
         for ($i = 1; $i <= $options->numberofrows; $i++) {
             $row = array_shift($oldrows);
@@ -211,8 +214,9 @@ class qtype_kprime extends question_type {
         // $DB->delete_records('qtype_kprimw_rows', array('id' => $oldrow->id));
         // }
         
-        $oldcolumns = $DB->get_records('qtype_kprime_columns', array('questionid' => $question->id
-        ), 'number ASC');
+        $oldcolumns = $DB->get_records('qtype_kprime_columns', 
+                array('questionid' => $question->id
+                ), 'number ASC');
         
         // Insert all new columns.
         for ($i = 1; $i <= $options->numberofcolumns; $i++) {
@@ -292,7 +296,7 @@ class qtype_kprime extends question_type {
      * Custom method for deleting kprime questions.
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::delete_question()
      */
     public function delete_question($questionid, $contextid) {
@@ -328,7 +332,7 @@ class qtype_kprime extends question_type {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::get_random_guess_score()
      */
     public function get_random_guess_score($questiondata) {
@@ -347,7 +351,7 @@ class qtype_kprime extends question_type {
     /**
      *
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::get_possible_responses()
      */
     public function get_possible_responses($questiondata) {
@@ -368,13 +372,13 @@ class qtype_kprime extends question_type {
                     $partialcredit = 1 / count($question->rows);
                 }
                 $correctreponse = "";
-                if ($weights[$row->number][$column->number]->weight > 0) { // is it correct response?
+                if ($weights[$row->number][$column->number]->weight > 0) { // is it correct
+                                                                           // response?
                     $correctreponse = " (" . get_string('correctresponse', 'qtype_kprime') . ")";
                 }
                 $choices[$columnid] = new question_possible_response(
                         question_utils::to_plain_text($row->optiontext, $row->optiontextformat) .
-                                 ": " .
-                                 question_utils::to_plain_text(
+                                 ": " . question_utils::to_plain_text(
                                         $column->responsetext . $correctreponse, 
                                         $column->responsetextformat), $partialcredit);
             }
@@ -388,7 +392,7 @@ class qtype_kprime extends question_type {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::move_files()
      */
     public function move_files($questionid, $oldcontextid, $newcontextid) {
@@ -398,7 +402,7 @@ class qtype_kprime extends question_type {
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see question_type::delete_files()
      */
     protected function delete_files($questionid, $contextid) {
@@ -409,7 +413,7 @@ class qtype_kprime extends question_type {
     /**
      * Move all the files belonging to this question's options and feedbacks
      * when the question is moved from one context to another.
-     * 
+     *
      * @param int $questionid the question being moved.
      * @param int $oldcontextid the context it is moving from.
      * @param int $newcontextid the context it is moving to.
@@ -422,8 +426,9 @@ class qtype_kprime extends question_type {
         
         $fs = get_file_storage();
         
-        $rowids = $DB->get_records_menu('qtype_kprime_rows', array('question' => $questionid
-        ), 'id', 'id,1');
+        $rowids = $DB->get_records_menu('qtype_kprime_rows', 
+                array('question' => $questionid
+                ), 'id', 'id,1');
         foreach ($rowids as $rowid => $notused) {
             $fs->move_area_files_to_new_context($oldcontextid, $newcontextid, 'qtype_kprime', 
                     'optiontext', $rowid);
@@ -443,8 +448,9 @@ class qtype_kprime extends question_type {
         global $DB;
         $fs = get_file_storage();
         
-        $rowids = $DB->get_records_menu('qtype_kprime_rows', array('questionid' => $questionid
-        ), 'id', 'id,1');
+        $rowids = $DB->get_records_menu('qtype_kprime_rows', 
+                array('questionid' => $questionid
+                ), 'id', 'id,1');
         
         foreach ($rowids as $rowid => $notused) {
             $fs->delete_area_files($contextid, 'qtype_kprime', 'optiontext', $rowid);
@@ -549,10 +555,12 @@ class qtype_kprime extends question_type {
         $question->shuffleoptions = $format->trans_single(
                 $format->getpath($data, array('#', 'shuffleoptions', 0, '#'
                 ), 1));
-        $question->numberofrows = $format->getpath($data, array('#', 'numberofrows', 0, '#'
-        ), QTYPE_KPRIME_NUMBER_OF_OPTIONS);
-        $question->numberofcolumns = $format->getpath($data, array('#', 'numberofcolumns', 0, '#'
-        ), QTYPE_KPRIME_NUMBER_OF_RESPONSES);
+        $question->numberofrows = $format->getpath($data, 
+                array('#', 'numberofrows', 0, '#'
+                ), QTYPE_KPRIME_NUMBER_OF_OPTIONS);
+        $question->numberofcolumns = $format->getpath($data, 
+                array('#', 'numberofcolumns', 0, '#'
+                ), QTYPE_KPRIME_NUMBER_OF_RESPONSES);
         
         $rows = $data['#']['row'];
         $i = 1;
@@ -565,8 +573,9 @@ class qtype_kprime extends question_type {
                     array('#', 'optiontext', 0, '#', 'text', 0, '#'
                     ), '', true);
             $question->{'option_' . $number}['format'] = $format->trans_format(
-                    $format->getpath($row, array('#', 'optiontext', 0, '@', 'format'
-                    ), FORMAT_HTML));
+                    $format->getpath($row, 
+                            array('#', 'optiontext', 0, '@', 'format'
+                            ), FORMAT_HTML));
             
             $question->{'option_' . $number}['files'] = array();
             
@@ -586,13 +595,15 @@ class qtype_kprime extends question_type {
                     array('#', 'feedbacktext', 0, '#', 'text', 0, '#'
                     ), '', true);
             $question->{'feedback_' . $number}['format'] = $format->trans_format(
-                    $format->getpath($row, array('#', 'feedbacktext', 0, '@', 'format'
-                    ), FORMAT_HTML));
+                    $format->getpath($row, 
+                            array('#', 'feedbacktext', 0, '@', 'format'
+                            ), FORMAT_HTML));
             
             // Restore files in option feedback.
             $question->{'feedback_' . $number}['files'] = array();
-            $files = $format->getpath($row, array('#', 'feedbacktext', 0, '#', 'file'
-            ), array(), false);
+            $files = $format->getpath($row, 
+                    array('#', 'feedbacktext', 0, '#', 'file'
+                    ), array(), false);
             
             foreach ($files as $file) {
                 $filesdata = new stdclass();

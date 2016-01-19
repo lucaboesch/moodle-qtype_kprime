@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+
 /**
  *
  * @package qtype_kprime
@@ -159,7 +160,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
     /**
      * Recode the option order as stored in the response.
-     * 
+     *
      * @param string $order the original order.
      * @return string the recoded order.
      */
