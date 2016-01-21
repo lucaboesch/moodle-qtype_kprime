@@ -1,4 +1,4 @@
-# moodle-qtype_kprime v 2016011900 (2016/01/19)
+# moodle-qtype_kprime v 2016012100 (2016/01/21)
 
 Das Skript mig_matrix_to_kprime.php migriert alte ETHZ Matrix Fragen in
 den neuen Fragentyp qtype_kprime. Es werden keine Fragen überschrieben
