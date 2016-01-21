@@ -1,5 +1,5 @@
 <?php
-// This file is part of qtype_kprime for Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -8,27 +8,19 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
  * @package qtype_kprime
  * @author Amr Hourani amr.hourani@id.ethz.ch
  * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 defined('MOODLE_INTERNAL') || die();
 
-
-/**
- * Represents a kprime question, a all-or-nothing variant of matrix questions.
- *
- * @copyright 2009 The Open University
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class qtype_kprime_question extends question_graded_automatically_with_countback {
 
     public $rows;
@@ -46,10 +38,10 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     public $numberofcols;
 
     public $order = null;
-    
+
     // All the methods needed for option shuffling.
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see question_definition::start_attempt()
      */
@@ -62,7 +54,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see question_definition::apply_attempt_state()
      */
@@ -70,25 +62,15 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         $this->order = explode(',', $step->get_qt_var('_order'));
     }
 
-    /*
-     * public function get_question_summary() {
-     * $question = $this->html_to_text($this->questiontext, $this->questiontextformat);
-     * $choices = array();
-     * foreach ($this->order as $rowid) {
-     * $choices[] = $this->html_to_text($this->rows[$rowid]->optiontext,
-     * $this->rows[$rowid]->optiontextformat);
-     * }
-     * return $question . ': ' . implode('; ', $choices);
-     * }
-     */
-    
     /**
      *
      * @param question_attempt $qa
+     *
      * @return multitype:
      */
     public function get_order(question_attempt $qa) {
         $this->init_order($qa);
+
         return $this->order;
     }
 
@@ -110,10 +92,11 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param mixed $row
      * @param mixed $col
+     *
      * @return type
      */
     public function field($key) {
-        return "option" . $key;
+        return 'option' . $key;
     }
 
     /**
@@ -123,7 +106,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @param type $row
      * @param type $col
      *
-     * @return boolean
+     * @return bool
      */
     public function is_answered($response, $rownumber) {
         $field = $this->field($rownumber);
@@ -136,11 +119,12 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param string $row The row number.
      * @param string $col The column number
-     * @return boolean
+     *
+     * @return bool
      */
     public function is_correct($row, $col) {
         $weight = $this->weight($row, $col);
-        
+
         if ($weight > 0.0) {
             return 1;
         } else {
@@ -153,12 +137,14 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param mixed $row A row object or a row number.
      * @param mixed $col A column object or a column number.
+     *
      * @return float
      */
     public function weight($row = null, $col = null) {
         $rownumber = is_object($row) ? $row->number : $row;
         $colnumber = is_object($col) ? $col->number : $col;
         $weight = (float) $this->weights[$rownumber][$colnumber]->weight;
+
         return $weight;
     }
 
@@ -178,6 +164,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param array $response responses, as returned by
      *        {@link question_attempt_step::get_qt_data()}.
+     *
      * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
@@ -187,6 +174,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 return false;
             }
         }
+
         return true;
     }
 
@@ -201,47 +189,48 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         if ($isgradable) {
             return '';
         }
-        // return qtype_kprime::get_string('oneanswerperrow');
         return get_string('oneanswerperrow', 'qtype_kprime');
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
-        return true; // $this->is_complete_response($response);
+        return true;
     }
 
     /**
      * Produce a plain text summary of a response.
      *
      * @param $response a response, as might be passed to {@link grade_response()}.
+     *
      * @return string a plain text summary of that response, that could be used in reports.
      */
     public function summarise_response(array $response) {
         $result = array();
-        
+
         foreach ($this->order as $key => $rowid) {
             $field = $this->field($key);
             $row = $this->rows[$rowid];
-            
+
             if (isset($response[$field])) {
                 foreach ($this->columns as $column) {
                     if ($column->number == $response[$field]) {
                         $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat) .
-                                 ': ' . $this->html_to_text($column->responsetext, 
-                                        $column->responsetextformat);
+                        ': ' . $this->html_to_text($column->responsetext,
+                        $column->responsetextformat);
                     }
                 }
             }
         }
-        return implode("; ", $result);
+
+        return implode('; ', $result);
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see question_with_responses::classify_response()
      */
@@ -251,15 +240,15 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         foreach ($this->order as $key => $rowid) {
             $field = $this->field($key);
             $row = $this->rows[$rowid];
-            
+
             if (array_key_exists($field, $response) && $response[$field]) {
                 $selectedcolumns[$rowid] = $response[$field];
             } else {
                 $selectedcolumns[$rowid] = 0;
             }
         }
-        
-        // Now calculate the classification
+
+        // Now calculate the classification.
         $parts = array();
         foreach ($this->rows as $rowid => $row) {
             $field = $this->field($key);
@@ -267,7 +256,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 $parts[$rowid] = question_classified_response::no_response();
                 continue;
             }
-            // Find the chosen column by columnnumber
+            // Find the chosen column by columnnumber.
             $column = null;
             foreach ($this->columns as $colid => $col) {
                 if ($col->number == $selectedcolumns[$rowid]) {
@@ -279,16 +268,17 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             if ($this->scoringmethod == 'subpoints') {
                 $partialcredit = 0.0;
             } else {
-                $partialcredit = -999; // due to non-linear math - Tobias
+                $partialcredit = -999; // Due to non-linear math.
             }
             if ($this->scoringmethod == 'subpoints' &&
                      $this->weights[$row->number][$column->number]->weight > 0) {
                 $partialcredit = 1 / count($this->rows);
             }
-            
-            $parts[$rowid] = new question_classified_response($column->id, $column->responsetext, 
+
+            $parts[$rowid] = new question_classified_response($column->id, $column->responsetext,
                     $partialcredit);
         }
+
         return $parts;
     }
 
@@ -301,6 +291,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @param array $prevresponse the responses previously recorded for this question,
      *        as returned by {@link question_attempt_step::get_qt_data()}
      * @param array $newresponse the new responses, in the same format.
+     *
      * @return bool whether the two sets of responses are the same - that is
      *         whether the new set of responses can safely be discarded.
      */
@@ -317,7 +308,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -333,7 +324,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         foreach ($this->order as $key => $rowid) {
             $row = $this->rows[$rowid];
             $field = $this->field($key);
-            
+
             foreach ($this->columns as $column) {
                 $weight = $this->weight($row, $column);
                 if ($weight > 0) {
@@ -345,6 +336,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 }
             }
         }
+
         return $result;
     }
 
@@ -355,11 +347,12 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function grading() {
         global $CFG;
-        
+
         $type = $this->scoringmethod;
         $gradingclass = 'qtype_kprime_grading_' . $type;
-        
-        require_once ($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
+
+        require_once($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
+
         return new $gradingclass();
     }
 
@@ -370,11 +363,13 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param array $response responses, as returned by
      *        {@link question_attempt_step::get_qt_data()}.
+     *
      * @return array (number, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
         $grade = $this->grading()->grade_question($this, $response);
         $state = question_state::graded_state_for_fraction($grade);
+
         return array($grade, $state
         );
     }
@@ -396,12 +391,13 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             $field = $this->field($key);
             $result[$field] = PARAM_INT;
         }
+
         return $result;
     }
 
     /**
      * Returns an array where keys are the cell names and the values
-     * are the weights
+     * are the weights.
      *
      * @return array
      */
@@ -414,20 +410,23 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 $result[$field] = $this->weight($row->number, $column->number);
             }
         }
+
         return $result;
     }
 
     /**
      * Makes HTML text (e.g.
-     * option or feedback texts) suitable for inline presentation in renderer.php
+     * option or feedback texts) suitable for inline presentation in renderer.php.
      *
      * @param string html The HTML code.
+     *
      * @return string the purified HTML code without paragraph elements and line breaks.
      */
     public function make_html_inline($html) {
         $html = preg_replace('~\s*<p>\s*~u', '', $html);
         $html = preg_replace('~\s*</p>\s*~u', '<br />', $html);
         $html = preg_replace('~(<br\s*/?>)+$~u', '', $html);
+
         return trim($html);
     }
 
@@ -438,6 +437,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      *
      * @param string $text The HTML to reduce to plain text.
      * @param int $format the FORMAT_... constant.
+     *
      * @return string the equivalent plain text.
      */
     public function html_to_text($text, $format) {
@@ -448,7 +448,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         $totalstemscore = 0;
         foreach ($this->order as $key => $rowid) {
             $fieldname = $this->field($key);
-            
+
             $lastwrongindex = -1;
             $finallyright = false;
             foreach ($responses as $i => $response) {
@@ -460,17 +460,17 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                     $finallyright = true;
                 }
             }
-            
+
             if ($finallyright) {
                 $totalstemscore += max(0, 1 - ($lastwrongindex + 1) * $this->penalty);
             }
         }
-        
+
         return $totalstemscore / count($this->stemorder);
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
      *
      * @see question_definition::check_file_access()
      */
@@ -479,14 +479,13 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             return true;
         } else if ($component == 'qtype_kprime' && $filearea == 'feedbacktext') {
             return true;
-        } else if ($component == 'question' && in_array($filearea, 
-                array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'
-                ))) {
+        } else if ($component == 'question' && in_array($filearea,
+          array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
             return $this->check_combined_feedback_file_access($qa, $options, $filearea);
         } else if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
-            return parent::check_file_access($qa, $options, $component, $filearea, $args, 
+            return parent::check_file_access($qa, $options, $component, $filearea, $args,
                     $forcedownload);
         }
     }
