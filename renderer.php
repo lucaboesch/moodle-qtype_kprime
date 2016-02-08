@@ -155,11 +155,11 @@ class qtype_kprime_renderer extends qtype_renderer {
                 // Show correctness icon with radio button if needed.
                 if ($displayoptions->correctness) {
                     $weight = $question->weight($row->number, $column->number);
-                    $radio .= '<span class="greyingout">' . $this->feedback_image($weight > 0.0) .
+                    $radio .= '<span class="kprimegreyingout">' . $this->feedback_image($weight > 0.0) .
                              '</span>';
                 }
                 $cell = new html_table_cell($radio);
-                $cell->attributes['class'] = 'responsebutton';
+                $cell->attributes['class'] = 'kprimeresponsebutton';
                 $rowdata[] = $cell;
             }
 
@@ -182,7 +182,7 @@ class qtype_kprime_renderer extends qtype_renderer {
                                         $question->format_text($row->optionfeedback,
                                                 $row->optionfeedbackformat, $qa, 'qtype_kprime',
                                                 'feedbacktext', $rowid)),
-                                array('class' => 'specificfeedback')));
+                                array('class' => 'kprimespecificfeedback')));
                 $rowdata[] = $cell;
             }
             $table->data[] = $rowdata;
