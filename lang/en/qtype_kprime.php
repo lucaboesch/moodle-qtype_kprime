@@ -50,8 +50,7 @@ $string['save'] = 'Save';
 $string['scoringkprime'] = 'Kprime';
 $string['scoringkprimeonezero'] = 'Kprime1/0';
 $string['scoringmethod'] = 'Scoring method';
-$string['scoringmethod_help'] = '<strong>Kprime:</strong> The student receives one point if all responses are correct, half a point if all save one response
- are correct, and zero points otherwise.<br/><strong>Kprime 1/0:</strong> The student receives one point if all responses are correct, and zero points otherwise.
+$string['scoringmethod_help'] = '<strong>Kprime:</strong> The student receives full marks if all responses are correct, a 50% mark if all save one response are correct, and zero points otherwise.<br/><strong>Kprime 1/0:</strong> The student receives full marks if all responses are correct, and zero points otherwise.
         <br/><strong>Subpoints:</strong> The student is awarded subpoints for each correct response.';
 $string['scoringsubpoints'] = 'Subpoints';
 $string['shuffleoptions'] = 'Shuffle options';
