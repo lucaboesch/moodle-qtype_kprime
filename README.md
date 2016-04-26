@@ -1,1 +1,1 @@
-# moodle-qtype_kprime v 2016020800 (2016/02/08)
+# moodle-qtype_kprime v 2016042600 for moodle 2.6+ (2016/04/26)
