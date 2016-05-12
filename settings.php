@@ -36,7 +36,7 @@ if ($ADMIN->fulltree) {
     $settings->add(
             new admin_setting_configselect('qtype_kprime/scoringmethod',
                     get_string('scoringmethod', 'qtype_kprime'),
-                    get_string('configscoringmethod', 'qtype_kprime'), 'kprime', $options));
+                    get_string('scoringmethod_help', 'qtype_kprime'), 'kprime', $options));
 
     // Shuffle options.
     $settings->add(
