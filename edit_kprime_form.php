@@ -173,6 +173,25 @@ class qtype_kprime_edit_form extends question_edit_form {
                 get_string('byandon', 'question', $a));
             }
         }
+		// Save and Keep Editing and Preview (if possible)
+		global $PAGE;
+        $buttonarray = array();
+        $buttonarray[] = $mform->createElement('submit', 'updatebutton',
+                              get_string('savechangesandcontinueediting', 'question'));
+        if ($this->can_preview()) {
+             $previewlink = $PAGE->get_renderer('core_question')->question_preview_link(
+                     $this->question->id, $this->context, true);
+              $buttonarray[] = $mform->createElement('static', 'previewlink', '', $previewlink);
+        }
+  
+        $mform->addGroup($buttonarray, 'updatebuttonar', '', array(' '), false);
+        $mform->closeHeaderBefore('updatebuttonar');
+ 
+        if ((!empty($this->question->id)) && (!($this->question->formoptions->canedit ||
+                 $this->question->formoptions->cansaveasnew))) {
+              $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'));
+        }
+		
         $this->add_hidden_fields();
         $this->add_action_buttons();
     }
@@ -200,6 +219,27 @@ class qtype_kprime_edit_form extends question_edit_form {
         $mform->addElement('hidden', 'numberofcolumns', $this->numberofcolumns);
         $mform->setType('numberofcolumns', PARAM_INT);
 
+        $mform->addElement('header', 'scoringmethodheader',
+        get_string('scoringmethod', 'qtype_kprime'));
+        // Add the scoring method radio buttons.
+        $attributes = array();
+        $scoringbuttons = array();
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+                get_string('scoringkprime', 'qtype_kprime'), 'kprime', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+                get_string('scoringkprimeonezero', 'qtype_kprime'), 'kprimeonezero', $attributes);
+        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
+                get_string('scoringsubpoints', 'qtype_kprime'), 'subpoints', $attributes);
+        $mform->addGroup($scoringbuttons, 'radiogroupscoring',
+        get_string('scoringmethod', 'qtype_kprime'), array(' <br/> '), false);
+        $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_kprime');
+        $mform->setDefault('scoringmethod', 'kprime');
+
+        // Add the shuffleoptions checkbox.
+        $mform->addElement('advcheckbox', 'shuffleoptions',
+        get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1));
+        $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
+		
         $mform->addElement('header', 'optionsandfeedbackheader',
                 get_string('optionsandfeedback', 'qtype_kprime'));
 
@@ -284,26 +324,6 @@ class qtype_kprime_edit_form extends question_edit_form {
             $mform->addElement('html', '</div>'); // Close div.feedbacktext.
             $mform->addElement('html', '</div><br />'); // Close div.optionbox.
         }
-        $mform->addElement('header', 'scoringmethodheader',
-        get_string('scoringmethod', 'qtype_kprime'));
-        // Add the scoring method radio buttons.
-        $attributes = array();
-        $scoringbuttons = array();
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringkprime', 'qtype_kprime'), 'kprime', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringkprimeonezero', 'qtype_kprime'), 'kprimeonezero', $attributes);
-        $scoringbuttons[] = &$mform->createElement('radio', 'scoringmethod', '',
-                get_string('scoringsubpoints', 'qtype_kprime'), 'subpoints', $attributes);
-        $mform->addGroup($scoringbuttons, 'radiogroupscoring',
-        get_string('scoringmethod', 'qtype_kprime'), array(' <br/> '), false);
-        $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_kprime');
-        $mform->setDefault('scoringmethod', 'kprime');
-
-        // Add the shuffleoptions checkbox.
-        $mform->addElement('advcheckbox', 'shuffleoptions',
-        get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1));
-        $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
 
         $mform->addElement('hidden', 'qtype');
         $mform->setType('qtype', PARAM_ALPHA);
