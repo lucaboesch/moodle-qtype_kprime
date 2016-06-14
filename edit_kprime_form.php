@@ -174,6 +174,7 @@ class qtype_kprime_edit_form extends question_edit_form {
             }
         }
 		// Save and Keep Editing and Preview (if possible)
+		// LMDL-133
 		global $PAGE;
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'updatebutton',
@@ -183,15 +184,15 @@ class qtype_kprime_edit_form extends question_edit_form {
                      $this->question->id, $this->context, true);
               $buttonarray[] = $mform->createElement('static', 'previewlink', '', $previewlink);
         }
-  
+
         $mform->addGroup($buttonarray, 'updatebuttonar', '', array(' '), false);
         $mform->closeHeaderBefore('updatebuttonar');
- 
+
         if ((!empty($this->question->id)) && (!($this->question->formoptions->canedit ||
                  $this->question->formoptions->cansaveasnew))) {
               $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'));
         }
-		
+
         $this->add_hidden_fields();
         $this->add_action_buttons();
     }
@@ -239,7 +240,7 @@ class qtype_kprime_edit_form extends question_edit_form {
         $mform->addElement('advcheckbox', 'shuffleoptions',
         get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1));
         $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
-		
+
         $mform->addElement('header', 'optionsandfeedbackheader',
                 get_string('optionsandfeedback', 'qtype_kprime'));
 
