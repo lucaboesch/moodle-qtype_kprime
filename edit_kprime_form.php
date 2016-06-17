@@ -142,13 +142,14 @@ class qtype_kprime_edit_form extends question_edit_form {
 
         // Any questiontype specific fields.
         $this->definition_inner($mform);
-        /*
-        if (!empty($CFG->usetags)) {
-            $mform->addElement('header', 'tagsheader', get_string('tags'));
-            $mform->addElement('tags', 'tags', get_string('tags'));
-            // See API 3 https://docs.moodle.org/dev/Tag_API_3_Specification
-        }
-        */
+
+		// TAGS - See API 3 https://docs.moodle.org/dev/Tag_API_3_Specification
+		if(class_exists('core_tag_tag')) { // Started from moodle 3.1 but we dev for 2.6+
+			if (core_tag_tag::is_enabled('core_question', 'question')) {
+				$mform->addElement('header', 'tagshdr', get_string('tags', 'tag'));
+				$mform->addElement('tags', 'tags', get_string('tags'), array('itemtype' => 'kprime', 'component' => 'qtype_kprime'));
+			}
+		}
         if (!empty($this->question->id)) {
             $mform->addElement('header', 'createdmodifiedheader',
                     get_string('createdmodifiedheader', 'question'));
