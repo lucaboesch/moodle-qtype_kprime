@@ -8,18 +8,20 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ *
  * @package qtype_kprime
  * @author Amr Hourani amr.hourani@id.ethz.ch
  * @copyright ETHz 2016 amr.hourani@id.ethz.ch
  */
 defined('MOODLE_INTERNAL') || die();
+
 
 class qtype_kprime_question extends question_graded_automatically_with_countback {
 
@@ -38,6 +40,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     public $numberofcols;
 
     public $order = null;
+
+    public $editedquestion;
 
     // All the methods needed for option shuffling.
     /**
@@ -60,6 +64,25 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function apply_attempt_state(question_attempt_step $step) {
         $this->order = explode(',', $step->get_qt_var('_order'));
+
+        // Add any missing answers. Sometimes people edit questions after they
+        // have been attempted which breaks things.
+        // Retrieve the question rows (mtf options).
+
+        if (!isset($this->rows[$this->order[0]])) {
+            global $DB;
+            $rows = $DB->get_records('qtype_kprime_rows',
+                    array('questionid' => $this->id
+                    ), 'number ASC', 'id, number', 0, $this->numberofrows);
+
+            $arr = array();
+            foreach ($rows as $r) {
+                $arr[$r->number - 1] = $r->id;
+            }
+            unset($this->order);
+            $this->order = $arr;
+            $this->editedquestion = 1;
+        }
     }
 
     /**
@@ -168,14 +191,24 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
-        // A response is complete if a field exists in the response for every row.
-        foreach ($this->order as $key => $rowid) {
-            if (!isset($response[$this->field($key)])) {
-                return false;
-            }
+        if (count($response) == count($this->rows)) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        return true;
+    /**
+     * (non-PHPdoc).
+     *
+     * @see question_graded_automatically::is_gradable_response()
+     */
+    public function is_gradable_response(array $response) {
+        if (count($response) == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -190,15 +223,6 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             return '';
         }
         return get_string('oneanswerperrow', 'qtype_kprime');
-    }
-
-    /**
-     * (non-PHPdoc).
-     *
-     * @see question_graded_automatically::is_gradable_response()
-     */
-    public function is_gradable_response(array $response) {
-        return true;
     }
 
     /**
@@ -219,8 +243,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 foreach ($this->columns as $column) {
                     if ($column->number == $response[$field]) {
                         $result[] = $this->html_to_text($row->optiontext, $row->optiontextformat) .
-                        ': ' . $this->html_to_text($column->responsetext,
-                        $column->responsetextformat);
+                                 ': ' . $this->html_to_text($column->responsetext,
+                                        $column->responsetextformat);
                     }
                 }
             }
@@ -351,7 +375,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         $type = $this->scoringmethod;
         $gradingclass = 'qtype_kprime_grading_' . $type;
 
-        require_once($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
+        require_once ($CFG->dirroot . '/question/type/kprime/grading/' . $gradingclass . '.class.php');
 
         return new $gradingclass();
     }
@@ -480,8 +504,13 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         } else if ($component == 'qtype_kprime' && $filearea == 'feedbacktext') {
             return true;
         } else if ($component == 'question' && in_array($filearea,
-          array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
-            return $this->check_combined_feedback_file_access($qa, $options, $filearea);
+                array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'
+                ))) {
+            if ($this->editedquestion == 1) {
+                return true;
+            } else {
+                return $this->check_combined_feedback_file_access($qa, $options, $filearea);
+            }
         } else if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
