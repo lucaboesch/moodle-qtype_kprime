@@ -8,13 +8,14 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ *
  * @package qtype_kprime
  * @author Amr Hourani amr.hourani@id.ethz.ch
  * @copyright ETHz 2016 amr.hourani@id.ethz.ch
@@ -50,7 +51,8 @@ $string['save'] = 'Speichern';
 $string['scoringkprime'] = 'Kprim';
 $string['scoringkprimeonezero'] = 'Kprim1/0';
 $string['scoringmethod'] = 'Bewertung';
-$string['scoringmethod_help'] = '<strong>Kprim:</strong> Bei der Auswahl „Kprim“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden, die halbe Punktzahl, wenn alle ausser einer Wahlantwort richtig bewertet wurden und null Punkte sonst. <br/><strong>Kprim1/0:</strong> Bei der Auswahl „Kprim1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden und null Punkte sonst. <br/><strong>Teilpunkte:</strong> Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen Teilpunkte für jede richtige Bewertung.';
+$string['scoringmethod_help'] = '<strong>Kprim:</strong> Bei der Auswahl „Kprim“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden, die halbe Punktzahl, wenn alle ausser einer Wahlantwort richtig bewertet wurden und sonst null Punkte.<br/><strong>Kprim1/0:</strong> Bei der Auswahl „Kprim1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden und sonst null Punkte.
+Teilpunkte: Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen Teilpunkte für jede richtige Bewertung.<br/><strong>Teilpunkte:</strong> Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen Teilpunkte für jede richtige Bewertung.';
 $string['scoringsubpoints'] = 'Teilpunkte';
 $string['shuffleoptions'] = 'Wahlantworten mischen';
 $string['shuffleoptions_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option „In Fragen zufällig mischen“ aktiviert ist.';
