@@ -186,8 +186,9 @@ class qtype_kprime_edit_form extends question_edit_form {
                 $a = new stdClass();
                 $a->time = userdate($this->question->timemodified);
                 $a->user = fullname(
-                        $DB->get_record('user', array('id' => $this->question->modifiedby
-                        )));
+                        $DB->get_record('user',
+                                array('id' => $this->question->modifiedby
+                                )));
                 $mform->addElement('static', 'modified', get_string('modified', 'question'),
                         get_string('byandon', 'question', $a));
             }
@@ -210,8 +211,9 @@ class qtype_kprime_edit_form extends question_edit_form {
 
         if ((!empty($this->question->id)) && (!($this->question->formoptions->canedit ||
                  $this->question->formoptions->cansaveasnew))) {
-            $mform->hardFreezeAllVisibleExcept(array('categorymoveto', 'buttonar', 'currentgrp'
-            ));
+            $mform->hardFreezeAllVisibleExcept(
+                    array('categorymoveto', 'buttonar', 'currentgrp'
+                    ));
         }
 
         $this->add_hidden_fields();
@@ -260,7 +262,8 @@ class qtype_kprime_edit_form extends question_edit_form {
 
         // Add the shuffleoptions checkbox.
         $mform->addElement('advcheckbox', 'shuffleoptions',
-                get_string('shuffleoptions', 'qtype_kprime'), null, null, array(0, 1
+                get_string('shuffleoptions', 'qtype_kprime'), null, null,
+                array(0, 1
                 ));
         $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
 
@@ -274,8 +277,9 @@ class qtype_kprime_edit_form extends question_edit_form {
             if ($i == 1) {
                 $label = get_string('responsetexts', 'qtype_kprime');
             }
-            $mform->addElement('text', 'responsetext_' . $i, $label, array('size' => 6
-            ));
+            $mform->addElement('text', 'responsetext_' . $i, $label,
+                    array('size' => 6
+                    ));
             $mform->setType('responsetext_' . $i, PARAM_TEXT);
             $mform->addRule('responsetext_' . $i, null, 'required', null, 'client');
 
@@ -414,7 +418,9 @@ class qtype_kprime_edit_form extends question_edit_form {
         for ($i = 1; $i <= $this->numberofrows; ++$i) {
             $optiontext = $data['option_' . $i]['text'];
             // Remove HTML tags.
-            $optiontext = trim(strip_tags($optiontext));
+            // $optiontext = trim(strip_tags($optiontext));
+            // LMDL-201
+            $optiontext = trim(strip_tags($optiontext, '<img><video><audio><iframe><embed>'));
             // Remove newlines.
             $optiontext = preg_replace("/[\r\n]+/i", '', $optiontext);
             // Remove whitespaces and tabs.
