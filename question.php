@@ -476,8 +476,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             $lastwrongindex = -1;
             $finallyright = false;
             foreach ($responses as $i => $response) {
-                if (!array_key_exists($fieldname, $response) || !$response[$fieldname] ||
-                         $this->choiceorder[$response[$fieldname]] != $this->right[$stemid]) {
+                if (!array_key_exists($fieldname, $response) || !$response[$fieldname]) {
                     $lastwrongindex = $i;
                     $finallyright = false;
                 } else {
@@ -490,7 +489,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             }
         }
 
-        return $totalstemscore / count($this->stemorder);
+        return $totalstemscore / count($this->order);
     }
 
     /**
