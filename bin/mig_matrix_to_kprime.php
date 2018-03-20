@@ -233,7 +233,7 @@ foreach ($questions as $question) {
     // Create the kprime options.
     $kprime = new stdClass();
     $kprime->questionid = $question->id;
-    $kprime->shuffleoptions = $matrix->shuffleanswers;
+    $kprime->shuffleanswers = $matrix->shuffleanswers;
     $kprime->numberofrows = count($rows);
     $kprime->numberofcolumns = count($columns);
 

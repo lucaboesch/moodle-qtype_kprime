@@ -50,8 +50,8 @@ class qtype_kprime extends question_type {
         if (!isset($question->options->numberofcolumns)) {
             $question->options->numberofcolumns = QTYPE_KPRIME_NUMBER_OF_RESPONSES;
         }
-        if (!isset($question->options->shuffleoptions)) {
-            $question->options->shuffleoptions = $kprimeconfig->shuffleoptions;
+        if (!isset($question->options->shuffleanswers)) { 
+            $question->options->shuffleanswers = $kprimeconfig->shuffleanswers;
         }
         if (!isset($question->options->scoringmethod)) {
             $question->options->scoringmethod = $kprimeconfig->scoringmethod;
@@ -160,14 +160,14 @@ class qtype_kprime extends question_type {
             $options = new stdClass();
             $options->questionid = $question->id;
             $options->scoringmethod = '';
-            $options->shuffleoptions = '';
+            $options->shuffleanswers = '';
             $options->numberofcolumns = '';
             $options->numberofrows = '';
             $options->id = $DB->insert_record('qtype_kprime_options', $options);
         }
 
         $options->scoringmethod = $question->scoringmethod;
-        $options->shuffleoptions = $question->shuffleoptions;
+        $options->shuffleanswers = $question->shuffleanswers;
         $options->numberofrows = $question->numberofrows;
         $options->numberofcolumns = $question->numberofcolumns;
         $DB->update_record('qtype_kprime_options', $options);
@@ -274,7 +274,7 @@ class qtype_kprime extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
 
-        $question->shuffleoptions = $questiondata->options->shuffleoptions;
+        $question->shuffleanswers = $questiondata->options->shuffleanswers;
         $question->scoringmethod = $questiondata->options->scoringmethod;
         $question->numberofrows = $questiondata->options->numberofrows;
         $question->numberofcolumns = $questiondata->options->numberofcolumns;
@@ -468,8 +468,8 @@ class qtype_kprime extends question_type {
         // First set the additional fields.
         $expout .= '    <scoringmethod>' . $format->writetext($question->options->scoringmethod) .
                  "</scoringmethod>\n";
-        $expout .= '    <shuffleoptions>' . $format->get_single($question->options->shuffleoptions) .
-                 "</shuffleoptions>\n";
+        $expout .= '    <shuffleanswers>' . $format->get_single($question->options->shuffleanswers) .
+                 "</shuffleanswers>\n";
         $expout .= '    <numberofrows>' . $question->options->numberofrows . "</numberofrows>\n";
         $expout .= '    <numberofcolumns>' . $question->options->numberofcolumns .
                  "</numberofcolumns>\n";
@@ -546,8 +546,8 @@ class qtype_kprime extends question_type {
         $question->scoringmethod = $format->getpath($data,
         array('#', 'scoringmethod', 0, '#', 'text', 0, '#'
         ), 'kprime');
-        $question->shuffleoptions = $format->trans_single(
-        $format->getpath($data, array('#', 'shuffleoptions', 0, '#'
+        $question->shuffleanswers = $format->trans_single(
+        $format->getpath($data, array('#', 'shuffleanswers', 0, '#'
         ), 1));
         $question->numberofrows = $format->getpath($data,
         array('#', 'numberofrows', 0, '#'

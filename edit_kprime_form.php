@@ -260,12 +260,12 @@ class qtype_kprime_edit_form extends question_edit_form {
         $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_kprime');
         $mform->setDefault('scoringmethod', 'kprime');
 
-        // Add the shuffleoptions checkbox.
-        $mform->addElement('advcheckbox', 'shuffleoptions',
-                get_string('shuffleoptions', 'qtype_kprime'), null, null,
+        // Add the shuffleanswers checkbox.
+        $mform->addElement('advcheckbox', 'shuffleanswers',
+                get_string('shuffleanswers', 'qtype_kprime'), null, null,
                 array(0, 1
                 ));
-        $mform->addHelpButton('shuffleoptions', 'shuffleoptions', 'qtype_kprime');
+        $mform->addHelpButton('shuffleanswers', 'shuffleanswers', 'qtype_kprime');
 
         $mform->addElement('header', 'optionsandfeedbackheader',
                 get_string('optionsandfeedback', 'qtype_kprime'));
@@ -372,7 +372,7 @@ class qtype_kprime_edit_form extends question_edit_form {
         $question = parent::data_preprocessing($question);
 
         if (isset($question->options)) {
-            $question->shuffleoptions = $question->options->shuffleoptions;
+            $question->shuffleanswers = $question->options->shuffleanswers;
             $question->scoringmethod = $question->options->scoringmethod;
             $question->rows = $question->options->rows;
             $question->columns = $question->options->columns;

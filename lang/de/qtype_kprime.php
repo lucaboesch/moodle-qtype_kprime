@@ -22,7 +22,7 @@
  */
 $string['configintro'] = 'Standardeinstellungen für Kprim-Fragen.';
 $string['configscoringmethod'] = 'Standard Bewertung für Kprim-Fragen.';
-$string['configshuffleoptions'] = 'Standardeinstellung für das Mischen der Wahlantworten.';
+$string['configshuffleanswers'] = 'Standardeinstellung für das Mischen der Wahlantworten.';
 $string['enterfeedbackhere'] = 'Feedback hinzufügen.';
 $string['entergeneralfeedbackhere'] = 'Allgemeines Feedback hinzufügen.';
 $string['enteroptionhere'] = '';
@@ -53,8 +53,8 @@ $string['scoringkprimeonezero'] = 'Kprim1/0';
 $string['scoringmethod'] = 'Bewertung';
 $string['scoringmethod_help'] = '<strong>Kprim:</strong> Bei der Auswahl „Kprim“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden, die halbe Punktzahl, wenn alle ausser einer Wahlantwort richtig bewertet wurden und sonst null Punkte.<br/><strong>Kprim1/0:</strong> Bei der Auswahl „Kprim1/0“ erhalten Kandidat/innen die volle Punktzahl, wenn alle Wahlantworten richtig bewertet wurden und sonst null Punkte.<br/><strong>Teilpunkte:</strong> Bei der Auswahl „Teilpunkte“ erhalten Kandidat/innen Teilpunkte für jede richtige Bewertung.';
 $string['scoringsubpoints'] = 'Teilpunkte';
-$string['shuffleoptions'] = 'Wahlantworten mischen';
-$string['shuffleoptions_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option „In Fragen zufällig mischen“ aktiviert ist.';
+$string['shuffleanswers'] = 'Wahlantworten mischen';
+$string['shuffleanswers_help'] = 'Wenn aktiviert, ist die Reihenfolge der Wahlantworten bei jedem Versuch zufällig, sofern die Option „In Fragen zufällig mischen“ aktiviert ist.';
 $string['stem'] = 'Stamm';
 $string['tasktitle'] = 'Aufgabentitel';
 $string['true'] = 'Richtig';

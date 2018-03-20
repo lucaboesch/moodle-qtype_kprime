@@ -33,7 +33,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     public $scoringmethod;
 
-    public $shuffleoptions;
+    public $shuffleanswers;
 
     public $numberofrows;
 
@@ -43,6 +43,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
     public $editedquestion;
 
+
     // All the methods needed for option shuffling.
     /**
      * (non-PHPdoc).
@@ -51,7 +52,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function start_attempt(question_attempt_step $step, $variant) {
         $this->order = array_keys($this->rows);
-        if ($this->shuffleoptions) {
+        if ($this->shuffleanswers) {
             shuffle($this->order);
         }
         $step->set_qt_var('_order', implode(',', $this->order));

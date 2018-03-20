@@ -21,7 +21,7 @@
  */
 $string['configintro'] = 'Default values for kprime questions.';
 $string['configscoringmethod'] = 'Default scoring method for kprime questions.';
-$string['configshuffleoptions'] = 'Default setting for option shuffling in kprime questions.';
+$string['configshuffleanswers'] = 'Default setting for option shuffling in kprime questions.';
 $string['enterfeedbackhere'] = 'Enter feedback here.';
 $string['entergeneralfeedbackhere'] = 'Enter general feedback here.';
 $string['enteroptionhere'] = '';
@@ -53,8 +53,8 @@ $string['scoringmethod'] = 'Scoring method';
 $string['scoringmethod_help'] = '<strong>Kprime:</strong> The student receives full marks if all responses are correct, a 50% mark if all save one response are correct, and zero points otherwise.<br/><strong>Kprime 1/0:</strong> The student receives full marks if all responses are correct, and zero points otherwise.
         <br/><strong>Subpoints:</strong> The student is awarded subpoints for each correct response.';
 $string['scoringsubpoints'] = 'Subpoints';
-$string['shuffleoptions'] = 'Shuffle options';
-$string['shuffleoptions_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt,
+$string['shuffleanswers'] = 'Shuffle options';
+$string['shuffleanswers_help'] = 'If enabled, the order of the options is randomly shuffled for each attempt,
          provided that "Shuffle within questions" in the activity settings is also enabled.';
 $string['stem'] = 'Stem';
 $string['tasktitle'] = 'Task title';
