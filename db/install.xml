@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="question/type/matrix/db" VERSION="20140924"
+<XMLDB PATH="question/type/kprime/db" VERSION="20140924"
 	COMMENT="XMLDB file for Moodle question/type/matrix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd">
 	<TABLES>
