@@ -166,6 +166,9 @@ class qtype_kprime_edit_form extends question_edit_form {
                         ));
             }
         }
+
+        $this->add_interactive_settings(true, true);
+        
         if (!empty($this->question->id)) {
             $mform->addElement('header', 'createdmodifiedheader',
                     get_string('createdmodifiedheader', 'question'));
@@ -363,6 +366,13 @@ class qtype_kprime_edit_form extends question_edit_form {
         $this->add_hidden_fields();
     }
 
+    protected function get_hint_fields($withclearwrong = false, $withshownumpartscorrect = false) {
+        list($repeated, $repeatedoptions) = parent::get_hint_fields($withclearwrong, $withshownumpartscorrect);
+        $repeatedoptions['hintclearwrong']['disabledif'] = array('single', 'eq', 1);
+        $repeatedoptions['hintshownumcorrect']['disabledif'] = array('single', 'eq', 1);
+        return array($repeated, $repeatedoptions);
+    }
+    
     /**
      * (non-PHPdoc).
      *
@@ -370,6 +380,7 @@ class qtype_kprime_edit_form extends question_edit_form {
      */
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
+        $question = $this->data_preprocessing_hints($question, true, true);
 
         if (isset($question->options)) {
             $question->shuffleanswers = $question->options->shuffleanswers;
