@@ -301,18 +301,17 @@ class qtype_kprime_edit_form extends question_edit_form {
             $responsetexts[] = get_string('responsetext1', 'qtype_kprime');
             $responsetexts[] = get_string('responsetext2', 'qtype_kprime');
         }
-
+        
         // Add an option text editor, response radio buttons and a feedback editor for each option.
         for ($i = 1; $i <= $this->numberofrows; ++$i) {
             // Add the option editor.
+            $mform->addElement('html', '<br/><br/>');
             $mform->addElement('html', '<div class="optionbox">'); // Open div.optionbox.
+            $mform->addElement('html', '<div class="option_question">'); //Open div.option_question
             $mform->addElement('html', '<div class="optionandresponses">'); // Open div.optionbox.
-
             $mform->addElement('html', '<div class="optiontext">'); // Open div.optiontext.
-            $mform->addElement('html',
-                    '<label class="optiontitle">' . get_string('optionno', 'qtype_kprime', $i) .
-                             '</label>');
-            $mform->addElement('editor', 'option_' . $i, '', array('rows' => 8
+
+            $mform->addElement('editor', 'option_' . $i, get_string('optionno', 'qtype_kprime', $i), array('rows' => 8
             ), $this->editoroptions);
             $mform->setDefault('option_' . $i,
                     array('text' => get_string('enteroptionhere', 'qtype_kprime')
@@ -321,7 +320,18 @@ class qtype_kprime_edit_form extends question_edit_form {
             $mform->addRule('option_' . $i, null, 'required', null, 'client');
 
             $mform->addElement('html', '</div>'); // Close div.optiontext.
+            $mform->addElement('html', '</div>'); // Close div.optionsandresponses.
+            // Add the feedback text editor in a new line.
+            $mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
+            $mform->addElement('editor', 'feedback_' . $i, get_string('feedbackforoption', 'qtype_kprime', $i),
+                    array('rows' => 2, 'placeholder' => ''
+                    ), $this->editoroptions);
+            $mform->setType('feedback_' . $i, PARAM_RAW);
 
+            $mform->addElement('html', '</div>'); // Close div.feedbacktext.
+            $mform->addElement('html', '</div>'); // Close div.option_question.
+
+            $mform->addElement('html', '<div class="option_answer">');
             // Add the radio buttons for responses.
             $mform->addElement('html', '<div class="responses">'); // Open div.responses.
             $attributes = array();
@@ -335,34 +345,18 @@ class qtype_kprime_edit_form extends question_edit_form {
                             $j, $attributes);
                 }
             }
-            $mform->addGroup($radiobuttons, 'weightsarray_' . $i, '', array('<br/>'
-            ), false);
+            $mform->addGroup($radiobuttons, 'weightsarray_' . $i, '', array('<br/>'), false);
             $mform->setDefault('weightbutton_' . $i, 1);
 
             $mform->addElement('html', '</div>'); // Close div.responses.
-            $mform->addElement('html', '</div>'); // Close div.optionsandresponses.
-
-            $mform->addElement('html', '<br /><br />'); // Close div.optionsandresponses.
-
-            // Add the feedback text editor in a new line.
-            $mform->addElement('html', '<div class="feedbacktext">'); // Open div.feedbacktext.
-            $mform->addElement('html',
-                    '<label class="feedbacktitle">' .
-                             get_string('feedbackforoption', 'qtype_kprime', $i) . '</label>');
-            $mform->addElement('editor', 'feedback_' . $i, '',
-                    array('rows' => 2, 'placeholder' => ''
-                    ), $this->editoroptions);
-            $mform->setType('feedback_' . $i, PARAM_RAW);
-
-            $mform->addElement('html', '</div>'); // Close div.feedbacktext.
-            $mform->addElement('html', '</div><br />'); // Close div.optionbox.
+            $mform->addElement('html', '</div>'); // Close div.option_answer.
+            $mform->addElement('html', '</div>'); // Close div.optionbox.
         }
 
         $mform->addElement('hidden', 'qtype');
         $mform->setType('qtype', PARAM_ALPHA);
         $mform->addElement('hidden', 'makecopy');
         $mform->setType('makecopy', PARAM_ALPHA);
-
         $this->add_hidden_fields();
     }
 
