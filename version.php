@@ -26,4 +26,4 @@ $plugin->component = 'qtype_kprime';
 $plugin->version = 2019031800;
 $plugin->requires = 2013111904; // Moodle >=2.6.4.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.7 for Moodle 2.6+';
+$plugin->release = '2.2 for Moodle 3.4+';
