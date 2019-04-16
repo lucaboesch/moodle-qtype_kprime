@@ -288,13 +288,18 @@ body#page-question-type-kprime div[id^=fgroup_id_weightsarray] {
     width: 1%;
 }
 
+#page-mod-quiz-review .que.kprime table .c0, 
+#page-mod-quiz-review .que.kprime table .c4 {
+    width: 40%;
+}
+
 /* Microsoft Edge */
 @supports (display:-ms-grid) {
 	body#page-question-type-kprime #id_questiontexteditable,
 	body#page-question-type-kprime #id_generalfeedbackeditable,
 	body#page-question-type-kprime .optionbox,
 	.que.kprime .optiontext,
-	.kprimespecificfeedback {
+	.kprimespecificfeedback  {
 		word-break: break-all;
 	}
 }
