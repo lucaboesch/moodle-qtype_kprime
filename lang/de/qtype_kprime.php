@@ -23,6 +23,7 @@
 $string['configintro'] = 'Standardeinstellungen für Kprim-Fragen.';
 $string['configscoringmethod'] = 'Standard Bewertung für Kprim-Fragen.';
 $string['configshuffleanswers'] = 'Standardeinstellung für das Mischen der Wahlantworten.';
+$string['deletedchoice'] = 'Diese Antwort wurde gelöscht, nachdem der Test gestartet worden ist.';
 $string['enterfeedbackhere'] = 'Feedback hinzufügen.';
 $string['entergeneralfeedbackhere'] = 'Allgemeines Feedback hinzufügen.';
 $string['enteroptionhere'] = '';

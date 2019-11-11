@@ -22,6 +22,7 @@
 $string['configintro'] = 'Default values for kprime questions.';
 $string['configscoringmethod'] = 'Default scoring method for kprime questions.';
 $string['configshuffleanswers'] = 'Default setting for option shuffling in kprime questions.';
+$string['deletedchoice'] = 'This choice was deleted after the attempt was started.';
 $string['enterfeedbackhere'] = 'Enter feedback here.';
 $string['entergeneralfeedbackhere'] = 'Enter general feedback here.';
 $string['enteroptionhere'] = '';

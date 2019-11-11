@@ -239,7 +239,17 @@ class qtype_kprime_renderer extends qtype_renderer {
 
         foreach ($question->order as $key => $rowid) {
             $row = $question->rows[$rowid];
-            $correctcolumn = $question->columns[$correctresponse[$rowid]];
+
+            if (isset($correctresponse[$rowid])) {
+                if (isset($question->columns[$correctresponse[$rowid]])) {
+                    $correctcolumn = $question->columns[$correctresponse[$rowid]];
+                }
+            } else {
+                $correctcolumn = new stdClass();
+                $correctcolumn->responsetextformat = 1;
+                $correctcolumn->responsetext = get_string('false', 'qtype_mtf');
+                $correctcolumn->id = $rowid;
+            }
 
             $result[] = ' ' .
                      $question->make_html_inline(

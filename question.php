@@ -69,19 +69,19 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
         // Add any missing answers. Sometimes people edit questions after they
         // have been attempted which breaks things.
         // Retrieve the question rows (mtf options).
-
-        if (!isset($this->rows[$this->order[0]])) {
-            global $DB;
-            $rows = $DB->get_records('qtype_kprime_rows',
-                    array('questionid' => $this->id
-                    ), 'number ASC', 'id, number', 0, $this->numberofrows);
-
-            $arr = array();
-            foreach ($rows as $r) {
-                $arr[$r->number - 1] = $r->id;
+        for ($i = 0; $i < count($this->order); $i++) {
+            if (isset($this->rows[$this->order[$i]])) {
+                continue;
             }
-            unset($this->order);
-            $this->order = $arr;
+            $a = new stdClass();
+            $a->id = 0;
+            $a->questionid = $this->id;
+            $a->number = -1;
+            $a->optiontext = html_writer::span(get_string('deletedchoice', 'qtype_sc'), 'notifyproblem');
+            $a->optiontextformat = FORMAT_HTML;
+            $a->optionfeedback = "";
+            $a->optionfeedbackformat = FORMAT_HTML;
+            $this->rows[$this->order[$i]] = $a;
             $this->editedquestion = 1;
         }
     }
@@ -167,7 +167,11 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     public function weight($row = null, $col = null) {
         $rownumber = is_object($row) ? $row->number : $row;
         $colnumber = is_object($col) ? $col->number : $col;
-        $weight = (float) $this->weights[$rownumber][$colnumber]->weight;
+        if (isset($this->weights[$rownumber][$colnumber])) {
+            $weight = (float) $this->weights[$rownumber][$colnumber]->weight;
+        } else {
+            $weight = 0;
+        }
 
         return $weight;
     }
