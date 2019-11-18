@@ -195,6 +195,36 @@ class qtype_kprime_renderer extends qtype_renderer {
 
         $result .= html_writer::table($table, true);
 
+        if (!empty(get_config('qtype_kprime')->showscoringmethod)) {
+            $result .= $this->showscoringmethod($question);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns a string containing the rendererd question's scoring method.
+     * Appends an info icon containing information about the scoring method.
+     * @param qtype_sc_question $question
+     * @return string
+     */
+    private function showscoringmethod($question) {
+        global $OUTPUT;
+
+        $result = '';
+
+        if (get_string_manager()->string_exists('scoring' . $question->scoringmethod, 'qtype_kprime')) {
+            $outputscoringmethod = get_string('scoring' . $question->scoringmethod, 'qtype_kprime');
+        } else {
+            $outputscoringmethod = $question->scoringmethod;
+        }
+
+        if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_kprime')) {
+            $result .= html_writer::tag('div',
+                '<br>'. get_string('scoringmethod', 'qtype_kprime'). ': <b>' . ucfirst($outputscoringmethod) . '</b>' .
+                $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_kprime'),
+                array('id' => 'scoringmethodinfo_q' . $question->id));
+        }
         return $result;
     }
 
