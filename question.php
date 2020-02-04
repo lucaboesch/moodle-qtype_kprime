@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* @package      qtype_kprime
-* @author       Amr Hourani (amr.hourani@id.ethz.ch)
- *@author       Martin Hanusch (martin.hanusch@let.ethz.ch)
-* @author       Jürgen Zimmer (juergen.zimmer@edaktik.at)
-* @author       Andreas Hruska (andreas.hruska@edaktik.at)
-* @copyright    2016 ETHZ {@link http://ethz.ch/}
-* @copyright    2014 eDaktik GmbH {@link http://www.edaktik.at}
-* @license      http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_kprime
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
+ * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
+ * @author      Andreas Hruska (andreas.hruska@edaktik.at)
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}
+ * @copyright   2014 eDaktik GmbH {@link http://www.edaktik.at}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -214,7 +214,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      */
     public function is_gradable_response(array $response) {
         unset($response['_order']);
-        if ($this->scoringmethod == 'subpoints') {
+        if ($this->scoringmethod == 'subpoints' || $this->scoringmethod == 'kprime') {
             if (count($response) > 0) {
                 return true;
             } else {
