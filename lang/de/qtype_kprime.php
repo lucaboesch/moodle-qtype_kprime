@@ -39,6 +39,7 @@ $string['generalfeedback_help'] = 'Allgemeines Feedback wird unabhängig von den
 $string['maxpoints'] = 'Max. Punkte';
 $string['mustsupplyresponses'] = 'Sie müssen für alle Texte einen Wert eingeben.';
 $string['mustsupplyvalue'] = 'Sie müssen hier einen Wert eingeben.';
+$string['oneanswerperrow'] = 'Bitte beantworten Sie alle Teile der Frage.';
 $string['optionno'] = 'Wahlantwort {$a}';
 $string['pluginname'] = 'Kprime (ETH)';
 $string['pluginname_help'] = 'Kprim-Fragen bestehen aus einem Item-Stamm und vier zugehörigen Wahlantworten. Jede Wahlantwort muss als «richtig» oder «falsch» bewertet werden.';

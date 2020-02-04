@@ -25,10 +25,24 @@
 * @license      http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_kprime\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_kprime';
-$plugin->version = 2020020400;
-$plugin->requires = 2013111904; // Moodle >=2.6.4.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.3 for Moodle 3.4+';
+class mobile {
+    public static function kprime_view() {
+        global $CFG;
+        // General notes:
+        // If you have worked on mobile activities, there is no cmid or courseid in $args here.
+        // This is not equivalent to mod/quiz/attempt.php?attempt=57&cmid=147, rather
+        // this is just a section of that page, with all the access checking already done for us.
+        // The full file path is required even though file_get_contents should work with relative paths.
+        return [
+            'templates' => [[
+                'id' => 'main',
+                'html' => file_get_contents($CFG->dirroot . '/question/type/kprime/mobile/kprime.html')
+            ]],
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/kprime/mobile/kprime.js')
+        ];
+    }
+}

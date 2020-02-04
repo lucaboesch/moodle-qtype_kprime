@@ -213,10 +213,15 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
-        if (count($response) == 0) {
-            return false;
+        unset($response['_order']);
+        if ($this->scoringmethod == 'subpoints') {
+            if (count($response) > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return true;
+            return $this->is_complete_response($response);
         }
     }
 

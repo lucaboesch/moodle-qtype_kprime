@@ -200,6 +200,12 @@ class qtype_kprime_renderer extends qtype_renderer {
 
         $result .= html_writer::table($table, true);
 
+        if ($qa->get_state() == question_state::$invalid) {
+            $result .= html_writer::nonempty_tag('div',
+                    $question->get_validation_error($qa->get_last_qt_data()),
+                    array('class' => 'validationerror'));
+        }
+
         if (!empty(get_config('qtype_kprime')->showscoringmethod)) {
             $result .= $this->showscoringmethod($question);
         }
@@ -225,10 +231,11 @@ class qtype_kprime_renderer extends qtype_renderer {
         }
 
         if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_kprime')) {
+            $label = get_string('scoringmethod', 'qtype_kprime'). ': <b>' . ucfirst($outputscoringmethod) . '</b>';
             $result .= html_writer::tag('div',
-                '<br>'. get_string('scoringmethod', 'qtype_kprime'). ': <b>' . ucfirst($outputscoringmethod) . '</b>' .
-                $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_kprime'),
-                array('id' => 'scoringmethodinfo_q' . $question->id));
+                '<br>'. $label . $OUTPUT->help_icon('scoring' . $question->scoringmethod, 'qtype_kprime'),
+                array('id' => 'scoringmethodinfo_q' . $question->id,
+                    'label' => $label));
         }
         return $result;
     }
@@ -247,8 +254,8 @@ class qtype_kprime_renderer extends qtype_renderer {
         $readonly = $readonly ? 'readonly="readonly" disabled="disabled"' : '';
         $checked = $checked ? 'checked="checked"' : '';
 
-        return '<input type="radio" name="' . $name . '" value="' . $value . '" ' . $checked . ' ' .
-                 $readonly . '/>';
+        return '<label><input type="radio" name="' . $name . '" value="' . $value . '" ' . $checked . ' ' .
+                 $readonly . '/></label>';
     }
 
     /**

@@ -39,6 +39,7 @@ $string['generalfeedback_help'] = 'The same general feedback is displayed regard
 $string['maxpoints'] = 'Max. points';
 $string['mustsupplyresponses'] = 'You must supply values for all responses.';
 $string['mustsupplyvalue'] = 'You must supply a value here.';
+$string['oneanswerperrow'] = 'Please answer all parts of the question.';
 $string['optionno'] = 'Option {$a}';
 $string['pluginname'] = 'Kprime (ETH)';
 $string['pluginname_help'] = 'Kprime questions consist of an item stem and four corresponding options. For each option students have to decide whether it is "true" or "false".';
