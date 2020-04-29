@@ -216,7 +216,7 @@ class qtype_kprime_renderer extends qtype_renderer {
     /**
      * Returns a string containing the rendererd question's scoring method.
      * Appends an info icon containing information about the scoring method.
-     * @param qtype_sc_question $question
+     * @param qtype_kprime_question $question
      * @return string
      */
     private function showscoringmethod($question) {
@@ -289,7 +289,7 @@ class qtype_kprime_renderer extends qtype_renderer {
             } else {
                 $correctcolumn = new stdClass();
                 $correctcolumn->responsetextformat = 1;
-                $correctcolumn->responsetext = get_string('false', 'qtype_mtf');
+                $correctcolumn->responsetext = get_string('false', 'qtype_kprime');
                 $correctcolumn->id = $rowid;
             }
 

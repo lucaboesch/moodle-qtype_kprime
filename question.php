@@ -72,7 +72,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
 
         // Add any missing answers. Sometimes people edit questions after they
         // have been attempted which breaks things.
-        // Retrieve the question rows (mtf options).
+        // Retrieve the question rows (kprime options).
         for ($i = 0; $i < count($this->order); $i++) {
             if (isset($this->rows[$this->order[$i]])) {
                 continue;
@@ -81,7 +81,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
             $a->id = 0;
             $a->questionid = $this->id;
             $a->number = -1;
-            $a->optiontext = html_writer::span(get_string('deletedchoice', 'qtype_sc'), 'notifyproblem');
+            $a->optiontext = html_writer::span(get_string('deletedchoice', 'qtype_kprime'), 'notifyproblem');
             $a->optiontextformat = FORMAT_HTML;
             $a->optionfeedback = "";
             $a->optionfeedbackformat = FORMAT_HTML;
