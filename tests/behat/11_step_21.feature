@@ -73,7 +73,7 @@ Feature: Step 21
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-     And I navigate to "Manual grading" in current page administration
+    And I navigate to "Manual grading" in current page administration
     Then I should see "Nothing to display"
     When I click on "Also show questions that have been graded automatically" "link"
     And I click on "grade all" "link"
@@ -87,6 +87,6 @@ Feature: Step 21
 
   # Check regraded attempts
     When I click on "nav a:contains('Quiz 1')" "css_element"
-     And I navigate to "Results" in current page administration
+    And I navigate to "Results" in current page administration
     Then "tr[class='gradedattempt']:contains('66.00')" "css_element" should exist
     And "tr[class='gradedattempt']:contains('33.00')" "css_element" should exist

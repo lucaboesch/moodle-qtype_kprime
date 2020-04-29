@@ -98,7 +98,7 @@ Feature: Step 22
   # Regrade
     And I follow "Quiz 1"
     And I navigate to "Results" in current page administration
-   And I click on "#mod-quiz-report-overview-report-selectall-attempts" "css_element"
+    And I click on "#mod-quiz-report-overview-report-selectall-attempts" "css_element"
     And I press "Regrade selected attempts"
     And I press "Continue"
 

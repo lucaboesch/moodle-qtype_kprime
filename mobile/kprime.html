@@ -10,7 +10,7 @@
         </p>
     </ion-item>
     <ng-container>
-        <ion-row class="item-md" text-wrap>
+        <ion-row text-wrap>
             <ion-col></ion-col>
             <ion-col>
                 <ion-label>
@@ -28,7 +28,7 @@
         <ng-container text-wrap *ngFor="let option of question.options" >
             <ion-list radio-group [attr.name]="option.name" [(ngModel)]="option.selection"
                 [ngClass]="option.qclass" ngDefaultControl>
-                <ion-row class="item-md">
+                <ion-row>
                     <ion-col>
                         <ion-label>
                             <core-format-text [component]="component" [componentId]="componentId" [text]="option.text">
