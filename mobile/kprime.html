@@ -33,9 +33,9 @@
                         <ion-label>
                             <core-format-text [component]="component" [componentId]="componentId" [text]="option.text">
                             </core-format-text>
-                            <p *ngIf="option.feedback" class="core-question-feedback-container">
+                            <div *ngIf="option.feedback" class="kprimespecificfeedback ng-star-inserted">
                                 <core-format-text [text]="option.feedback"></core-format-text>
-                            </p>
+                            </div>
                         </ion-label>
                     </ion-col>
                     <ion-col>
