@@ -124,7 +124,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 }
             }
         }
-        if (!$newitemid) {
+        if (!isset($newitemid)) {
             $info = new stdClass();
             $info->filequestionid = $oldquestionid;
             $info->dbquestionid = $newquestionid;
