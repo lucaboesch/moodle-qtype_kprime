@@ -365,9 +365,7 @@ class qtype_kprime_edit_form extends question_edit_form {
     }
 
     protected function get_hint_fields($withclearwrong = false, $withshownumpartscorrect = false) {
-        list($repeated, $repeatedoptions) = parent::get_hint_fields($withclearwrong, $withshownumpartscorrect);
-        $repeatedoptions['hintclearwrong']['disabledif'] = array('single', 'eq', 1);
-        $repeatedoptions['hintshownumcorrect']['disabledif'] = array('single', 'eq', 1);
+        list($repeated, $repeatedoptions) = parent::get_hint_fields(false, false);
         return array($repeated, $repeatedoptions);
     }
 
