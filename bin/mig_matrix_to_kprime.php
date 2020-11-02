@@ -178,6 +178,7 @@ foreach ($questions as $question) {
     $question->timemodified = time();
     $question->modifiedby = $USER->id;
     $question->createdby = $USER->id;
+    $question->idnumber = null;
     // Get the new question ID.
     $question->id = $DB->insert_record('question', $question);
 
