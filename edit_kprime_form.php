@@ -158,6 +158,10 @@ class qtype_kprime_edit_form extends question_edit_form {
         $mform->setType('generalfeedback', PARAM_RAW);
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_kprime');
 
+        $mform->addElement('text', 'idnumber', get_string('idnumber', 'question'), 'maxlength="100"  size="10"');
+        $mform->addHelpButton('idnumber', 'idnumber', 'question');
+        $mform->setType('idnumber', PARAM_RAW);
+
         // Any questiontype specific fields.
         $this->definition_inner($mform);
 
@@ -419,6 +423,8 @@ class qtype_kprime_edit_form extends question_edit_form {
      * @see question_edit_form::validation()
      */
     public function validation($data, $files) {
+        global $DB;
+
         $errors = parent::validation($data, $files);
 
         // Check for empty option texts.
@@ -433,7 +439,7 @@ class qtype_kprime_edit_form extends question_edit_form {
             // Also remove UTF-8 non-breaking whitespaces.
             $optiontext = trim($optiontext, "\xC2\xA0\n");
             // Now check whether the string is empty.
-            if (empty($optiontext)) {
+            if (empty($optiontext) && $optiontext !== '0') {
                 $errors['option_' . $i] = get_string('mustsupplyvalue', 'qtype_kprime');
             }
         }
@@ -442,6 +448,30 @@ class qtype_kprime_edit_form extends question_edit_form {
         for ($j = 1; $j <= $this->numberofcolumns; ++$j) {
             if (trim(strip_tags($data['responsetext_' . $j])) == false) {
                 $errors['responsetext_' . $j] = get_string('mustsupplyvalue', 'qtype_kprime');
+            }
+        }
+
+        // Can only have one idnumber per category.
+        if (strpos($data['category'], ',') !== false) {
+            list($category, $categorycontextid) = explode(',', $data['category']);
+        } else {
+            $category = $data['category'];
+        }
+        if (isset($data['idnumber']) && ((string) $data['idnumber'] !== '')) {
+            if (empty($data['usecurrentcat']) && !empty($data['categorymoveto'])) {
+                $categoryinfo = $data['categorymoveto'];
+            } else {
+                $categoryinfo = $data['category'];
+            }
+            list($categoryid, $notused) = explode(',', $categoryinfo);
+            $conditions = 'category = ? AND idnumber = ?';
+            $params = [$categoryid, $data['idnumber']];
+            if (!empty($this->question->id)) {
+                $conditions .= ' AND id <> ?';
+                $params[] = $this->question->id;
+            }
+            if ($DB->record_exists_select('question', $conditions, $params)) {
+                $errors['idnumber'] = get_string('idnumbertaken', 'error');
             }
         }
 
