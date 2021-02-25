@@ -173,7 +173,7 @@ foreach ($questions as $question) {
     // Create a new kprime question in the same category.
     unset($question->id);
     $question->qtype = 'kprime';
-    $question->name = $question->name . ' (kprime)';
+    $question->name = substr($question->name . " (Kprime)", 0, 255);
     $question->timecreated = time();
     $question->timemodified = time();
     $question->modifiedby = $USER->id;
