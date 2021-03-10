@@ -109,8 +109,6 @@ class qtype_kprime_renderer extends qtype_renderer {
         $table->attributes['class'] = 'generaltable';
 
         $table->head = array();
-        // Add empty header for option texts.
-        $table->head[] = '';
 
         // Add the response texts as table headers.
         foreach ($question->columns as $column) {
@@ -121,6 +119,9 @@ class qtype_kprime_renderer extends qtype_renderer {
                                     $column->id)));
             $table->head[] = $cell;
         }
+
+        // Add empty header for option texts.
+        $table->head[] = '';
 
         // Add empty header for correctness if needed.
         if ($displayoptions->correctness) {
@@ -141,15 +142,6 @@ class qtype_kprime_renderer extends qtype_renderer {
             // Holds the data for one table row.
             $rowdata = array();
 
-            // Add the formated option text to the table.
-            $rowtext = $question->make_html_inline(
-                    $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                            'qtype_kprime', 'optiontext', $row->id));
-
-            $cell = new html_table_cell('<span class="optiontext">' . $rowtext . '</span>');
-            $cell->attributes['class'] = 'optiontext';
-            $rowdata[] = $cell;
-
             // Add the response radio buttons to the table.
             foreach ($question->columns as $column) {
                 $buttonname = $qa->get_field_prefix() . $field;
@@ -169,6 +161,15 @@ class qtype_kprime_renderer extends qtype_renderer {
                 $cell->attributes['class'] = 'kprimeresponsebutton';
                 $rowdata[] = $cell;
             }
+
+            // Add the formated option text to the table.
+            $rowtext = $question->make_html_inline(
+                $question->format_text($row->optiontext, $row->optiontextformat, $qa,
+                        'qtype_kprime', 'optiontext', $row->id));
+
+            $cell = new html_table_cell('<span class="optiontext">' . $rowtext . '</span>');
+            $cell->attributes['class'] = 'optiontext';
+            $rowdata[] = $cell;
 
             // Has a selection been made for this option?
             $isselected = $question->is_answered($response, $key);

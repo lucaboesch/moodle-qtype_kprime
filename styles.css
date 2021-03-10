@@ -263,13 +263,13 @@ body#page-question-type-kprime div[id^=fgroup_id_weightsarray] {
     border-top: 0;
 }
 
-.que.kprime table .c1,
-.que.kprime table .c2 {
+.que.kprime table .c0,
+.que.kprime table .c1 {
     width: 1%;
     min-width: 70px;
 }
 
-#page-mod-quiz-review .que.kprime table .c0,
+#page-mod-quiz-review .que.kprime table .c2,
 #page-mod-quiz-review .que.kprime table .c4 {
     width: 40%;
 }
