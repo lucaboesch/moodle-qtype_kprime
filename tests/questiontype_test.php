@@ -38,11 +38,11 @@ require_once($CFG->dirroot . '/question/type/kprime/edit_kprime_form.php');
 class qtype_kprime_test extends advanced_testcase {
 
     protected $qtype;
-    protected function setUp() {
+    protected function setUp(): void {
         $this->qtype = new qtype_kprime();
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         $this->qtype = null;
     }
 
@@ -213,19 +213,19 @@ class qtype_kprime_test extends advanced_testcase {
 
         foreach ($questiondata as $property => $value) {
             if (!in_array($property, array('id', 'version', 'timemodified', 'timecreated', 'options', 'hints', 'stamp'))) {
-                $this->assertAttributeEquals($value, $property, $actualquestiondata);
+                $this->assertEquals($value, $actualquestiondata->$property);
             }
         }
         foreach ($questiondata->options as $optionname => $value) {
             if ($optionname != 'rows' && $optionname != 'columns' && $optionname != 'weights') {
-                $this->assertAttributeEquals($value, $optionname, $actualquestiondata->options);
+                $this->assertEquals($value, $actualquestiondata->options->$optionname);
             }
         }
         foreach ($questiondata->hints as $hint) {
             $actualhint = array_shift($actualquestiondata->hints);
             foreach ($hint as $property => $value) {
                 if (!in_array($property, array('id', 'questionid', 'options'))) {
-                    $this->assertAttributeEquals($value, $property, $actualhint);
+                    $this->assertEquals($value, $actualhint->$property);
                 }
             }
         }
@@ -233,7 +233,7 @@ class qtype_kprime_test extends advanced_testcase {
             $actualrow = array_shift($actualquestiondata->options->rows);
             foreach ($row as $rowproperty => $rowvalue) {
                 if (!in_array($rowproperty, array('id', 'questionid'))) {
-                    $this->assertAttributeEquals($rowvalue, $rowproperty, $actualrow);
+                    $this->assertEquals($rowvalue, $actualrow->$rowproperty);
                 }
             }
         }
@@ -241,7 +241,7 @@ class qtype_kprime_test extends advanced_testcase {
             $actualcolumn = array_shift($actualquestiondata->options->columns);
             foreach ($column as $columnproperty => $columnvalue) {
                 if (!in_array($columnproperty, array('id', 'questionid'))) {
-                    $this->assertAttributeEquals($columnvalue, $columnproperty, $actualcolumn);
+                    $this->assertEquals($columnvalue, $actualcolumn->$columnproperty);
                 }
             }
         }
@@ -250,7 +250,7 @@ class qtype_kprime_test extends advanced_testcase {
                 $actualweight = array_shift($actualquestiondata->options->weights[$rowkey]);
                 foreach ($column as $propertykey => $property) {
                     if (!in_array($propertykey, array('id', 'questionid'))) {
-                        $this->assertAttributeEquals($property, $propertykey, $actualweight);
+                        $this->assertEquals($property, $actualweight->$propertykey);
                     }
                 }
             }

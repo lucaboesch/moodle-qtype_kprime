@@ -166,6 +166,24 @@ class qtype_kprime_question_test extends advanced_testcase {
             'option1' => '1',
             'option2' => '2',
             'option3' => '2')));
+
+        $question->scoringmethod = 'kprimeonezero';
+
+        $this->assertFalse($question->is_gradable_response(array()));
+        $this->assertFalse($question->is_gradable_response(array(
+            'option0' => '1')));
+        $this->assertFalse($question->is_gradable_response(array(
+            'option0' => '1',
+            'option1' => '1')));
+        $this->assertFalse($question->is_gradable_response(array(
+            'option0' => '1',
+            'option1' => '1',
+            'option2' => '1')));
+        $this->assertTrue($question->is_gradable_response(array(
+            'option0' => '1',
+            'option1' => '1',
+            'option2' => '2',
+            'option3' => '2')));
     }
 
     public function test_get_order() {
