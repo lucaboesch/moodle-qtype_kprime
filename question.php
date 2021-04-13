@@ -200,7 +200,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
-        if (count($response) == count($this->rows)) {
+        $numselected = $this->get_num_selected_choices($response);
+        if ($numselected >= count($this->rows)) {
             return true;
         } else {
             return false;
@@ -213,9 +214,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @see question_graded_automatically::is_gradable_response()
      */
     public function is_gradable_response(array $response) {
-        unset($response['_order']);
         if ($this->scoringmethod == 'subpoints' || $this->scoringmethod == 'kprime') {
-            if (count($response) > 0) {
+            if ($this->get_num_selected_choices($response) > 0) {
                 return true;
             } else {
                 return false;
@@ -232,8 +232,7 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
      * @return string the message.
      */
     public function get_validation_error(array $response) {
-        $isgradable = $this->is_gradable_response($response);
-        if ($isgradable) {
+        if ($this->is_complete_response($response)) {
             return '';
         }
         return get_string('oneanswerperrow', 'qtype_kprime');
