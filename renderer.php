@@ -146,7 +146,7 @@ class qtype_kprime_renderer extends qtype_renderer {
             foreach ($question->columns as $column) {
                 $buttonname = $qa->get_field_prefix() . $field;
                 $ischecked = false;
-                if (array_key_exists($field, $response) && ($response[$field] == $column->number)) {
+                if (property_exists((object) $response, $field) && ($response[$field] == $column->number)) {
                     $ischecked = true;
                 }
                 $radio = $this->radiobutton($buttonname, $column->number, $ischecked, $isreadonly);

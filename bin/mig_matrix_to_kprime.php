@@ -46,7 +46,7 @@ if (!is_siteadmin()) {
 function weight_records_to_array($weightrecords) {
     $weights = array();
     foreach ($weightrecords as $weight) {
-        if (!array_key_exists($weight->rowid, $weights)) {
+        if (!property_exists((object) $weights, $weight->rowid)) {
             $weights[$weight->rowid] = array();
         }
         $weights[$weight->rowid][$weight->colid] = $weight;

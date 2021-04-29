@@ -345,7 +345,7 @@ class qtype_kprime_edit_form extends question_edit_form {
             $attributes = array();
             $radiobuttons = array();
             for ($j = 1; $j <= $this->numberofcolumns; ++$j) {
-                if (array_key_exists($j - 1, $responsetexts)) {
+                if (property_exists((object) $responsetexts, $j - 1)) {
                     $radiobuttons[] = &$mform->createElement('radio', 'weightbutton_' . $i, '',
                             $responsetexts[$j - 1], $j, $attributes);
                 } else {
