@@ -1,5 +1,5 @@
-@qtype @qtype_kprime @qtype_kprime_step_14
-Feature: Step 14
+@qtype @qtype_kprime @qtype_kprime_3
+Feature: Step 3
 
   Background:
     Given the following "users" exist:
@@ -17,36 +17,33 @@ Feature: Step 14
     And the following "question categories" exist:
       | contextlevel | reference | name           |
       | Course       | c1        | Default for c1 |
-    And the following "questions" exist: 
+    And the following "questions" exist:
       | questioncategory | qtype  | name              | template     |
-      | Default for c1   | kprime | KPrime-Question-1 | question_one |
-      | Default for c1   | kprime | KPrime-Question-2 | question_one |
-      | Default for c1   | kprime | KPrime-Question-3 | question_one |
-      | Default for c1   | kprime | KPrime-Question-5 | question_one |
+      | Default for c1   | kprime | Kprime Question 1 | question_one |
+      | Default for c1   | kprime | Kprime Question 2 | question_one |
+      | Default for c1   | kprime | Kprime Question 3 | question_one |
+      | Default for c1   | kprime | Kprime Question 5 | question_one |
     And quiz "Quiz 1" contains the following questions:
       | question          | page |
-      | KPrime-Question-1 | 1    |
-      | KPrime-Question-2 | 2    |
-      | KPrime-Question-3 | 3    |
+      | Kprime Question 1 | 1    |
+      | Kprime Question 2 | 2    |
+      | Kprime Question 3 | 3    |
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I navigate to "Edit quiz" in current page administration
 
   @javascript
-  Scenario: TESTCASE 14
-  # Create a quiz with KPrime Questions. Moving, deleting,
-  # adding questions in the quiz. Preview quiz.
-  # All should work like standard questions.
+  Scenario: Testcase 10, 11
 
   # Repaginate
     When I press "Repaginate"
-    Then I should see "Repaginate with"
+    And I should see "Repaginate with"
     And I set the field "menuquestionsperpage" to "2"
-    When I press "Go"
-    And I should see "KPrime-Question-1" on quiz page "1"
-    And I should see "KPrime-Question-2" on quiz page "1"
-    And I should see "KPrime-Question-3" on quiz page "2"
+    And I click on "Go" "button" in the "Repaginate" "dialogue"
+    Then I should see "Kprime Question 1" on quiz page "1"
+    And I should see "Kprime Question 2" on quiz page "1"
+    And I should see "Kprime Question 3" on quiz page "2"
 
   # Add a new question to the quiz
     And I click on "li:contains('Page 2') .add-menu-outer" "css_element"
@@ -55,7 +52,7 @@ Feature: Step 14
     And I press "submitbutton"
     Then I should see "Adding a Kprime question"
     When I set the following fields to these values:
-      | id_name              | KPrime-Question-4        |
+      | id_name              | Kprime Question 4        |
       | id_defaultmark       | 1                        |
       | id_questiontext      | The Questiontext         |
       | id_generalfeedback   | This feedback is general |
@@ -73,17 +70,17 @@ Feature: Step 14
       | id_weightbutton_4_2  | checked                  |
     And I press "id_submitbutton"
     Then I should see "Editing quiz: Quiz 1"
-    And I should see "KPrime-Question-4"
+    And I should see "Kprime Question 4"
 
   # Add a question from the question bank to the quiz
     And I click on "li:contains('Page 2') .add-menu-outer" "css_element"
     And I click on ".menu-action-text:contains('from question bank')" "css_element"
-    And I click on "Add to quiz" "link" in the "KPrime-Question-5" "table_row"
+    And I click on "Add to quiz" "link" in the "Kprime Question 5" "table_row"
     Then I should see "Editing quiz: Quiz 1"
-    And I should see "KPrime-Question-5"
+    And I should see "Kprime Question 5"
 
   # Delete a question from a quiz
-    When I click on "Delete" "link" in the "KPrime-Question-4" "list_item"
+    When I click on "Delete" "link" in the "Kprime Question 4" "list_item"
     And I click on "Yes" "button" in the ".moodle-dialogue-wrap" "css_element"
     Then I should see "Editing quiz: Quiz 1"
-    And I should not see "KPrime-Question-4"
+    And I should not see "Kprime Question 4"

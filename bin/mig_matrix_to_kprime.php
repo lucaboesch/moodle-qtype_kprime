@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Migration script for migration to qtype_kprime
  * @package     qtype_kprime
  * @author      Amr Hourani (amr.hourani@id.ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
@@ -41,8 +42,11 @@ if (!is_siteadmin()) {
     die();
 }
 
-// Helper function to turn weight records from the database into an array
-// indexed by rowid and columnid.
+/**
+ * Helper function to turn weight records from the database into an array
+ * indexed by rowid and columnid.
+ * @param object $weightrecords
+ */
 function weight_records_to_array($weightrecords) {
     $weights = array();
     foreach ($weightrecords as $weight) {

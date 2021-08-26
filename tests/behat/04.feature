@@ -1,5 +1,5 @@
-@qtype @qtype_kprime @qtype_kprime_step_17
-Feature: Step 17
+@qtype @qtype_kprime @qtype_kprime_4
+Feature: Step 4
 
   Background:
     Given the following "users" exist:
@@ -12,7 +12,7 @@ Feature: Step 17
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | c1     | editingteacher |
-      | student2 | c1     | student        |   
+      | student2 | c1     | student        |
     And the following "activities" exist:
       | activity | name   | intro              | course | idnumber |
       | quiz     | Quiz 1 | Quiz 1 for testing | c1     | quiz1    |
@@ -20,33 +20,24 @@ Feature: Step 17
       | contextlevel | reference | name           |
       | Course       | c1        | Default for c1 |
     And the following "questions" exist:
-      | questioncategory | qtype  | name              | template       |
-      | Default for c1   | kprime | KPrime-Question-2 | question_one   |
-      | Default for c1   | kprime | KPrime-Question-3 | question_one   |
-      | Default for c1   | kprime | KPrime-Question-4 | question_one   |
+      | questioncategory | qtype  | name              | template     |
+      | Default for c1   | kprime | KPrime-Question-2 | question_one |
+      | Default for c1   | kprime | KPrime-Question-3 | question_one |
+      | Default for c1   | kprime | KPrime-Question-4 | question_one |
     And quiz "Quiz 1" contains the following questions:
       | question          | page |
       | KPrime-Question-2 | 1    |
       | KPrime-Question-3 | 2    |
       | KPrime-Question-4 | 3    |
- 
 
   @javascript
-  Scenario: TESTCASE 17.
-  # Solve quiz as a student. 
-  # 1. Navigate to next question without responding to any option.
-  # -> Label "Not answered yet" in white
-  # 2. Navigate to next question with responding to only one option.
-  # -> Label "incomplete answer" in yellow
-  # 3. Navigate to next question having responded to all options.
-  # -> Label "Answer saved" in green
+  Scenario: Testcase 12
 
+  # (12) Navigation and label
 
-  # See if the Review is shown if enabled
+  # Login as teacher and set Question behavior to "Deferred feedback"
     Given I log in as "teacher1"
-
-  # Login as admin and set Question behavior to "Deferred feedback"
-    When I am on "Course 1" course homepage
+    And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     And I navigate to "Edit settings" in current page administration
     And I click on "Question behaviour" "link"
@@ -55,21 +46,21 @@ Feature: Step 17
     And I log out
 
   # Login as student and see if everything works
-    And I log in as "student2"
+    When I log in as "student2"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
-    When I press "Attempt quiz now"
-  
+    And I press "Attempt quiz now"
+
   # No option selected
     When I click on "quiznavbutton2" "link"
-    Then "#quiznavbutton1[title='Not yet answered']" "css_element" should exist
+    Then "//a[@id='quiznavbutton1' and @title='Not yet answered']" "xpath_element" should exist
 
   # Not all options selected
     When I click on "tr:contains('option text 1') input[value=1]" "css_element"
     And I click on "tr:contains('option text 2') input[value=1]" "css_element"
     And I click on "quiznavbutton3" "link"
-    Then "#quiznavbutton2[title='Incomplete answer']" "css_element" should exist
+    Then "//a[@id='quiznavbutton2' and @title='Incomplete answer']" "xpath_element" should exist
 
   #All options selected
     When I click on "tr:contains('option text 1') input[value=1]" "css_element"
@@ -77,4 +68,4 @@ Feature: Step 17
     And I click on "tr:contains('option text 3') input[value=2]" "css_element"
     And I click on "tr:contains('option text 4') input[value=2]" "css_element"
     And I click on "quiznavbutton1" "link"
-    Then "#quiznavbutton3[title='Answer saved']" "css_element" should exist
+    Then "//a[@id='quiznavbutton3' and @title='Answer saved']" "xpath_element" should exist
