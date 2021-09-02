@@ -17,7 +17,13 @@ Feature: Step 7
     And the following "questions" exist:
       | questioncategory | qtype  | name              | template       |
       | Default for c1   | kprime | Kprime Question 3 | question_three |
-    Given I log in as "teacher"
+    Given I log in as "admin"
+
+    And I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
+    And I should see "Default values for kprime questions."
+    And I set the field "id_s_qtype_kprime_showscoringmethod" to "1"
+    And I press "Save changes"
+
     And I am on "Course 1" course homepage
     And I navigate to "Question bank" in current page administration
 
@@ -34,6 +40,8 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    Then I should see "Questiontext for Question 1"
+    And I should see "Scoring method: Kprime1/0"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
     And I click on "tr:contains('option text 1') input[value=1]" "css_element"
@@ -64,6 +72,8 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    Then I should see "Questiontext for Question 1"
+    And I should see "Scoring method: Subpoints"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
     And I click on "tr:contains('option text 1') input[value=1]" "css_element"
@@ -105,6 +115,8 @@ Feature: Step 7
     And I press "id_updatebutton"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window
+    Then I should see "Questiontext for Question 1"
+    And I should see "Scoring method: Kprime"
     And I set the field "How questions behave" to "Immediate feedback"
     And I press "Start again with these options"
     And I click on "tr:contains('option text 1') input[value=1]" "css_element"

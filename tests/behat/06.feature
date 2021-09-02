@@ -41,7 +41,7 @@ Feature: Step 6
       | Kprime Question 4 | 1    |
 
   @javascript
-  Scenario: Testcase 21
+  Scenario: Testcase 15
   # Check grades: Verify that all possible mappings from
   # responses (correct, partially correct, incorrect) to
   # points function as specified for the different scoring

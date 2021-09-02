@@ -29,7 +29,7 @@ Feature: Step 5
       | Kprime Question 2 | 1    |
 
   @javascript
-  Scenario: Testcase 21
+  Scenario: Testcase 22
   # Check manual grading override
 
   # Solving quiz as student1: 75% correct options
@@ -83,7 +83,7 @@ Feature: Step 5
     And "tr[class='gradedattempt']:contains('33.00')" "css_element" should exist
 
   @javascript @_switch_window
-  Scenario: Testcase 21
+  Scenario: Testcase 22
   # Change scoringmethod after test has been submitted
   # Check grades. Manual applied grades should not be overwritten
 
@@ -145,7 +145,7 @@ Feature: Step 5
     And ".gradedattempt:contains('student2@moodle.com'):contains('0.00')" "css_element" should exist
 
   @javascript @_switch_window
-  Scenario: Testcase 21
+  Scenario: Testcase 22
   # Change correct answer after test has been submitted.
   # Regrade the test and check the results
 
