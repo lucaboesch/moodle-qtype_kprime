@@ -63,7 +63,8 @@ Feature: Step 1
       | id_weightbutton_2_1      | checked                   |
       | id_weightbutton_3_2      | checked                   |
       | id_weightbutton_4_2      | checked                   |
-    Then I should see "Kprime Question"
+    Then I should see "Question bank"
+    And I should see "Kprime Question"
 
   # Open the saved question and check if everything has been saved
     When I choose "Edit question" action for "Kprime Question" in the question bank
@@ -122,7 +123,7 @@ Feature: Step 1
       | id_option_2    | 2nd optiontext  |
       | id_option_3    | 3rd optiontext  |
       | id_option_4    | 4th optiontext  |
-      | id_defaultmark ||
+      | id_defaultmark |                 |
     And I press "id_submitbutton"
     Then "#id_defaultmark.is-invalid" "css_element" should exist
     And "#id_option_1editable.is-invalid" "css_element" should not exist
@@ -130,11 +131,36 @@ Feature: Step 1
     And "#id_option_3editable.is-invalid" "css_element" should not exist
     And "#id_option_4editable.is-invalid" "css_element" should not exist
 
-  # Enter everything correctly and check if question can be created as usual
+  # Check if judgment options are required
     When I set the following fields to these values:
-      | id_defaultmark | 1 |
+      | id_defaultmark    | 1 |
+      | id_responsetext_1 |   |
     And I press "id_submitbutton"
-    Then I should see "Kprime Question"
+    Then "#id_defaultmark.is-invalid" "css_element" should not exist
+    And "#id_responsetext_1.is-invalid" "css_element" should exist
+    And "#id_responsetext_2.is-invalid" "css_element" should not exist
+    When I set the following fields to these values:
+      | id_responsetext_1 | Richtig |
+      | id_responsetext_2 |         |
+    And I press "id_submitbutton"
+    And "#id_responsetext_1.is-invalid" "css_element" should not exist
+    And "#id_responsetext_2.is-invalid" "css_element" should exist
+    When I set the following fields to these values:
+      | id_responsetext_1 | |
+      | id_responsetext_2 | |
+    And I press "id_submitbutton"
+    And "#id_responsetext_1.is-invalid" "css_element" should exist
+    And "#id_responsetext_2.is-invalid" "css_element" should exist
+
+  # Enter everything correctly
+    When I set the following fields to these values:
+      | id_responsetext_1 | Richtig |
+      | id_responsetext_2 | Falsch  |
+    And I press "id_submitbutton"
+    Then I should see "Question bank"
+    And I should see "Kprime Question"
+    And "#id_responsetext_1.is-invalid" "css_element" should not exist
+    And "#id_responsetext_2.is-invalid" "css_element" should not exist
 
   @javascript
   Scenario: Testcase 1
@@ -217,12 +243,14 @@ Feature: Step 1
       | id_weightbutton_2_1      | checked                   |
       | id_weightbutton_3_2      | checked                   |
       | id_weightbutton_4_2      | checked                   |
-    Then I should see "Kprime Question"
+    Then I should see "Question bank"
+    And I should see "Kprime Question"
 
   # Duplicate the question
     When I choose "Duplicate" action for "Kprime Question" in the question bank
     And I press "id_submitbutton"
     Then I should see "Kprime Question"
+    And I should see "Kprime Question (copy)"
 
   # Move the question to another category
     When I click on "Kprime Question" "checkbox" in the "Kprime Question" "table_row"

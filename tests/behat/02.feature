@@ -59,6 +59,6 @@ Feature: Step 2
     And I click on "tr:contains('option text 2') input[value=2]" "css_element"
     And I press "Check"
     Then I should see "feedback to option 1"
-    And I should see "feedback to option 1"
+    And I should see "feedback to option 2"
     And I should see "option text 1: True"
     And I should see "option text 2: False"
