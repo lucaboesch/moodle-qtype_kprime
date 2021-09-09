@@ -51,7 +51,7 @@ Feature: Step 6
     And I press "Attempt quiz now"
     Then I should not see "Scoring method: Subpoints"
     And I log out
-  
+
   # Log in as admin and configure the Scoring method to be displayed
     When I log in as "admin"
     And I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
