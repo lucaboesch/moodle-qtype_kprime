@@ -41,6 +41,72 @@ Feature: Step 6
       | Kprime Question 4 | 1    |
 
   @javascript
+  Scenario: Testcase 2
+  # Test if the Scoring Method information is correctly displayed within quiz attempts
+
+  # The scoring method information should not be disabled by default
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Attempt quiz now"
+    Then I should not see "Scoring method: Subpoints"
+    And I log out
+  
+  # Log in as admin and configure the Scoring method to be displayed
+    When I log in as "admin"
+    And I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
+    And I should see "Default values for kprime questions."
+    And I set the field "id_s_qtype_kprime_showscoringmethod" to "1"
+    Then I press "Save changes"
+    And I log out
+
+  # The scoring method information should be disabled now
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: Subpoints"
+    And I log out
+
+  # Set scoring method to Kprime 1/0
+    When I log in as "admin"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Edit quiz" in current page administration
+    And I click on "Edit question Kprime Question 4" "link" in the "Kprime Question 4" "list_item"
+    And I click on "Scoring method" "link"
+    And I click on "id_scoringmethod_kprimeonezero" "radio"
+    Then I press "id_updatebutton"
+    And I log out
+
+  # The scoring method information should be disabled now as Kprime 1/0
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: Kprime1/0"
+    And I log out
+
+  # Set scoring method to Kprime
+    When I log in as "admin"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I navigate to "Edit quiz" in current page administration
+    And I click on "Edit question Kprime Question 4" "link" in the "Kprime Question 4" "list_item"
+    And I click on "Scoring method" "link"
+    And I click on "id_scoringmethod_kprime" "radio"
+    Then I press "id_updatebutton"
+    And I log out
+
+  # The scoring method information should be disabled now as Kprime
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "Quiz 1"
+    And I press "Continue the last attempt"
+    Then I should see "Scoring method: Kprime"
+    And I log out
+
+  @javascript
   Scenario: Testcase 15
   # Check grades: Verify that all possible mappings from
   # responses (correct, partially correct, incorrect) to
