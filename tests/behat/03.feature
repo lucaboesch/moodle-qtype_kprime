@@ -36,7 +36,7 @@ Feature: Step 3
   @javascript
   Scenario: Testcase 10, 11
 
-  # Repaginate
+  # Repaginate ...
     When I press "Repaginate"
     And I should see "Repaginate with"
     And I set the field "menuquestionsperpage" to "2"
