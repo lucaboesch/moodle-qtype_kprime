@@ -73,7 +73,7 @@ jobs:
 
       - name: Moodle Code Checker
         if: ${{ always() }}
-        run: moodle-plugin-ci codechecker --max-warnings 0
+        run: moodle-plugin-ci codechecker --max-warnings 10000
 
       - name: Moodle PHPDoc Checker
         if: ${{ always() }}
@@ -93,7 +93,7 @@ jobs:
 
       - name: Grunt
         if: ${{ always() }}
-        run: moodle-plugin-ci grunt --max-lint-warnings 0
+        run: moodle-plugin-ci grunt || [  "$MOODLE_BRANCH" != 'master' -a  "$MOODLE_BRANCH" != 'MOODLE_311_STABLE' -a  "$MOODLE_BRANCH" != 'MOODLE_310_STABLE' -a  "$MOODLE_BRANCH" != 'MOODLE_39_STABLE' ]
 
       - name: PHPUnit tests
         if: ${{ always() }}
