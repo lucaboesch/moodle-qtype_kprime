@@ -53,12 +53,6 @@ class qtype_kprime_edit_form extends question_edit_form {
         return 'kprime';
     }
 
-    /**
-     * Build the form definition.
-     * This adds all the form fields that the default question type supports.
-     * If your question type does not support all these fields, then you can
-     * override this method and remove the ones you don't want with $mform->removeElement().
-     */
      /**
       * Build the form definition.
       *

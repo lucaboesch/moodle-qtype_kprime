@@ -1,5 +1,5 @@
-<section  class="list qtype-mtf-container qtype-mtf"  *ngIf="question.text || question.text === ''" class="qtype-kprime">
-    <ion-item class="addon-qtype-mtf-container qtext ion-text-wrap ">
+<section  class="list qtype-kprime-container qtype-kprime"  *ngIf="question.text || question.text === ''" class="qtype-kprime">
+    <ion-item class="addon-qtype-kprime-container qtext ion-text-wrap ">
         <ion-label>
             <p>
                 <core-format-text [component]="component" [componentId]="componentId" [text]="question.text"
@@ -29,7 +29,7 @@
             <ion-radio-group [name]="option.name" [(ngModel)]="option.selection" class="{{option.qclass}}">
                 <ion-row>
                     <ion-col>
-                        <ion-label class="addon-qtype-mtf-container qtext ion-text-wrap ">
+                        <ion-label class="addon-qtype-kprime-container qtext ion-text-wrap ">
                             <core-format-text   [component]="component" [componentId]="componentId" [text]="option.text"
                             [contextLevel]="contextLevel" [contextInstanceId]="contextInstanceId" [courseId]="courseId">
                             </core-format-text>
