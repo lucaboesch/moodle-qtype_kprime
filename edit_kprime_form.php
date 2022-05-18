@@ -332,11 +332,6 @@ class qtype_kprime_edit_form extends question_edit_form {
             $mform->addElement('html', '</div>');
         }
 
-        $mform->addElement('hidden', 'qtype');
-        $mform->setType('qtype', PARAM_ALPHA);
-        $mform->addElement('hidden', 'makecopy');
-        $mform->setType('makecopy', PARAM_ALPHA);
-        $this->add_hidden_fields();
     }
 
     /**
