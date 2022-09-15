@@ -109,17 +109,18 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     public function update_attempt_state_data_for_new_version(
                     question_attempt_step $oldstep, question_definition $otherversion) {
 
-                        parent::update_attempt_state_data_for_new_version($oldstep, $otherversion);
+        $startdata = parent::update_attempt_state_data_for_new_version($oldstep, $otherversion);
 
-                        $mapping = array_combine(array_keys($otherversion->rows), array_keys($this->rows));
+        $mapping = array_combine(array_keys($otherversion->rows), array_keys($this->rows));
 
-                        $oldorder = explode(',', $oldstep->get_qt_var('_order'));
-                        $neworder = [];
-                        foreach ($oldorder as $oldid) {
-                            $neworder[] = $mapping[$oldid] ?? $oldid;
-                        }
+        $oldorder = explode(',', $oldstep->get_qt_var('_order'));
+        $neworder = [];
+        foreach ($oldorder as $oldid) {
+            $neworder[] = $mapping[$oldid] ?? $oldid;
+        }
 
-                        return ['_order' => implode(',', $neworder)];
+        $startdata['_order'] = implode(',', $neworder);
+        return $startdata;
     }
     /**
      * get the question order
