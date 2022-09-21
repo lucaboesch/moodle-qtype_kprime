@@ -74,7 +74,6 @@ class questiontype_test extends \advanced_testcase {
     protected function get_test_question_data() {
         $qdata = new \stdClass();
         $qdata->id = 1;
-        $qdata->idnumber = 1;
         $qdata->category = 1;
         $qdata->contextid = 1;
         $qdata->parent = 0;
