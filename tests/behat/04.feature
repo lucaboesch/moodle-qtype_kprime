@@ -39,7 +39,7 @@ Feature: Step 4
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     And I click on "Question behaviour" "link"
     And I set the field "How questions behave" to "Deferred feedback"
     And I press "Save and return to course"
@@ -50,7 +50,7 @@ Feature: Step 4
     And I am on "Course 1" course homepage
     And I follow "Quiz 1"
     Then I should see "Quiz 1"
-    And I press "Attempt quiz now"
+    And I press "Attempt quiz"
 
   # No option selected
     When I click on "quiznavbutton2" "link"
