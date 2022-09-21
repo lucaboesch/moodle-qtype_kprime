@@ -52,7 +52,6 @@ class question_test extends \advanced_testcase {
         $kprime = new \qtype_kprime_question();
         \test_question_maker::initialise_a_question($kprime);
         $kprime->name = 'Kprime Question';
-        $kprime->idnumber = 1;
         $kprime->questiontext = 'the right choices are option 1 and option 2';
         $kprime->generalfeedback = 'You should do this and that';
         $kprime->qtype = \question_bank::get_qtype('kprime');
