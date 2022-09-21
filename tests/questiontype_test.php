@@ -88,7 +88,6 @@ class questiontype_test extends \advanced_testcase {
         $qdata->penalty = 0;
         $qdata->stamp = "127.0.0.1+1552376610+76EZEc";
         $qdata->version = "127.0.0.1+155237661076EZEc";
-        $qdata->hidden = 0;
         $qdata->timecreated = "1552376610";
         $qdata->timemodified = "1552376610";
         $qdata->createdby = 0;
