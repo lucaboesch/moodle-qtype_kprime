@@ -75,11 +75,6 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci codechecker --max-warnings 10000
 
-      - name: Moodle PHPDoc Checker
-        continue-on-error: true # This step will show errors but will not fail.
-        if: ${{ always() }}
-        run: moodle-plugin-ci phpdoc
-
       - name: Validating
         if: ${{ always() }}
         run: moodle-plugin-ci validate
