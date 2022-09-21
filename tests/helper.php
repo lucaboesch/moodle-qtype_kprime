@@ -51,7 +51,7 @@ class qtype_kprime_test_helper extends question_test_helper {
      * Get the question data, as it would be loaded by get_question_options.
      * @return object
      */
-    public static function get_kprime_question_question_one() {
+    public static function get_kprime_question_data_question_one() {
         global $USER;
         $qdata = new stdClass();
         $qdata->category = 1;
