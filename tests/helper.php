@@ -54,7 +54,6 @@ class qtype_kprime_test_helper extends question_test_helper {
     public static function get_kprime_question_data_question_one() {
         global $USER;
         $qdata = new stdClass();
-        $qdata->idnumber = 1;
         $qdata->category = 1;
         $qdata->contextid = 1;
         $qdata->parent = 0;
@@ -269,7 +268,6 @@ class qtype_kprime_test_helper extends question_test_helper {
     public static function get_kprime_question_data_question_two() {
         global $USER;
         $qdata = new stdClass();
-        $qdata->idnumber = 2;
         $qdata->category = 1;
         $qdata->contextid = 1;
         $qdata->parent = 0;
