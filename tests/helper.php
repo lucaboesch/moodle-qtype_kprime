@@ -57,7 +57,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata->category = 1;
         $qdata->contextid = 1;
         $qdata->parent = 0;
-        $qdata->idnumber = null;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->name = "KPrim-Question-1";
         $qdata->qtype = 'kprime';
@@ -176,7 +175,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata = new stdClass();
         $qdata->createdby = $USER->id;
         $qdata->modifiedby = $USER->id;
-        $qdata->idnumber = null;
         $qdata->qtype = 'kprime';
         $qdata->name = 'KPrim-Question-1';
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
@@ -271,7 +269,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata->category = 1;
         $qdata->contextid = 1;
         $qdata->parent = 0;
-        $qdata->idnumber = null;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->name = "KPrime-Question-2";
         $qdata->qtype = 'kprime';
@@ -393,7 +390,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'kprime';
         $qdata->name = 'KPrime-Question-2';
-        $qdata->idnumber = null;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->questiontext = array(
             "text" => 'Questiontext for Question 1',
@@ -492,7 +488,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata->createdby = $USER->id;
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'kprime';
-        $qdata->idnumber = null;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->name = 'KPrime-Question-3';
         $qdata->questiontext = array(
@@ -587,7 +582,6 @@ class qtype_kprime_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'kprime';
         $qdata->name = 'KPrime-Question-4';
-        $qdata->idnumber = null;
         $qdata->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $qdata->questiontext = array(
             "text" => 'Questiontext for Question 1',
