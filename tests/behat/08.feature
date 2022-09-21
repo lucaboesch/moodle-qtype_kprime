@@ -23,8 +23,8 @@ Feature: Step 8
       | Default for c1   | kprime | Kprime Question 001 | question_one |
       | Default for c1   | kprime | Kprime Question 002 | question_one |
     And the following "activities" exist:
-      | activity | name   | intro           | course | idnumber |
-      | quiz     | Quiz 1 | This is a  quiz | c1     | quiz1    |
+      | activity | name   | intro           | course |
+      | quiz     | Quiz 1 | This is a  quiz | c1     |
     And quiz "Quiz 1" contains the following questions:
       | Kprime Question 001 | 1 |
       | Kprime Question 002 | 2 |
