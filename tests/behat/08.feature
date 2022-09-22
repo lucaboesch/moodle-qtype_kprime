@@ -142,7 +142,8 @@ Feature: Step 8
     And "tr:contains('student2@moodle.com') .c8:contains('75.00')" "css_element" should exist
       ###
     When I am on "Course 1" course homepage
-    And I am on the "Quiz 1" "quiz activity" page
+    And I follow "Quiz 1"
+#    And I am on the "Quiz 1" "quiz activity" page
     And I navigate to "Results" in current page administration
     Then "tr:contains('student1@moodle.com') .c8:contains('100.00')" "css_element" should exist
     And "tr:contains('student2@moodle.com') .c8:contains('50.00')" "css_element" should exist
@@ -170,14 +171,12 @@ Feature: Step 8
 
   # Check if grades are different
     When I am on "Course 1" course homepage
-    And I am on the "Quiz 1" "quiz activity" page
+    And I am on the "Quiz_restored" "quiz activity" page
     And I navigate to "Results" in current page administration
     Then "tr:contains('student1@moodle.com') .c8:contains('100.00')" "css_element" should exist
     And "tr:contains('student2@moodle.com') .c8:contains('50.00')" "css_element" should exist
 
   # Testcase 24:
-    When I am on "Course 1" course homepage
-    And I am on the "Quiz 1" "quiz activity" page
     And I navigate to "Questions" in current page administration
     And I click on "Edit question Kprime Question 001" "link" in the "Kprime Question 001" "list_item"
     And I set the following fields to these values:
@@ -187,8 +186,6 @@ Feature: Step 8
       | id_option_3     | questiontext 3 edited      |
       | id_option_4     | questiontext 4 edited      |
     And I press "id_submitbutton"
-    And I am on "Course 1" course homepage
-    And I am on the "Quiz 1" "quiz activity" page
     And I navigate to "Results" in current page administration
     Then "tr:contains('student1@moodle.com') .c8:contains('100.00')" "css_element" should exist
     And "tr:contains('student2@moodle.com') .c8:contains('50.00')" "css_element" should exist
