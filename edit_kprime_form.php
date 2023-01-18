@@ -444,25 +444,9 @@ class qtype_kprime_edit_form extends question_edit_form {
             }
         }
 
-        // Can only have one idnumber per category.
-        if (strpos($data['category'], ',') !== false) {
-            list($category) = explode(',', $data['category']);
-        } else {
-            $category = $data['category'];
-        }
-
+        // Can only have one idnumber.
         if (isset($data['idnumber']) && ((string)$data['idnumber'] !== '')) {
-            if (empty($data['usecurrentcat']) && !empty($data['categorymoveto'])) {
-                $categoryinfo = $data['categorymoveto'];
-            } else {
-                $categoryinfo = $data['category'];
-            }
-
-            list($categoryid) = explode(',', $categoryinfo);
-
-            $conditions = 'category = ? AND idnumber = ?';
-            $params = [$categoryid, $data['idnumber']];
-
+            $conditions = 'idnumber = ?';
             if (!empty($this->question->id)) {
                 $conditions .= ' AND id <> ?';
                 $params[] = $this->question->id;
