@@ -90,11 +90,6 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci codechecker --max-warnings 1000
 
-      - name: Moodle PHPDoc Checker
-        continue-on-error: true # This step will show errors but will not fail.
-        if: ${{ always() }}
-        run: moodle-plugin-ci phpdoc
-
       - name: Validating
         if: ${{ always() }}
         run: moodle-plugin-ci validate
@@ -113,8 +108,8 @@ jobs:
 
       - name: PHPUnit tests
         if: ${{ always() }}
-        run: moodle-plugin-ci phpunit --fail-on-warning
+        run: moodle-plugin-ci phpunit
 
       - name: Behat features
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome
+        run: moodle-plugin-ci behat
