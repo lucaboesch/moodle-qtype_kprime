@@ -15,7 +15,3 @@ A four option multiple true-false question type for moodle, as introduced by Kre
 Behat tests are included but scenarios are designed explicitly for ETH Zürich testcases.
 Some of the included test steps are designed to work with the ETH Zürich Moodle setup.
 However unit tests can be used in combination with any Moodle setup.
-
-## Contributors:
-ETH Zürich (Lead maintainer)
-Thomas Korner (Service owner, thomas.korner@let.ethz.ch)
