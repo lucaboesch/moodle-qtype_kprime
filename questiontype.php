@@ -160,20 +160,37 @@ class qtype_kprime extends question_type {
         parent::get_question_options($question);
 
         // Retrieve the question options.
-        $question->options = $DB->get_record('qtype_kprime_options',
-                array('questionid' => $question->id));
-        // Retrieve the question rows (kprime options).
-        $question->options->rows = $DB->get_records('qtype_kprime_rows',
-                array('questionid' => $question->id),
-                'number ASC', '*', 0, $question->options->numberofrows);
-        // Retrieve the question columns.
-        $question->options->columns = $DB->get_records('qtype_kprime_columns',
-                array('questionid' => $question->id),
-                'number ASC', '*', 0, $question->options->numberofcolumns);
+        if($qoptions = $DB->get_record('qtype_kprime_options',
+                array('questionid' => $question->id))) {
+            $question->options = $qoptions;
+        } else {
+          return false;
+        }
 
-        $weightrecords = $DB->get_records('qtype_kprime_weights',
+        // Retrieve the question rows (kprime options).
+        if($orows = $DB->get_records('qtype_kprime_rows',
                 array('questionid' => $question->id),
-                'rownumber ASC, columnnumber ASC');
+                'number ASC', '*', 0, $question->options->numberofrows)) {
+            $question->options->rows = $orows;
+        } else {
+            return false;
+        }
+
+        // Retrieve the question columns.
+        if($ocols = $DB->get_records('qtype_kprime_columns',
+                array('questionid' => $question->id),
+                'number ASC', '*', 0, $question->options->numberofcolumns)) {
+           $question->options->columns = $ocols;
+        } else {
+           return false;
+        }
+
+        // Retrieve the question weights.
+        if(!$weightrecords = $DB->get_records('qtype_kprime_weights',
+                array('questionid' => $question->id),
+                'rownumber ASC, columnnumber ASC')) {
+            return false;
+        }
 
         foreach ($question->options->rows as $key => $row) {
             $question->{'option_' . $row->number}['text'] = $row->optiontext;
