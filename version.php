@@ -18,7 +18,7 @@
  * Version information for qtype_kprime.
  *
  * @package     qtype_kprime
- * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      Amr Hourani (amr.hourani@id.ethz.ch).
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @author      Jürgen Zimmer (juergen.zimmer@edaktik.at)
  * @author      Andreas Hruska (andreas.hruska@edaktik.at)
