@@ -47,8 +47,8 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
     public $shuffleanswers;
     /** @var int numberofrows */
     public $numberofrows;
-    /** @var int numberofcols */
-    public $numberofcols;
+    /** @var int numberofcolumns */
+    public $numberofcolumns;
     /** @var array order */
     public $order = null;
     /** @var bool editedquestion */
