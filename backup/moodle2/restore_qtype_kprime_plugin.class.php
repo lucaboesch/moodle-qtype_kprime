@@ -259,13 +259,14 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
     public static function convert_backup_to_questiondata(array $backupdata): stdClass {
         // First, convert standard data via the parent function.
         $questiondata = parent::convert_backup_to_questiondata($backupdata);
-
-        // Convert the row data. An array of all rows (as objects) is stored in $questiondata->options.
-        // Furthermore, there will be properties $questiondata->option_N, each containing an object with
-        // properties text (= row's optiontext field) and format (= row's optiontextformat field), with
-        // N being the row number. And finally, there is the property $questiondata->feedback_N containing
-        // each an object with the properties text (= row's optionfeedback field) and format (= row's
-        // optionfeedbackformat field), with N being the row number again.
+        /**
+        * Convert the row data. An array of all rows (as objects) is stored in $questiondata->options.
+        * Furthermore, there will be properties $questiondata->option_N, each containing an object with
+        * properties text (= row's optiontext field) and format (= row's optiontextformat field), with
+        * N being the row number. And finally, there is the property $questiondata->feedback_N containing
+        * each an object with the properties text (= row's optionfeedback field) and format (= row's
+        * optionfeedbackformat field), with N being the row number again.
+        */
         foreach ($backupdata['plugin_qtype_kprime_question']['rows']['row'] as $row) {
             $questiondata->options->rows[] = (object) $row;
             $optionfield = 'option_' . $row['number'];
@@ -279,20 +280,22 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 'format' => $row['optionfeedbackformat'],
             ];
         }
-
-        // Next step is the column data. An array of all columns (as objects) is stored in $questiondata->columns.
-        // Furthermore, for every column N, a property $questiondata->responsetext_N must be created that holds the
-        // content of the column's responstext field.
+        /**
+        * Next step is the column data. An array of all columns (as objects) is stored in $questiondata->columns.
+        * Furthermore, for every column N, a property $questiondata->responsetext_N must be created that holds the
+        * content of the column's responstext field.
+        */
         foreach ($backupdata['plugin_qtype_kprime_question']['columns']['column'] as $column) {
             $questiondata->options->columns[] = (object) $column;
             $field = 'responsetext_' . $column['number'];
             $questiondata->$field = $column['responsetext'];
         }
-
-        // Finally, we have to store all weights in the $questiondata->weights property. That is a
-        // two-dimensional array, built like in qtype_mtf::weight_records_to_array(). Also, for every
-        // row, we store the number of the column that has a weight > 1. This is done via the
-        // weightbutton_N property, with N being the row number.
+        /**
+        * Finally, we have to store all weights in the $questiondata->weights property. That is a
+        * wo-dimensional array, built like in qtype_mtf::weight_records_to_array(). Also, for every
+        * row, we store the number of the column that has a weight > 1. This is done via the
+        * weightbutton_N property, with N being the row number.
+        */
         $weights = [];
         foreach ($backupdata['plugin_qtype_kprime_question']['weights']['weight'] as $weight) {
             $weight = (object) $weight;
