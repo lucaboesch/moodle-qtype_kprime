@@ -368,14 +368,14 @@ class qtype_kprime_question extends question_graded_automatically_with_countback
                 }
             }
             // Calculate the partial credit.
-            if ($this->scoringmethod == 'subpoints') {
-                $partialcredit = 0.0;
-            } else {
-                $partialcredit = -999; // Due to non-linear math.
-            }
+            $partialcredit = 0;
 
-            if ($this->scoringmethod == 'subpoints' && $this->weights[$row->number][$column->number]->weight > 0) {
-                $partialcredit = 1 / count($this->rows);
+            /*
+             * For Analysis of responses needs and due to non-linear math the fraction is set to 1
+             * for kprime and kprime1/0 scoring method. This way we are able to determine correct responses
+             */
+            if ($this->weights[$row->number][$column->number]->weight > 0) {
+                $partialcredit = $this->scoringmethod == 'subpoints' ? (1 / count($this->rows)) : 1;
             }
 
             $parts[$rowid] = new question_classified_response($column->id, $column->responsetext, $partialcredit);
