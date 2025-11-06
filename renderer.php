@@ -34,7 +34,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_kprime_renderer extends qtype_renderer {
-
     /**
      * Returns input type
      * @return string
@@ -103,10 +102,17 @@ class qtype_kprime_renderer extends qtype_renderer {
         // Add the response texts as table headers.
         foreach ($question->columns as $column) {
             $cell = new html_table_cell(
-                    $question->make_html_inline(
-                            $question->format_text($column->responsetext,
-                                    $column->responsetextformat, $qa, 'question', 'response',
-                                    $column->id)));
+                $question->make_html_inline(
+                    $question->format_text(
+                        $column->responsetext,
+                        $column->responsetextformat,
+                        $qa,
+                        'question',
+                        'response',
+                        $column->id
+                    )
+                )
+            );
             $table->head[] = $cell;
         }
 
@@ -117,6 +123,7 @@ class qtype_kprime_renderer extends qtype_renderer {
         if ($displayoptions->correctness) {
             $table->head[] = '';
         }
+
         // Add empty header for feedback if needed.
         if ($displayoptions->feedback) {
             $table->head[] = '';
@@ -139,6 +146,7 @@ class qtype_kprime_renderer extends qtype_renderer {
                 if (property_exists((object) $response, $field) && ($response[$field] == $column->number)) {
                     $ischecked = true;
                 }
+
                 $radio = $this->radiobutton($buttonname, $column->number, $ischecked, $isreadonly);
 
                 // Show correctness icon with radio button if needed.
@@ -146,6 +154,7 @@ class qtype_kprime_renderer extends qtype_renderer {
                     $weight = $question->weight($row->number, $column->number);
                     $radio .= '<span class="kprimegreyingout">' . $this->feedback_image($weight > 0.0) . '</span>';
                 }
+
                 $cell = new html_table_cell($radio);
                 $cell->attributes['class'] = 'kprimeresponsebutton';
                 $rowdata[] = $cell;
@@ -153,7 +162,8 @@ class qtype_kprime_renderer extends qtype_renderer {
 
             // Add the formated option text to the table.
             $rowtext = $question->make_html_inline(
-                $question->format_text($row->optiontext, $row->optiontextformat, $qa, 'qtype_kprime', 'optiontext', $row->id));
+                $question->format_text($row->optiontext, $row->optiontextformat, $qa, 'qtype_kprime', 'optiontext', $row->id)
+            );
 
             $cell = new html_table_cell('<span class="optiontext">' . $rowtext . '</span>');
             $cell->attributes['class'] = 'optiontext';
@@ -171,31 +181,45 @@ class qtype_kprime_renderer extends qtype_renderer {
             }
 
             // Add the feedback to the table, if it is visible.
-            if ($displayoptions->feedback
-            && empty($displayoptions->suppresschoicefeedback)
-            && $isselected
-            && trim($row->optionfeedback)) {
+            if (
+                $displayoptions->feedback
+                && empty($displayoptions->suppresschoicefeedback)
+                && $isselected
+                && trim($row->optionfeedback)
+            ) {
                 $cell = new html_table_cell(
-                        html_writer::tag('div',
-                                $question->make_html_inline(
-                                        $question->format_text($row->optionfeedback,
-                                                $row->optionfeedbackformat, $qa, 'qtype_kprime',
-                                                'feedbacktext', $rowid)),
-                                ['class' => 'kprimespecificfeedback']));
+                    html_writer::tag(
+                        'div',
+                        $question->make_html_inline(
+                            $question->format_text(
+                                $row->optionfeedback,
+                                $row->optionfeedbackformat,
+                                $qa,
+                                'qtype_kprime',
+                                'feedbacktext',
+                                $rowid
+                            )
+                        ),
+                        ['class' => 'kprimespecificfeedback']
+                    )
+                );
                 $rowdata[] = $cell;
             } else {
                 $cell = new html_table_cell(html_writer::tag('div', ''));
                 $rowdata[] = $cell;
             }
+
             $table->data[] = $rowdata;
         }
 
         $result .= html_writer::table($table, true);
 
         if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('div',
-                    $question->get_validation_error($qa->get_last_qt_data()),
-                    ['class' => 'validationerror']);
+            $result .= html_writer::nonempty_tag(
+                'div',
+                $question->get_validation_error($qa->get_last_qt_data()),
+                ['class' => 'validationerror']
+            );
         }
 
         if (!empty(get_config('qtype_kprime')->showscoringmethod)) {
@@ -222,11 +246,14 @@ class qtype_kprime_renderer extends qtype_renderer {
         }
 
         if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_kprime')) {
-            $label = get_string('scoringmethod', 'qtype_kprime'). ': <b>' . ucfirst($outputscoringmethod) . '</b>';
-            $result .= html_writer::tag('div',
-                '<br>'. $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_kprime'),
-                ['id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label]);
+            $label = get_string('scoringmethod', 'qtype_kprime') . ': <b>' . ucfirst($outputscoringmethod) . '</b>';
+            $result .= html_writer::tag(
+                'div',
+                '<br>' . $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_kprime'),
+                ['id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label]
+            );
         }
+
         return $result;
     }
 
@@ -283,12 +310,26 @@ class qtype_kprime_renderer extends qtype_renderer {
 
             $result[] = ' ' .
                      $question->make_html_inline(
-                            $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                                    'qtype_kprime', 'optiontext', $rowid)) . ': ' . $question->make_html_inline(
-                            $question->format_text($correctcolumn->responsetext,
-                                    $correctcolumn->responsetextformat, $qa, 'question', 'response',
-                                    $correctcolumn->id));
+                         $question->format_text(
+                             $row->optiontext,
+                             $row->optiontextformat,
+                             $qa,
+                             'qtype_kprime',
+                             'optiontext',
+                             $rowid
+                         )
+                     ) . ': ' . $question->make_html_inline(
+                         $question->format_text(
+                             $correctcolumn->responsetext,
+                             $correctcolumn->responsetextformat,
+                             $qa,
+                             'question',
+                             'response',
+                             $correctcolumn->id
+                         )
+                     );
         }
+
         if (!empty($result)) {
             $response = '<ul style="list-style-type: none;"><li>';
             $response .= implode('</li><li>', $result);
