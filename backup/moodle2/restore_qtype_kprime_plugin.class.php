@@ -31,7 +31,6 @@
  * Restore plugin class that provides the necessary information needed to restore one qtype_kprime plugin.
  */
 class restore_qtype_kprime_plugin extends restore_qtype_plugin {
-
     /**
      * Returns the paths to be handled by the plugin at question level.
      */
@@ -124,6 +123,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 }
             }
         }
+
         if (!isset($newitemid)) {
             $info = new stdClass();
             $info->filequestionid = $oldquestionid;
@@ -159,6 +159,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 }
             }
         }
+
         if (!$newitemid) {
             $info = new stdClass();
             $info->filequestionid = $oldquestionid;
@@ -189,12 +190,15 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
         } else {
             $originalrecords = $DB->get_records('qtype_kprime_weights', ['questionid' => $newquestionid]);
             foreach ($originalrecords as $record) {
-                if ($data->rownumber == $record->rownumber
-                    && $data->columnnumber == $record->columnnumber) {
+                if (
+                    $data->rownumber == $record->rownumber
+                    && $data->columnnumber == $record->columnnumber
+                ) {
                     $newitemid = $record->id;
                 }
             }
         }
+
         if (!$newitemid) {
             $info = new stdClass();
             $info->filequestionid = $oldquestionid;
@@ -217,6 +221,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
         if (property_exists((object) $response, '_order')) {
             $response['_order'] = $this->recode_option_order($response['_order']);
         }
+
         return $response;
     }
 
@@ -232,6 +237,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 $neworder[] = $newid;
             }
         }
+
         return implode(',', $neworder);
     }
 
@@ -302,6 +308,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
             if (!array_key_exists($weight->rownumber, $weights)) {
                 $weights[$weight->rownumber] = [];
             }
+
             // Process weightbutton_1, weightbutton_2, ...
             $weights[$weight->rownumber][$weight->columnnumber] = $weight;
             if ($weight->weight > 0.0) {
@@ -309,6 +316,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 $questiondata->$fieldname = $weight->columnnumber;
             }
         }
+
         $questiondata->options->weights = $weights;
 
         return $questiondata;
@@ -347,6 +355,7 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
                 if (isset($weight->id)) {
                     unset($weight->id);
                 }
+
                 if (isset($weight->questionid)) {
                     unset($weight->questionid);
                 }
@@ -355,5 +364,4 @@ class restore_qtype_kprime_plugin extends restore_qtype_plugin {
 
         return restore_qtype_plugin::remove_excluded_question_data($questiondata, $excludefields);
     }
-
 }
