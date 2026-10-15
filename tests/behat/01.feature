@@ -329,7 +329,8 @@ Feature: Step 1
     Then "#id_scoringmethod_kprime[checked]" "css_element" should exist
 
   # Change default scoringmethod in Plugin administration
-    When I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
+    When I am on site homepage
+    And I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
     And I should see "Default values for kprime questions."
     And I select "Kprime1/0" from the "s_qtype_kprime_scoringmethod" singleselect
     And I press "Save changes"
@@ -358,7 +359,8 @@ Feature: Step 1
     Then "#id_scoringmethod_kprime[checked]" "css_element" should exist
 
   # Change default scoringmethod in Plugin administration
-    When I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
+    When I am on site homepage
+    And I navigate to "Plugins > Question types > Kprime (ETH)" in site administration
     And I should see "Default values for kprime questions."
     And I select "Kprime1/0" from the "s_qtype_kprime_scoringmethod" singleselect
     And I press "Save changes"
@@ -481,8 +483,9 @@ Feature: Step 1
     Then I should not see "Kprime Question"
 
   @javascript
-  Scenario: Testcase 7 for Moodle ≥ 5.0
+  Scenario: Testcase 7 for Moodle ≥ 5.0 and Moodle < 5.3
     Given the site is running Moodle version 5.0 or higher
+    And the site is running Moodle version 5.2 or lower
 
     When I am on the "Course 1" "core_question > course question bank" page logged in as admin
     And I add a "Kprime" question filling the form with:
@@ -529,4 +532,54 @@ Feature: Step 1
   # Delete the question
     When I choose "Delete" action for "Kprime Question" in the question bank
     And I press "Delete"
+    Then I should not see "Kprime Question"
+
+  @javascript
+  Scenario: Testcase 7 for Moodle ≥ 5.3
+    Given the site is running Moodle version 5.3 or higher
+
+    When I am on the "Course 1" "core_question > course question bank" page logged in as admin
+    And I add a "Kprime" question filling the form with:
+      | id_name                  | Kprime Question           |
+      | id_questiontext          | This is a questiontext.   |
+      | id_generalfeedback       | This feedback is general. |
+      | id_option_1              | 1st optiontext            |
+      | id_feedback_1            | 1st feedbacktext          |
+      | id_option_2              | 2nd optiontext            |
+      | id_feedback_2            | 2nd feedbacktext          |
+      | id_option_3              | 3rd optiontext            |
+      | id_feedback_3            | 3rd feedbacktext          |
+      | id_option_4              | 4th optiontext            |
+      | id_feedback_4            | 4th feedbacktext          |
+      | id_weightbutton_1_1      | checked                   |
+      | id_weightbutton_2_1      | checked                   |
+      | id_weightbutton_3_2      | checked                   |
+      | id_weightbutton_4_2      | checked                   |
+    Then I should see "Question bank"
+    And I should see "Kprime Question"
+
+  # Duplicate the question
+    When I choose "Duplicate" action for "Kprime Question" in the question bank
+    And I press "id_submitbutton"
+    Then I should see "Kprime Question"
+    And I should see "Kprime Question (copy)"
+
+  # Move the question to another category
+    And I click on "Kprime Question" "checkbox"
+    And I click on "move" "button"
+    And the field "searchbanks" matches value "C1 - System shared question bank"
+    And the field "selectcategory" matches value "Test questions (2)"
+    And I open the autocomplete suggestions list in the ".search-banks" "css_element"
+    And I open the autocomplete suggestions list in the ".question_category_selector" "css_element"
+    And I click on "AnotherCat" item in the autocomplete list
+    And I click on "Move questions" "button"
+    And I click on "Confirm" "button"
+    And I wait until the page is ready
+    Then I should see "Question bank"
+    And I should see "AnotherCat"
+    And I should see "Kprime Question"
+
+  # Delete the question
+    When I choose "Delete" action for "Kprime Question" in the question bank
+    And I click on "Delete" "button" in the "Delete question?" "dialogue"
     Then I should not see "Kprime Question"
